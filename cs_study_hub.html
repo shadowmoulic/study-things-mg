@@ -356,6 +356,11 @@
         }
 
         @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
             .nav-links {
                 flex-wrap: wrap;
                 justify-content: center;
@@ -367,6 +372,33 @@
 
             main {
                 padding: 1rem;
+            }
+
+            .flashcard-container {
+                height: 350px;
+                padding: 0.5rem;
+            }
+
+            .card-face {
+                padding: 1.5rem;
+            }
+
+            .flashcard-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .quiz-container {
+                padding: 1.5rem;
+            }
+
+            .option-btn {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            .question-text {
+                font-size: 1.15rem;
             }
         }
     </style>
@@ -832,26 +864,81 @@
         <!-- Quiz View -->
         <div id="view-quiz" class="view">
             <div class="quiz-container" id="quiz-ui">
-                <div class="quiz-progress">
-                    <div class="progress-bar" id="quiz-progress-bar"></div>
-                </div>
-                <div id="quiz-main">
-                    <div class="question-text" id="quiz-question">Loading question...</div>
-                    <div class="options-grid" id="quiz-options"></div>
-                </div>
-                <div id="quiz-results" style="display: none;">
-                    <div style="text-align: center;">
-                        <h3 style="font-size: 2rem; margin-bottom: 1rem; font-family: 'Fira Code', monospace;">
-                            Compilation Complete!</h3>
-                        <div id="quiz-score"
-                            style="font-size: 4rem; font-weight: 800; color: var(--primary); margin-bottom: 2rem; font-family: 'Fira Code', monospace;">
-                            0/0
-                        </div>
-                        <p id="quiz-feedback" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.1rem;">
-                        </p>
-                        <button class="nav-btn active" onclick="restartQuiz()">Run Again()</button>
+
+                <div id="quiz-setup">
+                    <h3
+                        style="font-family: 'Fira Code', monospace; color: var(--primary); margin-bottom: 1rem; font-size: 1.8rem;">
+                        Quiz Configuration</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; line-height: 1.6;">Select
+                        a specific module to focus on, or challenge yourself with randomized questions from all modules.
+                    </p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <select id="module-select"
+                            style="flex: 2; background: var(--code-bg); color: var(--text); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; min-width: 250px;">
+                            <option value="all">Mixed (All Modules Randomized)</option>
+                            <option value="1">Module 1 (Algorithms & Flowcharts)</option>
+                            <option value="2">Module 2 (Intro to C)</option>
+                            <option value="3">Module 3 (Operators)</option>
+                            <option value="4">Module 4 (Data Types & I/O)</option>
+                            <option value="5">Module 5 (Control Statements)</option>
+                            <option value="6">Module 6 (Arrays & Strings)</option>
+                            <option value="7">Module 7 (Pointers)</option>
+                            <option value="8">Module 8 (Structures & Unions)</option>
+                            <option value="9">Module 9 (Functions & Recursion)</option>
+                            <option value="10">Module 10 (Storage Classes)</option>
+                            <option value="11">Module 11 (Dynamic Memory Alloc.)</option>
+                            <option value="12">Module 12 (File Management)</option>
+                        </select>
+                        <button class="nav-btn active" onclick="startQuizWithSettings()"
+                            style="flex: 1; min-width: 150px; font-size: 1.1rem;">Compile & Run</button>
+                    </div>
+                    <div
+                        style="margin-top: 2rem; padding: 1.5rem; background: var(--glass); border-radius: 12px; border: 1px solid var(--border); text-align: center;">
+                        <p style="font-size: 1rem; color: var(--text-muted);">Lifetime High Score</p>
+                        <div id="high-score-val"
+                            style="font-size: 2.5rem; color: var(--success); font-family: 'Fira Code', monospace; font-weight: 700; margin-top: 0.5rem;">
+                            0</div>
                     </div>
                 </div>
+
+                <div id="quiz-main-area" style="display: none;">
+                    <div class="quiz-progress" style="margin-bottom: 1.5rem;">
+                        <div class="progress-bar" id="quiz-progress-bar"></div>
+                    </div>
+                    <div id="quiz-main">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                            <span class="info-pill" id="quiz-module-badge" style="margin: 0;">Module X</span>
+                            <span
+                                style="font-family: 'Fira Code', monospace; color: var(--text-muted); font-size: 0.9rem;"
+                                id="quiz-q-counter">Q: 1/10</span>
+                        </div>
+                        <div class="question-text" id="quiz-question">Loading question...</div>
+                        <div class="options-grid" id="quiz-options"></div>
+                    </div>
+                    <div id="quiz-results" style="display: none;">
+                        <div style="text-align: center;">
+                            <h3 style="font-size: 2rem; margin-bottom: 1rem; font-family: 'Fira Code', monospace;">
+                                Compilation Complete!</h3>
+                            <div id="quiz-score"
+                                style="font-size: 4rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-family: 'Fira Code', monospace;">
+                                0/0
+                            </div>
+                            <div id="quiz-percentage"
+                                style="font-size: 1.5rem; color: var(--secondary); margin-bottom: 1rem; font-family: 'Fira Code', monospace;">
+                                0%
+                            </div>
+                            <p id="quiz-feedback"
+                                style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.1rem;">
+                            </p>
+                            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                <button class="nav-btn" onclick="returnToSetup()">Menu</button>
+                                <button class="nav-btn active" onclick="startQuizWithSettings()">Run Again()</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
@@ -1001,47 +1088,66 @@
             { q: "What is the return type of fopen()?", a: "FILE*" }
         ];
 
-        const quizQuestions = [
-            {
-                q: "What is the output of: `if(0) printf(\"True\"); else printf(\"False\");`?",
-                options: ["True", "False", "Compilation Error", "Runtime Error"],
-                correct: 1
-            },
-            {
-                q: "What is the proper syntax to declare a one-dimensional integer array of size 10?",
-                options: ["int arr[10];", "array int arr[10];", "int[10] arr;", "arr = int[10];"],
-                correct: 0
-            },
-            {
-                q: "Which of the following functions is used to release dynamically allocated memory?",
-                options: ["delete()", "clear()", "free()", "remove()"],
-                correct: 2
-            },
-            {
-                q: "If `ptr` is an integer pointer pointing to address 1000, and `sizeof(int)` is 4, what is the address after `ptr++`?",
-                options: ["1001", "1002", "1004", "Runtime Error"],
-                correct: 2
-            },
-            {
-                q: "What mode does NOT overwrite the contents if a file already exists?",
-                options: ["\"w\"", "\"w+\"", "\"a\"", "None of the above"],
-                correct: 2
-            },
-            {
-                q: "Which bitwise operator performs the XOR operation?",
-                options: ["&", "|", "~", "^"],
-                correct: 3
-            },
-            {
-                q: "What is the default return type of a function if none is specified?",
-                options: ["void", "int", "float", "char"],
-                correct: 1
-            },
-            {
-                q: "Which of the following is NOT a C keyword?",
-                options: ["switch", "break", "auto", "function"],
-                correct: 3
-            }
+        const allQuizQuestions = [
+            // Module 1
+            { m: 1, q: "Which symbol represents a Decision in a flowchart?", options: ["Oval", "Rectangle", "Diamond", "Parallelogram"], correct: 2 },
+            { m: 1, q: "What is an algorithm's 'finiteness' characteristic?", options: ["It must run forever", "It must eventually stop", "It must process infinitely", "It works for all cases"], correct: 1 },
+            { m: 1, q: "A parallelogram in a flowchart is used for:", options: ["Start/Stop", "Process", "Decision", "Input/Output"], correct: 3 },
+
+            // Module 2
+            { m: 2, q: "Which function marks the beginning of execution in C?", options: ["start()", "init()", "main()", "begin()"], correct: 2 },
+            { m: 2, q: "What is required at the end of every C statement?", options: [":", ".", ";", ","], correct: 2 },
+            { m: 2, q: "Which of the following is NOT a valid identifier?", options: ["_myVar", "var123", "123var", "MY_VAR"], correct: 2 },
+
+            // Module 3
+            { m: 3, q: "What is the result of 10 % 3?", options: ["3.33", "3", "1", "0"], correct: 2 },
+            { m: 3, q: "Which operator has the highest precedence?", options: ["+", "*", "Unary ++", "=="], correct: 2 },
+            { m: 3, q: "Which bitwise operator performs the XOR operation?", options: ["&", "|", "~", "^"], correct: 3 },
+
+            // Module 4
+            { m: 4, q: "What is the format specifier for a float?", options: ["%d", "%f", "%c", "%s"], correct: 1 },
+            { m: 4, q: "What does implicit type casting mean?", options: ["Compiler converts data automatically", "User forces conversion via code", "Casting is not allowed", "Variables change randomly"], correct: 0 },
+            { m: 4, q: "Which of these is an unformatted I/O function?", options: ["printf()", "scanf()", "getchar()", "fprintf()"], correct: 2 },
+
+            // Module 5
+            { m: 5, q: "What is the output of: `if(0) printf(\"T\"); else printf(\"F\");`?", options: ["T", "F", "Compilation Error", "Runtime Error"], correct: 1 },
+            { m: 5, q: "Which loop guarantees execution at least once?", options: ["for", "while", "do-while", "None of these"], correct: 2 },
+            { m: 5, q: "What keyword is used to skip the rest of the current loop iteration?", options: ["break", "return", "continue", "skip"], correct: 2 },
+
+            // Module 6
+            { m: 6, q: "What is the proper syntax to declare an integer array of size 10?", options: ["int arr[10];", "array int arr[10];", "int[10] arr;", "arr = int[10];"], correct: 0 },
+            { m: 6, q: "What character marks the end of a string in C?", options: ["\\n", "\\0", "\\t", "EOF"], correct: 1 },
+            { m: 6, q: "Which function is used to concatenate two strings?", options: ["strcpy()", "strlen()", "strcmp()", "strcat()"], correct: 3 },
+
+            // Module 7
+            { m: 7, q: "What operator is used to get the memory address of a variable?", options: ["*", "&&", "&", "->"], correct: 2 },
+            { m: 7, q: "If `ptr` is an integer pointer at 1000, what is `ptr++` (assuming 4-byte int)?", options: ["1001", "1002", "1004", "Runtime Error"], correct: 2 },
+            { m: 7, q: "What is a void pointer?", options: ["A pointer that points to nothing", "A pointer that cannot be incremented", "A generic data pointer", "A pointer that returns an error"], correct: 2 },
+
+            // Module 8
+            { m: 8, q: "Which of the following is true about Unions?", options: ["Size is sum of all members", "Size matches the largest member", "Can access all members simultaneously", "Members don't share memory"], correct: 1 },
+            { m: 8, q: "How are struct members accessed via a pointer?", options: [". (dot)", "::", "-> (arrow)", "@"], correct: 2 },
+            { m: 8, q: "Can a structure contain an array as its member?", options: ["Yes", "No", "Only character arrays", "Only integer arrays"], correct: 0 },
+
+            // Module 9
+            { m: 9, q: "What is Call by Reference?", options: ["Passing a copy of values", "Passing memory addresses of arguments", "Calling function from another file", "Using global variables"], correct: 1 },
+            { m: 9, q: "What is absolutely necessary in a recursive function?", options: ["A pointer parameter", "A Base Case", "Call by reference", "A global counter"], correct: 1 },
+            { m: 9, q: "What is the default return type of a function if none is specified?", options: ["void", "int", "float", "char"], correct: 1 },
+
+            // Module 10
+            { m: 10, q: "Which keyword retains a variable's value between multiple function calls?", options: ["auto", "register", "static", "extern"], correct: 2 },
+            { m: 10, q: "Which keyword hints the compiler to store the variable in CPU instead of RAM?", options: ["auto", "register", "static", "fast"], correct: 1 },
+            { m: 10, q: "What is the default value of a local `auto` variable?", options: ["0", "Null", "Garbage value", "False"], correct: 2 },
+
+            // Module 11
+            { m: 11, q: "Which function releases dynamically allocated memory back to the OS?", options: ["delete()", "clear()", "free()", "remove()"], correct: 2 },
+            { m: 11, q: "Which function allocates memory and initializes it to zero?", options: ["malloc()", "calloc()", "realloc()", "memset()"], correct: 1 },
+            { m: 11, q: "What happens if you never free dynamically allocated memory?", options: ["Compilation Error", "Syntax Error", "Garbage Collection happens", "Memory Leak"], correct: 3 },
+
+            // Module 12
+            { m: 12, q: "What mode does NOT overwrite contents if a file already exists?", options: ["\"w\"", "\"w+\"", "\"a\"", "\"wb\""], correct: 2 },
+            { m: 12, q: "Which function moves the file read/write pointer to a specific location?", options: ["fseek()", "ftell()", "rewind()", "fmove()"], correct: 0 },
+            { m: 12, q: "What does fclose() do?", options: ["Deletes a file", "Safely closes a file and flushes buffers", "Overwrites a file with garbage", "Renames a file"], correct: 1 }
         ];
 
         // --- View Logic ---
@@ -1084,11 +1190,53 @@
         }
 
         // --- Quiz Logic ---
+        let activeQuizQuestions = [];
         let currentQuizIndex = 0;
         let score = 0;
         let answered = false;
+        let globalHighScore = localStorage.getItem('csStudyHubHighScore') ? parseInt(localStorage.getItem('csStudyHubHighScore')) : 0;
+
+        function updateHighScoreDisplay() {
+            const h = document.getElementById('high-score-val');
+            if (h) h.innerText = globalHighScore;
+        }
+
+        function returnToSetup() {
+            document.getElementById('quiz-setup').style.display = 'block';
+            document.getElementById('quiz-main-area').style.display = 'none';
+        }
 
         function restartQuiz() {
+            // When user clicks the nav button for Self-Quiz again
+            returnToSetup();
+        }
+
+        function startQuizWithSettings() {
+            const mod = document.getElementById('module-select').value;
+            let pool = [];
+
+            if (mod === "all") {
+                pool = [...allQuizQuestions];
+            } else {
+                pool = allQuizQuestions.filter(q => q.m == mod);
+            }
+
+            // Simple Fisher-Yates array shuffle for randomization
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+
+            // Limit to max 15 questions per session so it remains fun
+            activeQuizQuestions = pool.slice(0, 15);
+
+            if (activeQuizQuestions.length === 0) {
+                alert("No questions found for this module!"); return;
+            }
+
+            document.getElementById('quiz-setup').style.display = 'none';
+            document.getElementById('quiz-main-area').style.display = 'block';
+
             currentQuizIndex = 0;
             score = 0;
             answered = false;
@@ -1099,7 +1247,11 @@
 
         function loadQuestion() {
             answered = false;
-            const q = quizQuestions[currentQuizIndex];
+            const q = activeQuizQuestions[currentQuizIndex];
+
+            document.getElementById('quiz-module-badge').innerText = `Module ${q.m}`;
+            document.getElementById('quiz-q-counter').innerText = `Q: ${currentQuizIndex + 1} / ${activeQuizQuestions.length}`;
+
             document.getElementById('quiz-question').innerHTML = q.q;
             const optionsHtml = q.options.map((opt, i) => `
                 <button class="option-btn" onclick="checkAnswer(${i})">
@@ -1109,7 +1261,7 @@
             `).join('');
             document.getElementById('quiz-options').innerHTML = optionsHtml;
 
-            const progress = ((currentQuizIndex) / quizQuestions.length) * 100;
+            const progress = ((currentQuizIndex) / activeQuizQuestions.length) * 100;
             document.getElementById('quiz-progress-bar').style.width = progress + '%';
         }
 
@@ -1117,7 +1269,7 @@
             if (answered) return;
             answered = true;
 
-            const q = quizQuestions[currentQuizIndex];
+            const q = activeQuizQuestions[currentQuizIndex];
             const btns = document.querySelectorAll('.option-btn');
 
             if (index === q.correct) {
@@ -1130,23 +1282,35 @@
 
             setTimeout(() => {
                 currentQuizIndex++;
-                if (currentQuizIndex < quizQuestions.length) {
+                if (currentQuizIndex < activeQuizQuestions.length) {
                     loadQuestion();
                 } else {
                     showResults();
                 }
-            }, 1800);
+            }, 1200);
         }
 
         function showResults() {
             document.getElementById('quiz-main').style.display = 'none';
             document.getElementById('quiz-results').style.display = 'block';
-            document.getElementById('quiz-score').innerText = `${score} / ${quizQuestions.length}`;
+            document.getElementById('quiz-score').innerText = `${score} / ${activeQuizQuestions.length}`;
             document.getElementById('quiz-progress-bar').style.width = '100%';
 
+            const perc = Math.round((score / activeQuizQuestions.length) * 100);
+            document.getElementById('quiz-percentage').innerText = `${perc}%`;
+
+            // Check High Score
+            let pbAdded = false;
+            if (score > globalHighScore) {
+                globalHighScore = score;
+                localStorage.setItem('csStudyHubHighScore', globalHighScore.toString());
+                updateHighScoreDisplay();
+                pbAdded = true;
+            }
+
             let feedback = "No memory leaks detected! Excellent job.";
-            if (score === quizQuestions.length) feedback = "0 Errors, 0 Warnings. Perfect Compiler Run!";
-            else if (score >= quizQuestions.length * 0.7) feedback = "Solid logic! Just a few bugs to fix.";
+            if (perc === 100) feedback = "0 Errors, 0 Warnings. Perfect Compiler Run! " + (pbAdded ? "🏆 NEW HIGH SCORE! 🏆" : "");
+            else if (perc >= 70) feedback = "Solid logic! Just a few bugs to fix." + (pbAdded ? "🏆 NEW HIGH SCORE! 🏆" : "");
             else feedback = "Segmentation fault. Review the Theory Boards and debug!";
 
             document.getElementById('quiz-feedback').innerText = feedback;
@@ -1155,6 +1319,7 @@
         // Initialize state
         window.onload = () => {
             updateCard();
+            updateHighScoreDisplay();
         };
     </script>
 </body>
