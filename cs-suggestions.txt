@@ -1,0 +1,432 @@
+Model Question Bank
+Module 1: Introduction to Algorithm
+Objective Questions (1 Mark Each)
+1. What is a flowchart?
+2. Name any two high-level programming languages.
+3. What is an algorithm?
+4. What is pseudocode?
+Short Answer Questions (5 Marks Each)
+1. Define algorithm and flowchart. Explain any four characteristics of a good algorithm
+with suitable examples from simple everyday problems (such as making tea or adding
+two numbers).
+2. Write an algorithm and draw a flowchart to find the largest of three numbers entered
+by the user. Clearly show all decision steps and the complete flow of control.
+3. Explain the different types of symbols used in a flowchart (terminal, process, decision,
+input/output, connector). For each symbol, describe its purpose and give a small
+example of how it is used.
+4. Write an algorithm and draw a flowchart to calculate the factorial of a given positive
+integer n. Your flowchart should clearly show initialization, loop condition, update,
+and termination.
+5. Consider the problem: “Read the marks of a student in three subjects, compute the
+total and average, and then display whether the student has passed or failed assuming
+pass if average ≥ 40.”
+(a) Write a step-by-step algorithm.
+(b) Draw the corresponding flowchart.
+6. Discuss any five differences between algorithms and flowcharts in terms of
+representation, readability, ease of modification, debugging, and implementation.
+7. Write an algorithm and draw a flowchart to sum all even numbers between 1 and n
+(including n if it is even). Clearly indicate loop initialization, loop condition, and
+increment.
+8. Given the problem: “Accept an integer and check whether it is a palindrome,”
+(a) Rewrite it as a proper algorithm using numbered steps.
+(b) Draw a flowchart for the same problem, showing how the number is reversed and
+compared.
+9. Explain the role of sequence, selection, and iteration in algorithms. For each control
+structure, describe the concept and sketch a small fragment of a flowchart that
+illustrates it.
+10. Write an algorithm and draw a flowchart to read the salaries of 10 employees and
+count how many earn more than 50,000. Show clearly how you will control the
+repetition and update the count.
+Module 2: Introduction to C
+Programming
+Objective Questions (1 Mark Each)
+1. What is the file extension for C source code?
+2. Which function is the starting point of every C program?
+3. What is the purpose of #include directive?
+4. Name the standard input/output header file in C.
+5. What symbol is used to terminate a statement in C?
+6. Which constant type uses single quotes?
+7. What is the escape sequence for newline?
+8. Can a variable name start with a digit in C?
+9. What is the maximum length of an identifier in C?
+10. What is the purpose of comments in C programming?
+Short Answer Questions (5 Marks Each)
+1. Explain the basic structure of a C program with an example.
+2. Describe the key features of C programming language.
+3. Differentiate between the following constants: integer, real, character, and string
+constants with examples.
+4. What are the rules for naming variables in C? Provide valid and invalid examples.
+5. Explain backslash character constants (escape sequences) with examples.
+6. Write a simple C program to display "Hello, World!" and explain each line.
+7. What are the different types of constants in C? Explain with examples.
+8. Describe the process of creating and running a C program.
+9. Explain the concept of variables and data types in C.
+10. What is the difference between integer constants and real constants? Give examples.
+Long Answer Questions (15 Marks Each)
+1. Explain the complete structure of a C program including preprocessor directives,
+main function, variable declarations, statements, and comments. Write a program
+that demonstrates all these components.
+2. Describe all types of constants available in C programming with detailed examples:
+integer constants (decimal, octal, hexadecimal), real constants (fractional,
+exponential), character constants, string constants, and backslash character
+constants.
+3. Explain the rules and conventions for naming variables in C. Discuss keywords,
+identifiers, and naming best practices. Provide at least 10 examples each of valid and
+invalid variable names with justification.
+Module 3: Operators and Expressions
+Objective Questions (1 Mark Each)
+1. What is the result of 5 % 2 in C?
+2. Which operator is used for logical AND in C?
+3. What does the ++ operator do?
+4. Name the operator that returns the size of a data type.
+5. What is the precedence of arithmetic operators compared to relational operators?
+6. Which bitwise operator performs XOR operation?
+7. What is the result of 10 > 5 && 3 < 2?
+8. What does the ?: operator represent?
+9. Can we use || operator with integer operands?
+10. What is the associativity of unary operators?
+Short Answer Questions (5 Marks Each)
+1. Explain all arithmetic operators in C with examples.
+2. Describe relational operators and logical operators with truth tables.
+3. What is the conditional operator? Explain its syntax and usage with examples.
+4. Explain the increment (++) and decrement (--) operators with pre and post forms.
+5. Describe bitwise operators available in C with examples.
+6. What is operator precedence? Explain with examples involving mixed operators.
+7. Differentiate between unary, binary, and ternary operators with examples.
+8. Explain the sizeof operator and its applications.
+9. Write expressions using different operators and evaluate them: (a) 5 + 3 * 2 (b) (5 +
+3) * 2 (c) 10 % 3 + 5
+10. Describe library functions available in C with examples (sqrt, pow, abs, etc.).
+Long Answer Questions (15 Marks Each)
+1. Explain in detail all categories of operators in C: arithmetic, relational, logical,
+bitwise, assignment, conditional, increment/decrement, and sizeof. Provide
+comprehensive examples for each category.
+2. Describe operator precedence and associativity rules in C. Create a detailed
+precedence table and solve at least 10 complex expressions showing step-by-step
+evaluation.
+3. Explain bitwise operators (AND, OR, XOR, complement, left shift, right shift) with
+their applications in programming. Write programs demonstrating practical uses of
+bitwise operations like checking odd/even, swapping without temporary variable, and
+bit manipulation.
+Module 4: Data Types and Input/Output
+Operators
+Objective Questions (1 Mark Each)
+1. What is the format specifier for integer in printf()?
+2. Which function is used to read a character from keyboard?
+3. What is the size of float data type in C?
+4. Name the type cast operator syntax.
+5. What does scanf() function return?
+6. Which format specifier is used for double data type?
+7. What is the purpose of getchar() function?
+8. Can we convert an integer to float implicitly?
+9. What is a mixed-mode expression?
+10. Which function is used to read a complete line?
+Short Answer Questions (5 Marks Each)
+1. Explain all basic data types in C (int, float, double, char) with their sizes and ranges.
+2. Describe the concept of type casting with implicit and explicit conversion examples.
+3. What are mixed-mode expressions? Explain with examples.
+4. Explain formatted input and output functions printf() and scanf() with format
+specifiers.
+5. Describe character input/output functions: getchar(), putchar(), gets(), and puts().
+6. What is the difference between gets() and scanf() for reading strings?
+7. Explain the concept of floating-point numbers and their representation.
+8. Write a program to convert Fahrenheit to Celsius using appropriate data types.
+9. Describe interactive programming and its importance.
+10. Explain keywords in C and list at least 15 C keywords.
+Long Answer Questions (15 Marks Each)
+1. Explain all data types available in C programming including basic data types, derived
+data types, and user-defined data types. Discuss their sizes, ranges, and appropriate
+usage scenarios. Write programs demonstrating each data type.
+2. Describe in detail all input/output functions in C: formatted I/O (printf, scanf),
+character I/O (getchar, putchar), and string I/O (gets, puts). Explain all commonly
+used format specifiers with examples. Write a comprehensive program using all these
+functions.
+3. Explain type conversion and type casting in C. Differentiate between implicit and
+explicit type conversion. Discuss mixed-mode expressions and operator precedence in
+type conversion. Provide at least 10 examples showing different conversion scenarios.
+Module 5: Control Statements and
+Decision Making
+Objective Questions (1 Mark Each)
+1. Which statement is used for two-way branching?
+2. What is the default case in switch statement used for?
+3. Can we use float in switch expression?
+4. What is the output of: if(0) printf("True");?
+5. Which loop executes at least once?
+6. What does the break statement do in a loop?
+7. Can we nest if-else statements?
+8. What is the syntax of ternary operator?
+9. Which statement transfers control to a labeled statement?
+10. What happens if we omit break in switch cases?
+Short Answer Questions (5 Marks Each)
+1. Explain the if statement with syntax and examples.
+2. Describe if-else and nested if-else statements with flowcharts.
+3. What is the switch statement? Explain its syntax and working with an example.
+4. Differentiate between while loop and do-while loop.
+5. Explain the for loop with its three expressions and execution flow.
+6. Describe the break and continue statements with examples.
+7. What is the goto statement? Discuss its advantages and disadvantages.
+8. Write a program to check whether a number is positive, negative, or zero using if-else.
+9. Explain nested loops with an example program.
+10. What is the conditional expression (ternary operator)? When should we use it?
+Long Answer Questions (15 Marks Each)
+1. Explain all decision-making statements in C: if, if-else, nested if-else, if-else-if ladder,
+and switch. Provide flowcharts and program examples for each. Compare their usage
+scenarios.
+2. Describe all loop control structures in C: while, do-while, and for loops. Explain their
+syntax, execution flow, and differences. Write programs demonstrating: (a) printing
+numbers 1 to 100, (b) calculating factorial, (c) Fibonacci series, (d) nested loops for
+pattern printing.
+3. Explain loop control statements (break, continue, goto) in detail. Discuss when to use
+each statement and their impact on program flow. Write programs demonstrating
+practical uses of these statements. Also, discuss why goto is generally discouraged in
+structured programming.
+Module 6: Arrays and Strings
+Objective Questions (1 Mark Each)
+1. What is the index of the first element in an array?
+2. How is a string terminated in C?
+3. What is the syntax to declare a one-dimensional array?
+4. Can array size be changed during runtime?
+5. Which function is used to find string length?
+6. What is the difference between "A" and 'A'?
+7. How do you initialize an array during declaration?
+8. What is a two-dimensional array?
+9. Name the function to copy one string to another.
+10. Can we store strings using character arrays?
+Short Answer Questions (5 Marks Each)
+1. Explain one-dimensional arrays with declaration, initialization, and accessing
+elements.
+2. How do you pass arrays to functions? Explain with an example.
+3. Describe multidimensional arrays with two-dimensional array examples.
+4. What are strings in C? How are they different from character arrays?
+5. Explain string input/output functions: scanf(), gets(), puts(), printf().
+6. Describe any five string manipulation functions (strlen, strcpy, strcat, strcmp, strchr).
+7. Write a program to find the largest element in an array.
+8. Explain arrays of strings with declaration and examples.
+9. Write a program to reverse a string.
+10. How do you initialize a two-dimensional array? Show multiple methods.
+Long Answer Questions (15 Marks Each)
+1. Explain arrays in C in detail: declaration, initialization, accessing, one-dimensional
+arrays, multidimensional arrays, and arrays of arrays. Write programs to: (a) sort an
+array, (b) search an element, (c) merge two arrays, (d) find sum and average.
+2. Describe strings in C comprehensively. Explain string representation, string I/O
+functions, and all string manipulation functions (strlen, strcpy, strcat, strcmp, strchr,
+strstr, strrev, strupr, strlwr). Write programs demonstrating: (a) palindrome
+checking, (b) string concatenation, (c) substring finding, (d) character frequency.
+3. Explain passing arrays to functions in detail. Discuss how single-dimensional and
+multi-dimensional arrays are passed. Write programs demonstrating: (a) matrix
+addition, (b) matrix multiplication, (c) transpose of matrix, (d) searching in 2D array.
+Module 7: Pointers
+Objective Questions (1 Mark Each)
+1. What operator is used to get the address of a variable?
+2. What does * operator do with pointers?
+3. Can a pointer point to another pointer?
+4. What is the size of a pointer variable?
+5. What is a NULL pointer?
+6. Which arithmetic operations are valid on pointers?
+7. What is pointer arithmetic?
+8. Can we perform subtraction between two pointers?
+9. What is a void pointer?
+10. What does ptr++ do if ptr is an integer pointer?
+Short Answer Questions (5 Marks Each)
+1. Explain pointers with their declaration, initialization, and usage.
+2. What is pointer arithmetic? Explain with examples.
+3. Describe the relationship between arrays and pointers.
+4. How do you pass pointers to functions? Explain with an example.
+5. What are pointers to pointers? Explain with syntax and examples.
+6. Explain how to pass arrays to functions using pointers.
+7. What is an array of pointers? Provide examples.
+8. Describe void pointers and their applications.
+9. Write a program to swap two numbers using pointers.
+10. Explain pointers to functions with syntax and examples.
+Long Answer Questions (15 Marks Each)
+1. Explain pointers in C comprehensively: pointer declaration, initialization, pointer
+operators (&, *), pointer arithmetic, and pointer comparisons. Write programs
+demonstrating: (a) call by value vs call by reference, (b) pointer arithmetic operations,
+(c) accessing array elements using pointers.
+2. Describe the relationship between pointers and arrays in detail. Explain pointer
+arithmetic with arrays, passing arrays to functions using pointers, and returning
+pointers from functions. Write programs for: (a) string manipulation using pointers,
+(b) dynamic array operations, (c) pointer-based array sorting.
+3. Explain advanced pointer concepts: pointers to pointers, array of pointers, pointers to
+void, and pointers to functions. Provide detailed examples for each concept. Write
+programs demonstrating: (a) command-line arguments, (b) function pointers for
+callback mechanisms, (c) pointer arrays for string manipulation.
+Module 8: Structures and Unions
+Objective Questions (1 Mark Each)
+1. What keyword is used to define a structure?
+2. How do you access structure members?
+3. Can a structure contain another structure?
+4. What is the size of an empty structure?
+5. What operator is used to access members through structure pointer?
+6. Can structures be passed to functions?
+7. What is a union in C?
+8. What is the main difference between structure and union?
+9. Can we have an array of structures?
+10. What is a self-referential structure?
+Short Answer Questions (5 Marks Each)
+1. Explain structures in C with declaration, definition, and member access.
+2. How do you initialize structures? Show different methods.
+3. What are arrays of structures? Explain with an example.
+4. Describe pointers to structures with syntax and examples.
+5. What are self-referential structures? Why are they important?
+6. Explain unions in C with syntax and usage.
+7. Differentiate between structures and unions with memory allocation examples.
+8. Write a program to store and display student information using structures.
+9. How do you pass structures to functions? Explain different methods.
+10. What are nested structures? Provide an example.
+Long Answer Questions (15 Marks Each)
+1. Explain structures in C in detail: definition, declaration, initialization, accessing
+members, and nested structures. Write programs demonstrating: (a) student
+database management, (b) employee records, (c) library management system using
+structures.
+2. Describe arrays of structures and pointers to structures comprehensively. Explain
+how to access structure members using dot (.) and arrow (->) operators. Write
+programs for: (a) sorting array of structures, (b) searching in structure arrays, (c)
+dynamic memory allocation for structures.
+3. Explain unions in C in detail and compare them with structures. Discuss memory
+allocation, member access, and practical applications. Write programs
+demonstrating: (a) union usage for memory optimization, (b) type punning, (c)
+implementing variant data types using unions.
+Module 9: Functions
+Objective Questions (1 Mark Each)
+1. What is the return type of main() function?
+2. What are actual parameters?
+3. Can a function call itself?
+4. What is the purpose of void keyword in functions?
+5. What is a function prototype?
+6. How many values can a function return?
+7. What is the default return type of a function?
+8. Can we pass structures to functions?
+9. What is call by value?
+10. What is recursion?
+Short Answer Questions (5 Marks Each)
+1. Explain the basics of functions: definition, declaration, and calling.
+2. What are function prototypes? Why are they important?
+3. Differentiate between call by value and call by reference with examples.
+4. Explain how to pass arrays to functions with an example.
+5. Describe how to pass strings to functions.
+6. What is recursion? Explain with a simple example.
+7. How do you pass structures to functions? Explain different methods.
+8. Write a function to find the factorial of a number using recursion.
+9. Explain the return statement and its usage in functions.
+10. What are the advantages and disadvantages of using functions?
+Long Answer Questions (15 Marks Each)
+1. Explain functions in C comprehensively: function definition, declaration, calling,
+parameter passing, and return values. Discuss function prototypes and their
+importance. Write programs demonstrating: (a) mathematical functions (power,
+factorial, prime checking), (b) string functions, (c) array manipulation functions.
+2. Describe parameter passing mechanisms in detail: call by value and call by reference.
+Explain how to pass different data types (variables, arrays, strings, structures) to
+functions. Write programs showing: (a) swapping using call by value and call by
+reference, (b) array manipulation in functions, (c) structure passing to functions.
+3. Explain recursion in detail: concept, base case, recursive case, and recursion vs
+iteration comparison. Discuss advantages, disadvantages, and applications. Write
+recursive programs for: (a) factorial, (b) Fibonacci series, (c) tower of Hanoi, (d) GCD
+calculation, (e) power calculation.
+Module 10: Storage Classes
+Objective Questions (1 Mark Each)
+1. How many storage classes are there in C?
+2. What is the default storage class for local variables?
+3. Which storage class has permanent storage duration?
+4. What is the default initial value of static variables?
+5. Can extern variables be initialized?
+6. What is the scope of auto variables?
+7. Which keyword is used to define a global variable in another file?
+8. What happens to automatic variables after function execution?
+9. Can static variables be accessed outside their function?
+10. What is the lifetime of a register variable?
+Short Answer Questions (5 Marks Each)
+1. Explain the concept of storage classes in C.
+2. Describe automatic (auto) variables with scope, lifetime, and examples.
+3. What are static variables? Explain their characteristics and usage.
+4. Explain global variables and their scope.
+5. Describe external (extern) variables with examples.
+6. What are register variables? When should we use them?
+7. Differentiate between local and global variables.
+8. Explain the visibility and lifetime of different storage classes.
+9. Write a program demonstrating the use of static variables in functions.
+10. What is variable scope? Explain local, global, and block scope.
+Long Answer Questions (15 Marks Each)
+1. Explain all storage classes in C in detail: automatic, static, external, and register.
+Discuss their syntax, scope, lifetime, default values, and appropriate usage scenarios.
+Write programs demonstrating each storage class.
+2. Describe variable scope and visibility rules in C. Explain local variables, global
+variables, block scope, and function scope. Discuss variable shadowing and name
+conflicts. Write programs showing: (a) local vs global variables, (b) variable
+shadowing, (c) static variable persistence across function calls.
+3. Explain static variables in depth. Differentiate between static local variables and static
+global variables. Discuss their memory allocation, initialization, and applications.
+Write programs demonstrating: (a) function call counters using static variables, (b)
+preserving state between function calls, (c) static variables in file scope.
+Module 11: Dynamic Memory Allocation
+Objective Questions (1 Mark Each)
+1. Which header file is required for dynamic memory allocation?
+2. What does malloc() stand for?
+3. Which function is used to release dynamically allocated memory?
+4. What does calloc() initialize memory with?
+5. Can malloc() return NULL?
+6. What is the return type of malloc()?
+7. Which function is used to resize allocated memory?
+8. What is the difference between malloc() and calloc()?
+9. What happens if we don't free dynamically allocated memory?
+10. Can we use sizeof() with malloc()?
+Short Answer Questions (5 Marks Each)
+1. Explain dynamic memory allocation and its advantages.
+2. Describe the malloc() function with syntax and examples.
+3. What is the calloc() function? How is it different from malloc()?
+4. Explain the free() function and its importance.
+5. Describe the realloc() function with examples.
+6. Write a program to dynamically allocate memory for an array of integers.
+7. What is a memory leak? How can we prevent it?
+8. Explain the concept of heap memory.
+9. Write a program to create a dynamic array using malloc().
+10. What are the common errors in dynamic memory allocation?
+Long Answer Questions (15 Marks Each)
+1. Explain dynamic memory allocation in C comprehensively. Describe malloc(),
+calloc(), realloc(), and free() functions with their syntax, parameters, return values,
+and differences. Write programs demonstrating: (a) dynamic array creation, (b)
+dynamic string allocation, (c) dynamic structure allocation.
+2. Describe dynamic memory management in detail. Discuss heap vs stack memory,
+memory allocation strategies, and memory leak prevention. Write programs for: (a)
+dynamic 2D array allocation, (b) linked list implementation using dynamic memory,
+(c) memory reallocation scenarios.
+3. Explain practical applications of dynamic memory allocation. Discuss when to use
+dynamic memory vs static memory, best practices, and common pitfalls. Write
+programs demonstrating: (a) dynamic structure arrays, (b) resizing arrays at runtime,
+(c) creating flexible data structures.
+Module 12: File Management
+Objective Questions (1 Mark Each)
+1. Which header file is required for file operations?
+2. What function is used to open a file?
+3. Which mode opens a file for reading?
+4. What does "w" mode do if file exists?
+5. What function is used to close a file?
+6. What is EOF in C?
+7. Which function reads a character from a file?
+8. Can we open multiple files simultaneously?
+9. What does fseek() function do?
+10. What is the return type of fopen()?
+Short Answer Questions (5 Marks Each)
+1. Explain the concept of file handling in C.
+2. Describe the fopen() function with different file opening modes.
+3. What is the fclose() function? Why is it important?
+4. Explain character input/output functions for files: fgetc() and fputc().
+5. Describe formatted input/output functions: fscanf() and fprintf().
+6. What are predefined streams in C? Explain stdin, stdout, and stderr.
+7. Write a program to create a file and write text to it.
+8. Explain error handling during I/O operations.
+9. Describe the fgets() and fputs() functions for file operations.
+10. What is random access in files? Explain with functions.
+Long Answer Questions (15 Marks Each)
+1. Explain file management in C comprehensively. Describe file opening modes (r, w, a,
+r+, w+, a+), file operations (fopen, fclose, feof, ferror, rewind), and file types (text vs
+binary). Write programs demonstrating: (a) reading from file, (b) writing to file, (c)
+copying file contents.
+2. Describe all file input/output operations in detail: character I/O (fgetc, fputc, getc,
+putc), string I/O (fgets, fputs), formatted I/O (fscanf, fprintf), and block I/O (fread,
+fwrite). Write programs for: (a) counting characters, words, lines in a file, (b) file
+merging, (c) record management in files.
+3. Explain random access to files in detail. Describe file positioning functions: fseek(),
+ftell(), and rewind(). Discuss their parameters, return values, and applications. Write
+programs demonstrating: (a) reading file in reverse, (b) random access to records, (c)
+file updating operations.
