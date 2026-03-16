@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS & Programming Study Hub</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --primary: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --secondary: #2dd4bf;
+            --info: #818cf8;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.05);
+            --success: #34d399;
+            --error: #f87171;
+            --code-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(45, 212, 191, 0.1) 0%, transparent 40%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            font-weight: 600;
+        }
+
+        /* --- Layout Container --- */
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Grid & Cards --- */
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .board-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .board-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .board-card.highlight {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .board-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .board-card ul {
+            list-style: none;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .board-card li {
+            margin-bottom: 0.85rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .board-card li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: var(--primary);
+        }
+
+        /* --- Flashcard Styles --- */
+        .flashcard-container {
+            perspective: 1000px;
+            max-width: 600px;
+            margin: 3rem auto;
+            height: 400px;
+            cursor: pointer;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 3rem;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            text-align: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            transform: rotateY(180deg);
+            border-color: var(--primary);
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-text {
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1.5;
+            color: white;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        /* --- Quiz Styles --- */
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+        }
+
+        .quiz-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .question-text {
+            font-size: 1.35rem;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option-btn {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 1.25rem 1.5rem;
+            border-radius: 14px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: rgba(52, 211, 153, 0.15);
+            color: #6ee7b7;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--error);
+            background: rgba(248, 113, 113, 0.15);
+            color: #fca5a5;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 2.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .info-pill {
+            background: rgba(129, 140, 248, 0.2);
+            color: var(--info);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid var(--info);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .board-grid {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">&lt;CS_Hub /&gt;</div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="showView('basics')">C Basics & Logic</button>
+            <button class="nav-btn" onclick="showView('advanced')">Advanced C</button>
+            <button class="nav-btn" onclick="showView('flashcards')">Flashcards</button>
+            <button class="nav-btn" onclick="showView('quiz')">Self-Quiz</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Basics View -->
+        <div id="view-basics" class="view active">
+            <h2 style="margin-bottom: 2rem; font-family: 'Fira Code', monospace; color: var(--primary);">Modules 1-6:
+                Basics & Control Logic</h2>
+            <div class="board-grid" style="grid-template-columns: 1fr;">
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 1</span>
+                    <h3>Algorithms & Flowcharts</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> The foundational building blocks of programming. Before writing code,
+                        you need a logical plan.</p>
+                    <ul>
+                        <li><strong>Algorithm Definition:</strong> A step-by-step procedure to solve a problem.
+                            Important characteristics: Finiteness (must eventually stop), Definiteness (each step must
+                            be clear and unambiguous), Input (zero or more inputs), Output (at least one output), and
+                            Effectiveness (basic enough to be done exactly).</li>
+                        <li><strong>Flowcharts:</strong> A graphical representation of an algorithm. It helps in mapping
+                            out the logic visually before converting it into programming code.</li>
+                        <li><strong>Key Flowchart Symbols:</strong> Oval (Terminal/Start/Stop), Parallelogram
+                            (Input/Output), Rectangle (Process/Computation), Diamond (Decision/Condition Checking),
+                            Arrows (Flow of control).</li>
+                        <li><strong>Control Structures:</strong> Sequence (executing instructions one after the other),
+                            Selection (making a decision, e.g., if-else), and Iteration (repeating a set of
+                            instructions, e.g., loops).</li>
+                    </ul>
+                </div>
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 2</span>
+                    <h3>Introduction to C</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> C is a procedural programming language consisting of basic building
+                        blocks called tokens.</p>
+                    <ul>
+                        <li><strong>Structure of a C Program:</strong> Starts with Preprocessor Directives (like
+                            <code>#include &lt;stdio.h&gt;</code> to include standard input/output libraries), followed
+                            by Global Declarations, the <code>main()</code> function (where execution begins), and then
+                            user-defined functions.</li>
+                        <li><strong>C Tokens:</strong> The smallest individual units in a C program. They include
+                            Keywords (reserved words like <code>int</code>, <code>if</code>), Identifiers (names given
+                            to variables/functions), Constants (fixed values), Strings, Operators, and Special Symbols.
+                        </li>
+                        <li><strong>Rules for Identifiers:</strong> Must begin with a letter or an underscore (_).
+                            Cannot start with a digit. Cannot be a keyword. White spaces are not allowed.</li>
+                        <li><strong>Constants:</strong> Integer (whole numbers), Real/Floating-point (fractional
+                            numbers), Character (single character in single quotes <code>'A'</code>), and String
+                            Constants (enclosed in double quotes <code>"Hello"</code>).</li>
+                    </ul>
+                </div>
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 3</span>
+                    <h3>Operators & Expressions</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Operators are symbols that tell the compiler to perform specific
+                        mathematical or logical manipulations.</p>
+                    <ul>
+                        <li><strong>Arithmetic Operators:</strong> <code>+</code>, <code>-</code>, <code>*</code>,
+                            <code>/</code>, and <code>%</code> (Modulo, which returns the remainder of an integer
+                            division). Note: Modulo cannot be used with floating-point numbers.</li>
+                        <li><strong>Relational & Logical:</strong> Relational (<code>==</code>, <code>!=</code>,
+                            <code>&gt;</code>, <code>&lt;</code>, etc.) compare values. Logical (<code>&&</code> AND,
+                            <code>||</code> OR, <code>!</code> NOT) combine multiple conditions.</li>
+                        <li><strong>Bitwise Operators:</strong> Operate at the bit level. Includes AND
+                            (<code>&amp;</code>), OR (<code>|</code>), XOR (<code>^</code>), Left Shift
+                            (<code>&lt;&lt;</code>), and Right Shift (<code>&gt;&gt;</code>). Useful for low-level
+                            programming.</li>
+                        <li><strong>Ternary (Conditional) Operator:</strong> A shorthand for if-else. Syntax:
+                            <code>condition ? expression_if_true : expression_if_false</code>.</li>
+                        <li><strong>Operator Precedence:</strong> Determines the order in which operators are evaluated.
+                            Unary operators usually have the highest precedence, followed by Arithmetic, Relational,
+                            Logical, and Assignment.</li>
+                    </ul>
+                </div>
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 4</span>
+                    <h3>Data Types & I/O</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> How memory is allocated for variables and how a program interacts
+                        with user inputs and screen outputs.</p>
+                    <ul>
+                        <li><strong>Primary Data Types:</strong> <code>int</code> (integers, typically 2 or 4 bytes),
+                            <code>float</code> (single-precision floating point, 4 bytes), <code>double</code>
+                            (double-precision floating point, 8 bytes), and <code>char</code> (single character, 1
+                            byte).</li>
+                        <li><strong>Format Specifiers:</strong> Used in formatted I/O to indicate the data type.
+                            <code>%d</code> or <code>%i</code> for int, <code>%f</code> for float, <code>%lf</code> for
+                            double, <code>%c</code> for char, and <code>%s</code> for string.</li>
+                        <li><strong>Formatted vs Unformatted I/O:</strong> <code>printf()</code> and
+                            <code>scanf()</code> are formatted. Unformatted include <code>getchar()</code> and
+                            <code>putchar()</code> (for single characters), and <code>gets()</code> and
+                            <code>puts()</code> (for strings).</li>
+                        <li><strong>Type Casting:</strong> Converting a variable from one data type to another.
+                            <i>Implicit</i> conversion is done automatically by the compiler. <i>Explicit</i> conversion
+                            is done by the programmer using a cast operator, e.g., <code>(float) 5 / 2</code>.</li>
+                    </ul>
+                </div>
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 5</span>
+                    <h3>Control Statements</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Mechanisms that allow a program to deviate from sequential execution
+                        based on conditions.</p>
+                    <ul>
+                        <li><strong>Branching Statements:</strong>
+                            <br>• <i>if / if-else:</i> Basic two-way decision making.
+                            <br>• <i>Nested if-else / else-if ladder:</i> Multiple condition checking.
+                            <br>• <i>switch:</i> Multi-way branching based on the value of an integer or character
+                            expression. Cases must be unique.
+                        </li>
+                        <li><strong>Looping Statements:</strong>
+                            <br>• <i>Entry-Controlled Loops:</i> Condition is checked before entering the loop
+                            (<code>for</code> loop, <code>while</code> loop). Use <code>for</code> when number of
+                            iterations is known.
+                            <br>• <i>Exit-Controlled Loop:</i> Condition is checked at the end. The loop body executes
+                            at least once (<code>do-while</code> loop).
+                        </li>
+                        <li><strong>Jump Statements:</strong> <code>break</code> (exits the innermost loop or switch
+                            block immediately), <code>continue</code> (skips the rest of the current iteration and jumps
+                            to the next iteration in a loop).</li>
+                    </ul>
+                </div>
+                <div class="board-card highlight">
+                    <span class="info-pill">Module 6</span>
+                    <h3>Arrays & Strings</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Data structures used to store multiple values of the same type in
+                        contiguous memory locations.</p>
+                    <ul>
+                        <li><strong>Arrays:</strong> A fixed-size sequential collection of elements of the same data
+                            type. Elements are accessed using a 0-based index. For example, in <code>int arr[5]</code>,
+                            the first element is <code>arr[0]</code> and the last is <code>arr[4]</code>.</li>
+                        <li><strong>Multidimensional Arrays:</strong> Arrays of arrays. A 2D array is structured like a
+                            matrix with rows and columns. Accessed via two indices, e.g., <code>matrix[row][col]</code>.
+                        </li>
+                        <li><strong>Strings:</strong> In C, strings are simply one-dimensional arrays of characters
+                            terminated by a special null character <code>'\0'</code>. This null character marks the end
+                            of the string.</li>
+                        <li><strong>String Manipulation Functions:</strong> Found in <code>&lt;string.h&gt;</code>.
+                            <br>• <code>strlen()</code>: Returns length of string (excluding null).
+                            <br>• <code>strcpy()</code>: Copies one string to another.
+                            <br>• <code>strcat()</code>: Concatenates (appends) strings.
+                            <br>• <code>strcmp()</code>: Compares two strings character by character.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced View -->
+        <div id="view-advanced" class="view">
+            <h2 style="margin-bottom: 2rem; font-family: 'Fira Code', monospace; color: var(--secondary);">Modules 7-12:
+                Advanced C Concepts</h2>
+            <div class="board-grid" style="grid-template-columns: 1fr;">
+                <div class="board-card">
+                    <span class="info-pill">Module 7</span>
+                    <h3>Pointers</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Pointers are powerful tools that interact directly with computer
+                        memory.</p>
+                    <ul>
+                        <li><strong>Definition & Operators:</strong> A pointer is a variable that stores the memory
+                            address of another variable. The <code>&amp;</code> (Address-of) operator returns the memory
+                            address of its operand. The <code>*</code> (Dereference) operator gives the value stored at
+                            that specific address.</li>
+                        <li><strong>Pointer Arithmetic:</strong> Incrementing a pointer (<code>ptr++</code>) doesn't
+                            just add 1 to the address. It adds the <code>sizeof(dataType)</code> to the address, making
+                            it point to the next memory location of that type. Example: if an <code>int</code> pointer
+                            holds address 1000, <code>ptr++</code> makes it 1004 (assuming an int is 4 bytes).</li>
+                        <li><strong>Null Pointers / Void Pointers:</strong> A NULL pointer points to memory block 0
+                            (nowhere), preventing accidental memory corruption. A <code>void</code> pointer is generic
+                            and has no associated data type, allowing it to hold references to any data type (must be
+                            typecast before dereferencing).</li>
+                    </ul>
+                </div>
+                <div class="board-card">
+                    <span class="info-pill">Module 8</span>
+                    <h3>Structures & Unions</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> User-defined data types that allow grouping variables of different
+                        data types under a single name.</p>
+                    <ul>
+                        <li><strong>Structure (struct):</strong> A composite data type. Every member of a structure has
+                            its own dedicated memory allocation. The total size of a structure is at least the sum of
+                            the sizes of its members. Members are accessed using the dot (<code>.</code>) operator, or
+                            the arrow (<code>-&gt;</code>) operator if using a pointer to the structure.</li>
+                        <li><strong>Union:</strong> Similar to a structure, but all members share the same memory
+                            location. The total size of a union is equal to the size of its largest member. You can only
+                            use one member at a time; updating one member overwrites the others. Useful for memory
+                            optimization.</li>
+                        <li><strong>Array of Structures:</strong> Extremely useful for maintaining databases. For
+                            instance, <code>struct Student classRecord[60]</code> creates an array capable of storing
+                            the distinct structures (records) of 60 students.</li>
+                    </ul>
+                </div>
+                <div class="board-card">
+                    <span class="info-pill">Module 9</span>
+                    <h3>Functions & Recursion</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Breaking down a complex problem into smaller, manageable, and
+                        reusable sub-blocks of code.</p>
+                    <ul>
+                        <li><strong>Function Architecture:</strong> Consists of the <i>Prototype</i> (declaration
+                            advising compiler of return type and arguments), the <i>Definition</i> (the actual
+                            body/logic of the function), and the <i>Call</i> (where the function is practically used).
+                        </li>
+                        <li><strong>Parameter Passing:</strong>
+                            <br>• <i>Call by Value:</i> A copy of the argument is passed. Changes made inside the
+                            function do NOT affect the original variable.
+                            <br>• <i>Call by Reference:</i> The memory address (pointer) of the argument is passed.
+                            Changes made inside the function DO modify the original variable.
+                        </li>
+                        <li><strong>Recursion:</strong> A powerful technique where a function calls itself. It must have
+                            a Base Case (to stop the recursive looping) and a Recursive Case (breaking down the
+                            problem). Common examples include Factorial calculation and Fibonacci series generation.
+                        </li>
+                    </ul>
+                </div>
+                <div class="board-card">
+                    <span class="info-pill">Module 10</span>
+                    <h3>Storage Classes</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Determine the scope, visibility, and lifetime/persistence of
+                        variables in C.</p>
+                    <ul>
+                        <li><strong>auto:</strong> The default behavior for all local variables declared inside a block
+                            or function. Created when block is entered, destroyed upon exit. Default value is garbage.
+                        </li>
+                        <li><strong>static:</strong> Variables that retain their value between multiple function calls.
+                            They are initialized only once. Default value is 0. Used for state preservation (like
+                            counting how many times a function is called).</li>
+                        <li><strong>extern:</strong> Used for global variables that are defined in another completely
+                            different C file, allowing cross-file variable sharing.</li>
+                        <li><strong>register:</strong> Hints to the compiler to store the variable in the CPU's register
+                            instead of RAM for extremely fast access. Usually reserved for frequently accessed variables
+                            like loop counters. Modern compilers often optimize this automatically.</li>
+                    </ul>
+                </div>
+                <div class="board-card">
+                    <span class="info-pill">Module 11</span>
+                    <h3>Dynamic Memory Allocation</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Functions available in <code>&lt;stdlib.h&gt;</code> that allow
+                        allocating and freeing memory space at runtime (on the Heap).</p>
+                    <ul>
+                        <li><strong>malloc():</strong> "Memory Allocation". Allocates a single large block of contiguous
+                            memory specified by the number of bytes. Leaves the memory uninitialized (garbage values).
+                            Returns a void pointer that requires type casting.</li>
+                        <li><strong>calloc():</strong> "Contiguous Allocation". Takes two arguments: number of elements
+                            and size of each element. Crucially, it initializes all allocated memory spaces to zero.
+                        </li>
+                        <li><strong>realloc():</strong> "Re-allocation". Used to resize a previously allocated memory
+                            block during runtime without losing the old data.</li>
+                        <li><strong>free():</strong> Deallocates/releases dynamically allocated memory back to the
+                            operating system. Failing to use <code>free()</code> leads to "Memory Leaks", crashing the
+                            program over time.</li>
+                    </ul>
+                </div>
+                <div class="board-card">
+                    <span class="info-pill">Module 12</span>
+                    <h3>File Management</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
+                        <strong>Overview:</strong> Storing data permanently in secondary storage devices because RAM is
+                        volatile.</p>
+                    <ul>
+                        <li><strong>File Modes:</strong> Passed to <code>fopen()</code>.
+                            <br>• <code>"r"</code>: Read mode (errors if file doesn't exist).
+                            <br>• <code>"w"</code>: Write mode (creates a new file or overwrites an existing file
+                            entirely).
+                            <br>• <code>"a"</code>: Append mode (adds new data to the end of an existing file).
+                        </li>
+                        <li><strong>Core Operations:</strong> <code>fopen()</code> opens a file and returns a
+                            <code>FILE*</code>. <code>fclose()</code> safely closes it. I/O is handled via
+                            <code>fprintf()</code> / <code>fscanf()</code> for formatted text, or <code>fread()</code> /
+                            <code>fwrite()</code> for binary blocks of data.</li>
+                        <li><strong>Random Access:</strong> Navigating arbitrarily through a file. <code>fseek()</code>
+                            moves the file pointer to a specific byte location. <code>ftell()</code> reveals the current
+                            byte position. <code>rewind()</code> resets the pointer back to the very beginning of the
+                            file.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards View -->
+        <div id="view-flashcards" class="view">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-family: 'Fira Code', monospace;">Objective Concepts
+                Review</h2>
+            <div class="flashcard-container" onclick="flipCard()">
+                <div class="flashcard" id="current-card">
+                    <div class="card-face card-front">
+                        <span class="card-label">Question</span>
+                        <div class="card-text" id="front-text">Loading...</div>
+                    </div>
+                    <div class="card-face card-back">
+                        <span class="card-label">Answer</span>
+                        <div class="card-text" id="back-text">Loading...</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard-controls">
+                <button class="nav-btn" onclick="prevCard()">&lt; Prev</button>
+                <div id="card-index"
+                    style="font-weight: 600; font-family: 'Fira Code', monospace; color: var(--text-muted);">1 / 15
+                </div>
+                <button class="nav-btn" onclick="nextCard()">Next &gt;</button>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="view-quiz" class="view">
+            <div class="quiz-container" id="quiz-ui">
+                <div class="quiz-progress">
+                    <div class="progress-bar" id="quiz-progress-bar"></div>
+                </div>
+                <div id="quiz-main">
+                    <div class="question-text" id="quiz-question">Loading question...</div>
+                    <div class="options-grid" id="quiz-options"></div>
+                </div>
+                <div id="quiz-results" style="display: none;">
+                    <div style="text-align: center;">
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem; font-family: 'Fira Code', monospace;">
+                            Compilation Complete!</h3>
+                        <div id="quiz-score"
+                            style="font-size: 4rem; font-weight: 800; color: var(--primary); margin-bottom: 2rem; font-family: 'Fira Code', monospace;">
+                            0/0
+                        </div>
+                        <p id="quiz-feedback" style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.1rem;">
+                        </p>
+                        <button class="nav-btn active" onclick="restartQuiz()">Run Again()</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>sys.exit(0) | CS Exam Prep Hub | C Programming & Data Structures</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // Module 1
+            { q: "What is a flowchart?", a: "A graphical representation of an algorithm using standard symbols." },
+            { q: "Name any two high-level programming languages.", a: "C, Python, Java, C++, etc." },
+            { q: "What is an algorithm?", a: "A finite, step-by-step procedure to solve a specific problem." },
+            { q: "What is pseudocode?", a: "An informal high-level description of an algorithm." },
+
+            // Module 2
+            { q: "What is the file extension for C source code?", a: ".c" },
+            { q: "Which function is the starting point of every C program?", a: "main() function." },
+            { q: "What is the purpose of #include directive?", a: "To include the contents of a header file before compilation." },
+            { q: "Name the standard input/output header file in C.", a: "<stdio.h>" },
+            { q: "What symbol is used to terminate a statement in C?", a: "Semicolon (;)" },
+            { q: "Which constant type uses single quotes?", a: "Character constants (e.g., 'A')." },
+            { q: "What is the escape sequence for newline?", a: "\\n" },
+            { q: "Can a variable name start with a digit in C?", a: "No, it must start with a letter or underscore." },
+            { q: "What is the maximum length of an identifier in C?", a: "Typically 31 characters are significant." },
+            { q: "What is the purpose of comments in C programming?", a: "To provide documentation, ignored by compiler." },
+
+            // Module 3
+            { q: "What is the result of 5 % 2 in C?", a: "1" },
+            { q: "Which operator is used for logical AND in C?", a: "&&" },
+            { q: "What does the ++ operator do?", a: "Increments the operand's value by 1." },
+            { q: "Name the operator that returns the size of a data type.", a: "sizeof" },
+            { q: "What is the precedence of arithmetic operators compared to relational operators?", a: "Arithmetic has higher precedence than relational." },
+            { q: "Which bitwise operator performs XOR operation?", a: "^" },
+            { q: "What is the result of 10 > 5 && 3 < 2?", a: "0 (False)" },
+            { q: "What does the ?: operator represent?", a: "Ternary conditional operator." },
+            { q: "Can we use || operator with integer operands?", a: "Yes, non-zero is true, 0 is false." },
+            { q: "What is the associativity of unary operators?", a: "Right-to-Left" },
+
+            // Module 4
+            { q: "What is the format specifier for integer in printf()?", a: "%d or %i" },
+            { q: "Which function is used to read a character from keyboard?", a: "getchar() or scanf(\"%c\")" },
+            { q: "What is the size of float data type in C?", a: "Typically 4 bytes" },
+            { q: "Name the type cast operator syntax.", a: "(type_name) expression" },
+            { q: "What does scanf() function return?", a: "Number of items successfully read." },
+            { q: "Which format specifier is used for double data type?", a: "%lf" },
+            { q: "What is the purpose of getchar() function?", a: "Reads a single character from standard input." },
+            { q: "Can we convert an integer to float implicitly?", a: "Yes, via automatic type promotion." },
+            { q: "What is a mixed-mode expression?", a: "Expression involving operands of different data types." },
+            { q: "Which function is used to read a complete line?", a: "gets() or fgets()" },
+
+            // Module 5
+            { q: "Which statement is used for two-way branching?", a: "if-else statement" },
+            { q: "What is the default case in switch statement used for?", a: "Executes if no case matches." },
+            { q: "Can we use float in switch expression?", a: "No, only integers or characters." },
+            { q: "What is the output of: `if(0) printf(\"True\");`?", a: "Nothing (0 is false)." },
+            { q: "Which loop executes at least once?", a: "do-while loop" },
+            { q: "What does the break statement do in a loop?", a: "Instantly terminates the loop." },
+            { q: "Can we nest if-else statements?", a: "Yes." },
+            { q: "What is the syntax of ternary operator?", a: "condition ? true_expr : false_expr" },
+            { q: "Which statement transfers control to a labeled statement?", a: "goto statement" },
+            { q: "What happens if we omit break in switch cases?", a: "Fall-through behavior occurs." },
+
+            // Module 6
+            { q: "What is the index of the first element in an array?", a: "0" },
+            { q: "How is a string terminated in C?", a: "With a null character ('\\0')" },
+            { q: "What is the syntax to declare a one-dimensional array?", a: "data_type arr_name[size];" },
+            { q: "Can array size be changed during runtime?", a: "Statically allocated array sizes cannot." },
+            { q: "Which function is used to find string length?", a: "strlen()" },
+            { q: "What is the difference between \"A\" and 'A'?", a: "\"A\" is a string, 'A' is a single character constant." },
+            { q: "How do you initialize an array during declaration?", a: "int arr[3] = {1, 2, 3};" },
+            { q: "What is a two-dimensional array?", a: "An array of arrays (e.g., matrix)." },
+            { q: "Name the function to copy one string to another.", a: "strcpy()" },
+            { q: "Can we store strings using character arrays?", a: "Yes, strings are char arrays." },
+
+            // Module 7
+            { q: "What operator is used to get the address of a variable?", a: "&" },
+            { q: "What does * operator do with pointers?", a: "Dereferences it to access the value." },
+            { q: "Can a pointer point to another pointer?", a: "Yes (e.g., int **ptr;)" },
+            { q: "What is the size of a pointer variable?", a: "Typically 4 (32-bit) or 8 bytes (64-bit)." },
+            { q: "What is a NULL pointer?", a: "A pointer holding address 0 (points to nothing)." },
+            { q: "Which arithmetic operations are valid on pointers?", a: "Addition/Subtraction of integers, comparing pointers." },
+            { q: "What is pointer arithmetic?", a: "Math operations based on data type size." },
+            { q: "Can we perform subtraction between two pointers?", a: "Yes, to find distance between array elements." },
+            { q: "What is a void pointer?", a: "A generic pointer with no specific data type." },
+            { q: "What does ptr++ do if ptr is an integer pointer?", a: "Moves ahead by sizeof(int) bytes." },
+
+            // Module 8
+            { q: "What keyword is used to define a structure?", a: "struct" },
+            { q: "How do you access structure members?", a: "Dot (.) or arrow (->) operators." },
+            { q: "Can a structure contain another structure?", a: "Yes (Nested structures)." },
+            { q: "What is the size of an empty structure?", a: "Not standard in C, commonly error or 0/1 depending on compiler." },
+            { q: "What operator is used to access members through structure pointer?", a: "Arrow operator (->)" },
+            { q: "Can structures be passed to functions?", a: "Yes, by value or reference." },
+            { q: "What is a union in C?", a: "A type where all members share the same memory." },
+            { q: "What is the main difference between structure and union?", a: "Structs allocate independent memory; Unions share memory." },
+            { q: "Can we have an array of structures?", a: "Yes." },
+            { q: "What is a self-referential structure?", a: "A structure that has a pointer to itself (used in linked lists)." },
+
+            // Module 9
+            { q: "What is the return type of main() function?", a: "int" },
+            { q: "What are actual parameters?", a: "Values passed during function call." },
+            { q: "Can a function call itself?", a: "Yes (Recursion)." },
+            { q: "What is the purpose of void keyword in functions?", a: "Indicates function returns nothing." },
+            { q: "What is a function prototype?", a: "Declaration specifying name, return type, and parameters." },
+            { q: "How many values can a function return?", a: "Only one directly." },
+            { q: "What is the default return type of a function?", a: "int (in older standards)." },
+            { q: "Can we pass structures to functions?", a: "Yes." },
+            { q: "What is call by value?", a: "Passing a copy of argument data." },
+            { q: "What is recursion?", a: "A function repeatedly calling itself." },
+
+            // Module 10
+            { q: "How many storage classes are there in C?", a: "Four: auto, register, static, extern." },
+            { q: "What is the default storage class for local variables?", a: "auto" },
+            { q: "Which storage class has permanent storage duration?", a: "static and extern." },
+            { q: "What is the default initial value of static variables?", a: "Zero (0)" },
+            { q: "Can extern variables be initialized?", a: "Yes, at their declaration file." },
+            { q: "What is the scope of auto variables?", a: "Block scope." },
+            { q: "Which keyword is used to define a global variable in another file?", a: "extern" },
+            { q: "What happens to automatic variables after function execution?", a: "Memory is destructed/freed." },
+            { q: "Can static variables be accessed outside their function?", a: "No, they retain value but remain locally scoped." },
+            { q: "What is the lifetime of a register variable?", a: "Block lifetime (like auto)." },
+
+            // Module 11
+            { q: "Which header file is required for dynamic memory allocation?", a: "<stdlib.h>" },
+            { q: "What does malloc() stand for?", a: "Memory Allocation" },
+            { q: "Which function is used to release dynamically allocated memory?", a: "free()" },
+            { q: "What does calloc() initialize memory with?", a: "Zeros" },
+            { q: "Can malloc() return NULL?", a: "Yes, if allocation fails." },
+            { q: "What is the return type of malloc()?", a: "void*" },
+            { q: "Which function is used to resize allocated memory?", a: "realloc()" },
+            { q: "What is the difference between malloc() and calloc()?", a: "calloc zeroes memory and takes two args (count, size)." },
+            { q: "What happens if we don't free dynamically allocated memory?", a: "Memory leak." },
+            { q: "Can we use sizeof() with malloc()?", a: "Yes, highly recommended." },
+
+            // Module 12
+            { q: "Which header file is required for file operations?", a: "<stdio.h>" },
+            { q: "What function is used to open a file?", a: "fopen()" },
+            { q: "Which mode opens a file for reading?", a: "\"r\"" },
+            { q: "What does \"w\" mode do if file exists?", a: "Overwrites/Truncates it." },
+            { q: "What function is used to close a file?", a: "fclose()" },
+            { q: "What is EOF in C?", a: "End-Of-File (macro usually -1)." },
+            { q: "Which function reads a character from a file?", a: "fgetc()" },
+            { q: "Can we open multiple files simultaneously?", a: "Yes." },
+            { q: "What does fseek() function do?", a: "Moves the file's read/write pointer." },
+            { q: "What is the return type of fopen()?", a: "FILE*" }
+        ];
+
+        const quizQuestions = [
+            {
+                q: "What is the output of: `if(0) printf(\"True\"); else printf(\"False\");`?",
+                options: ["True", "False", "Compilation Error", "Runtime Error"],
+                correct: 1
+            },
+            {
+                q: "What is the proper syntax to declare a one-dimensional integer array of size 10?",
+                options: ["int arr[10];", "array int arr[10];", "int[10] arr;", "arr = int[10];"],
+                correct: 0
+            },
+            {
+                q: "Which of the following functions is used to release dynamically allocated memory?",
+                options: ["delete()", "clear()", "free()", "remove()"],
+                correct: 2
+            },
+            {
+                q: "If `ptr` is an integer pointer pointing to address 1000, and `sizeof(int)` is 4, what is the address after `ptr++`?",
+                options: ["1001", "1002", "1004", "Runtime Error"],
+                correct: 2
+            },
+            {
+                q: "What mode does NOT overwrite the contents if a file already exists?",
+                options: ["\"w\"", "\"w+\"", "\"a\"", "None of the above"],
+                correct: 2
+            },
+            {
+                q: "Which bitwise operator performs the XOR operation?",
+                options: ["&", "|", "~", "^"],
+                correct: 3
+            },
+            {
+                q: "What is the default return type of a function if none is specified?",
+                options: ["void", "int", "float", "char"],
+                correct: 1
+            },
+            {
+                q: "Which of the following is NOT a C keyword?",
+                options: ["switch", "break", "auto", "function"],
+                correct: 3
+            }
+        ];
+
+        // --- View Logic ---
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById('view-' + viewId).classList.add('active');
+            const btn = document.querySelector(`button[onclick*="'${viewId}'"]`);
+            if (btn) btn.classList.add('active');
+
+            if (viewId === 'quiz') restartQuiz();
+            if (viewId === 'flashcards') updateCard();
+        }
+
+        // --- Flashcard Logic ---
+        let currentCardIndex = 0;
+        function updateCard() {
+            const card = flashcards[currentCardIndex];
+            document.getElementById('front-text').innerText = card.q;
+            document.getElementById('back-text').innerText = card.a;
+            document.getElementById('card-index').innerText = `${currentCardIndex + 1} / ${flashcards.length}`;
+            document.getElementById('current-card').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            document.getElementById('current-card').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            updateCard();
+            event.stopPropagation();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + flashcards.length) % flashcards.length;
+            updateCard();
+            event.stopPropagation();
+        }
+
+        // --- Quiz Logic ---
+        let currentQuizIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-main').style.display = 'block';
+            document.getElementById('quiz-results').style.display = 'none';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-question').innerHTML = q.q;
+            const optionsHtml = q.options.map((opt, i) => `
+                <button class="option-btn" onclick="checkAnswer(${i})">
+                    <span style="opacity: 0.5; font-size: 0.8rem; font-family:'Fira Code', monospace;">[${String.fromCharCode(65 + i)}]</span>
+                    ${opt}
+                </button>
+            `).join('');
+            document.getElementById('quiz-options').innerHTML = optionsHtml;
+
+            const progress = ((currentQuizIndex) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = progress + '%';
+        }
+
+        function checkAnswer(index) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const btns = document.querySelectorAll('.option-btn');
+
+            if (index === q.correct) {
+                btns[index].classList.add('correct');
+                score++;
+            } else {
+                btns[index].classList.add('wrong');
+                btns[q.correct].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                currentQuizIndex++;
+                if (currentQuizIndex < quizQuestions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1800);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-main').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            document.getElementById('quiz-score').innerText = `${score} / ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-bar').style.width = '100%';
+
+            let feedback = "No memory leaks detected! Excellent job.";
+            if (score === quizQuestions.length) feedback = "0 Errors, 0 Warnings. Perfect Compiler Run!";
+            else if (score >= quizQuestions.length * 0.7) feedback = "Solid logic! Just a few bugs to fix.";
+            else feedback = "Segmentation fault. Review the Theory Boards and debug!";
+
+            document.getElementById('quiz-feedback').innerText = feedback;
+        }
+
+        // Initialize state
+        window.onload = () => {
+            updateCard();
+        };
+    </script>
+</body>
+
+</html>
