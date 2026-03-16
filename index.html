@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MG Study Portal | Sayak</title>
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💜</text></svg>">
     <!-- Modern Typography -->
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap"
@@ -45,18 +48,20 @@
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
+            width: 100%;
         }
 
         header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 3.5rem);
             font-weight: 800;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
             letter-spacing: -2px;
@@ -66,6 +71,43 @@
             font-size: 1.1rem;
             color: var(--text-dim);
             font-weight: 300;
+        }
+
+        /* Search Bar */
+        .search-wrapper {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        #search-input:focus {
+            border-color: var(--violet);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            pointer-events: none;
         }
 
         /* Portal Grid */
@@ -149,7 +191,7 @@
         }
 
         #quote-text {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
             font-weight: 400;
             font-style: italic;
             margin-bottom: 1.5rem;
@@ -165,6 +207,106 @@
             letter-spacing: 1px;
             text-transform: uppercase;
             font-size: 0.8rem;
+        }
+
+        /* Telegram Nudge Styles */
+        .nudge-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .nudge-trigger {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nudge-trigger:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        .heart-emoji {
+            font-size: 1.5rem;
+        }
+
+        .nudge-bubble {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            width: 300px;
+            margin-bottom: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .nudge-bubble p {
+            color: #f1f5f9;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .nudge-bubble textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            padding: 12px;
+            margin: 10px 0;
+            resize: none;
+            height: 100px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .nudge-bubble textarea:focus {
+            border-color: var(--violet);
+        }
+
+        .nudge-bubble button {
+            width: 100%;
+            padding: 12px;
+            background: var(--violet);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nudge-bubble button:hover {
+            background: #6d28d9;
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Footer */
@@ -192,12 +334,21 @@
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+            .container {
+                padding: 2rem 1rem;
             }
 
             .portal-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .nudge-bubble {
+                width: 260px;
+                right: 0;
             }
         }
     </style>
@@ -211,8 +362,14 @@
             <p class="subtitle">Unified repository for CS, Gender Studies & Resources</p>
         </header>
 
-        <div class="portal-grid">
-            <a href="cs_study_hub.html" class="card">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Search for files or modules..." autocomplete="off">
+        </div>
+
+        <div class="portal-grid" id="portal-grid">
+            <a href="cs_study_hub.html" class="card" data-title="CS Exam Hub"
+                data-desc="The core platform with 12 modules, interactive quizzes, flashcards, and deep Q&A repository.">
                 <div>
                     <h3>CS Exam Hub</h3>
                     <p>The core platform with 12 modules, interactive quizzes, flashcards, and deep Q&A repository.</p>
@@ -220,7 +377,8 @@
                 <span class="file-tag">cs_study_hub.html</span>
             </a>
 
-            <a href="cs-suggestions.txt" class="card">
+            <a href="cs-suggestions.txt" class="card" data-title="Suggestion Bank"
+                data-desc="Raw pool of objective, short, and long answer questions for C & Data Structures.">
                 <div>
                     <h3>Suggestion Bank</h3>
                     <p>Raw pool of objective, short, and long answer questions for C & Data Structures.</p>
@@ -228,7 +386,8 @@
                 <span class="file-tag">cs-suggestions.txt</span>
             </a>
 
-            <a href="study_hub1.html" class="card">
+            <a href="study_hub1.html" class="card" data-title="Study Vault v1"
+                data-desc="Alternative dashboard for quick revision and resource planning.">
                 <div>
                     <h3>Study Vault v1</h3>
                     <p>Alternative dashboard for quick revision and resource planning.</p>
@@ -236,7 +395,8 @@
                 <span class="file-tag">study_hub1.html</span>
             </a>
 
-            <a href="Unit2.pdf" target="_blank" class="card">
+            <a href="Unit2.pdf" target="_blank" class="card" data-title="Module Resource: Unit 2"
+                data-desc="Direct PDF access for Control Statements & Core logic documentation.">
                 <div>
                     <h3>Module Resource: Unit 2</h3>
                     <p>Direct PDF access for Control Statements & Core logic documentation.</p>
@@ -244,7 +404,8 @@
                 <span class="file-tag">Unit2.pdf</span>
             </a>
 
-            <a href="unit 3.pdf" target="_blank" class="card">
+            <a href="unit 3.pdf" target="_blank" class="card" data-title="Module Resource: Unit 3"
+                data-desc="Direct PDF access for Arrays, Strings & Data structure foundations.">
                 <div>
                     <h3>Module Resource: Unit 3</h3>
                     <p>Direct PDF access for Arrays, Strings & Data structure foundations.</p>
@@ -252,7 +413,9 @@
                 <span class="file-tag">unit 3.pdf</span>
             </a>
 
-            <a href="Analysis of Gender Spheres, Labour, and Feminist Theory.pdf" target="_blank" class="card">
+            <a href="Analysis of Gender Spheres, Labour, and Feminist Theory.pdf" target="_blank" class="card"
+                data-title="Feminist Theory Analysis"
+                data-desc="Gender spheres, labour dynamics, and core theoretical research document.">
                 <div>
                     <h3>Feminist Theory Analysis</h3>
                     <p>Gender spheres, labour dynamics, and core theoretical research document.</p>
@@ -265,6 +428,19 @@
             <div id="quote-text">"The best thing to hold onto in life is each other."</div>
             <div id="quote-author">— Audrey Hepburn</div>
         </section>
+    </div>
+
+    <div class="nudge-container" id="nudge-container">
+        <div class="nudge-bubble" id="nudge-bubble">
+            <p>Do you need anything, mi amore? 💜</p>
+            <p style="font-size: 0.8rem; opacity: 0.7; font-weight: 300;">I'll get a Telegram text immediately, so tell
+                me without any hesitation.</p>
+            <textarea id="nudge-text" placeholder="Type your request here..."></textarea>
+            <button onclick="sendNudge()">Nudge Sayak</button>
+        </div>
+        <div class="nudge-trigger" onclick="toggleNudge()">
+            <span class="heart-emoji">💜</span>
+        </div>
     </div>
 
     <footer>
@@ -300,10 +476,58 @@
         updateQuote();
         setInterval(updateQuote, 5000);
 
+        // Search Logic
+        const searchInput = document.getElementById('search-input');
+        const cardsArr = Array.from(document.querySelectorAll('.card'));
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            cardsArr.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const desc = card.dataset.desc.toLowerCase();
+                if (title.includes(query) || desc.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Telegram Logic
+        const TEL_TOKEN = '8680527440:AAHqxbYSNr0ZGaUETKghtwDkG1xzfBfCM0c';
+        const CHAT_ID = '5665205629';
+
+        function toggleNudge() {
+            const bubble = document.getElementById('nudge-bubble');
+            const isVisible = bubble.style.display === 'block';
+            bubble.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function sendNudge() {
+            const text = document.getElementById('nudge-text').value.trim();
+            if (!text) return;
+
+            const message = `💜 Message from Your Portal (MG):\n\n"${text}"`;
+            const url = `https://api.telegram.org/bot${TEL_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+
+            fetch(url)
+                .then(res => {
+                    if (res.ok) {
+                        alert('Message sent to Sayak! He is on it 💜');
+                        document.getElementById('nudge-text').value = '';
+                        toggleNudge();
+                    } else {
+                        throw new Error();
+                    }
+                })
+                .catch(() => {
+                    alert('Small error sending, but Sayak still loves you! Try again.');
+                });
+        }
+
         // Simple entry animation
         document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
+            cardsArr.forEach((card, index) => {
                 card.style.opacity = 0;
                 card.style.transform = 'translateY(20px)';
                 setTimeout(() => {
