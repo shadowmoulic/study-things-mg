@@ -1316,170 +1316,325 @@
         const laqData = {
             "1": [
                 {
-                    q: "Define algorithm and flowchart. Explain any four characteristics of a good algorithm with suitable examples.",
-                    a: "<h4>Concepts</h4><p>An <b>algorithm</b> is a finite, step-by-step procedure to solve a problem. A <b>flowchart</b> is a graphical representation using standard symbols.</p><h4>Characteristics</h4><ul><li><b>Finiteness:</b> Must terminate after a finite steps.</li><li><b>Definiteness:</b> Each step must be clear and unambiguous.</li><li><b>Input/Output:</b> Must have 0+ inputs and 1+ clearly defined outputs.</li><li><b>Effectiveness:</b> Steps must be simple enough to be done by a human with pen and paper.</li></ul><h4>Example: Adding Two Numbers</h4><ol><li>Start</li><li>Input A, B</li><li>Sum = A + B</li><li>Display Sum</li><li>Stop</li></ol>"
+                    q: "Define algorithm and flowchart. Explain any four characteristics of a good algorithm with suitable examples from everyday problems.",
+                    a: "<h4>Algorithm vs Flowchart</h4>" +
+                        "<p>An <strong>Algorithm</strong> is a step-by-step logic plan. A <strong>Flowchart</strong> is the visual blueprint using standard symbols (Oval for Terminal, Parallelogram for I/O, Rectangle for Process, Diamond for Decision).</p>" +
+                        "<h4>4 Key Characteristics</h4>" +
+                        "<ul>" +
+                        "<li><strong>Finiteness:</strong> Must terminate after a limited number of steps (e.g., stopping the water once a cup is full).</li>" +
+                        "<li><strong>Definiteness:</strong> Each step is clear (e.g., 'Add 1 teaspoon', not 'Add some').</li>" +
+                        "<li><strong>Effectiveness:</strong> Steps must be feasible (e.g., basic math a human can do).</li><li><strong>Input/Output:</strong> Must take quantities and produce a result.</li>" +
+                        "</ul>" +
+                        "<h4>Algorithm Example: Adding Two Numbers</h4>" +
+                        "<ol><li>Start</li><li>Input A, B</li><li>Calculate Sum = A + B</li><li>Display Sum</li><li>Stop</li></ol>"
                 },
                 {
-                    q: "Write an algorithm and draw a flowchart to find the largest of three numbers entered by the user.",
-                    a: "<h4>Algorithm</h4><ol><li>Start</li><li>Read A, B, C</li><li>If A > B AND A > C, then Print A is largest.</li><li>Else If B > C, then Print B is largest.</li><li>Else, Print C is largest.</li><li>Stop</li></ol><h4>C Code</h4><pre><code>if (a > b && a > c) printf(\"%d\", a);\nelse if (b > c) printf(\"%d\", b);\nelse printf(\"%d\", c);</code></pre>"
-                },
-                {
-                    q: "Explain the role of sequence, selection, and iteration in algorithms with examples.",
-                    a: "<h4>Control Structures</h4><ul><li><b>Sequence:</b> Linear execution (e.g., Read -> Calc -> Print).</li><li><b>Selection:</b> Branching based on conditions (e.g., if-else).</li><li><b>Iteration:</b> Repeating steps (e.g., loops).</li></ul><h4>Example</h4><pre><code>// Sequence\nint x = 5;\n// Selection\nif(x > 0) x++;\n// Iteration\nwhile(x < 10) x++;</code></pre>"
+                    q: "Write an algorithm and draw a flowchart to find the largest of three numbers entered by the user. Clearly show all decision steps.",
+                    a: "<h4>Logic for Largest of Three</h4>" +
+                        "<ol><li>Start</li><li>Read A, B, C</li><li>If A > B AND A > C: Print A is largest</li>" +
+                        "<li>Else If B > C: Print B is largest</li><li>Else: Print C is largest</li><li>Stop</li></ol>" +
+                        "<h4>C Code Implementation</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\nint main() {\n    int a, b, c;\n    scanf(\"%d %d %d\", &a, &b, &c);\n    if (a >= b && a >= c) printf(\"A is largest\");\n    else if (b >= c) printf(\"B is largest\");\n    else printf(\"C is largest\");\n    return 0;\n}</code></pre>"
                 }
             ],
             "2": [
                 {
-                    q: "Explain the complete structure of a C program including preprocessor directives, main function, and comments.",
-                    a: "<h4>Structure</h4><ul><li><b>Preprocessor:</b> #include &lt;stdio.h&gt; loads headers.</li><li><b>Main Function:</b> int main() is the execution entry point.</li><li><b>Declarations:</b> Defining variables.</li><li><b>Statements:</b> Logic ending in ';'.</li><li><b>Comments:</b> // or /* */ for documentation.</li></ul><h4>Demo Program</h4><pre><code>#include &lt;stdio.h&gt;\nint main() {\n    printf(\"Hello World\");\n    return 0;\n}</code></pre>"
+                    q: "Explain the complete structure of a C program including preprocessor directives, main function, declarations, and statements with a program.",
+                    a: "<h4>C Program Architecture</h4>" +
+                        "<ul>" +
+                        "<li><strong>Preprocessor Directives:</strong> Lines like <code>#include</code> or <code>#define</code> that prepare code before the compiler starts.</li>" +
+                        "<li><strong>main():</strong> The mandatory entry point. Execution always begins here.</li>" +
+                        "<li><strong>Variable Declarations:</strong> Reserves memory blocks. Defined by type (e.g., <code>int count;</code>).</li>" +
+                        "<li><strong>Statements/Logic:</strong> The actual instructions, each ending with a semicolon (<code>;</code>).</li>" +
+                        "</ul>" +
+                        "<h4>Demonstration: Area of Circle</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\n#define PI 3.14159\n\nint main() {\n    float radius, area;\n    printf(\"Enter radius: \");\n    scanf(\"%f\", &radius);\n    area = PI * radius * radius;\n    printf(\"Area: %.2f\", area);\n    return 0;\n}</code></pre>"
                 },
                 {
-                    q: "Describe all types of constants available in C programming with detailed examples.",
-                    a: "<h4>Constant Types</h4><ul><li><b>Integer:</b> Decimal (10), Octal (012), Hex (0xA).</li><li><b>Real:</b> Fractional (3.14), Scientific (1.2e-3).</li><li><b>Character:</b> Single char ('A').</li><li><b>String:</b> Literal text (\"Hello\").</li><li><b>Backslash:</b> \\n, \\t, \\0.</li></ul>"
+                    q: "Describe all types of constants available in C: integer (dec, octal, hex), real, char, string, and escape sequences.",
+                    a: "<h4>Classification of Constants</h4>" +
+                        "<ul>" +
+                        "<li><strong>Integer:</strong> Decimal (15), Octal (starts with 0, e.g., 017), Hexadecimal (starts with 0x, e.g., 0x0F).</li>" +
+                        "<li><strong>Real/Floating:</strong> Fractional (3.14) or Exponential (1.5e-2).</li>" +
+                        "<li><strong>Character:</strong> Single character in single quotes (<code>'X'</code>). Smallest int type.</li>" +
+                        "<li><strong>String:</strong> Sequence of chars in double quotes (<code>\"Title\"</code>). Ends with <code>\\0</code>.</li>" +
+                        "<li><strong>Escape Sequences:</strong> <code>\\n</code> (New line), <code>\\t</code> (Horizontal Tab), <code>\\\\</code> (Backslash).</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Explain the rules and conventions for naming variables in C.",
-                    a: "<h4>Rules</h4><ol><li>Start with letter or underscore.</li><li>No spaces or special symbols (@, #).</li><li>Cannot be a keyword (int, for).</li><li>Case sensitive.</li><li>Max 31 chars significant.</li></ol><h4>Examples</h4><p>Valid: <code>_total</code>, <code>student_age</code><br>Invalid: <code>2way</code>, <code>int</code>, <code>my-val</code></p>"
+                    q: "Explain the rules and conventions for naming variables in C. Provide justifications and 10 examples.",
+                    a: "<h4>Naming Rules & Justifications</h4>" +
+                        "<ul>" +
+                        "<li><strong>Must start with Letter/Underscore:</strong> Digits at front cause parsing confusion with numeric literals.</li>" +
+                        "<li><strong>No Special Chars:</strong> Symbols like <code>@, #, $</code> are reserved for other compiler ops.</li>" +
+                        "<li><strong>Cannot be Keywords:</strong> <code>int, for, while</code> are reserved instructions.</li>" +
+                        "<li><strong>Case Sensitive:</strong> <code>Total</code> and <code>total</code> are different memory locations.</li>" +
+                        "</ul>" +
+                        "<h4>Justified Examples</h4>" +
+                        "<p>Valid: <code>_sum, count1, student_age</code><br>Invalid: <code>2way</code> (starts with digit), <code>my-val</code> (hyphen not allowed), <code>int</code> (keyword).</p>"
                 }
             ],
             "3": [
                 {
-                    q: "Explain in detail all categories of operators in C: arithmetic, relational, logical, and bitwise.",
-                    a: "<h4>Categories</h4><ul><li><b>Arithmetic:</b> +, -, *, /, %</li><li><b>Relational:</b> &lt;, &gt;, ==, !=</li><li><b>Logical:</b> &&, ||, !</li><li><b>Bitwise:</b> &, |, ^, ~, &lt;&lt;, &gt;&gt;</li><li><b>Assignment:</b> =, +=, *=</li></ul><h4>Example</h4><pre><code>int x = 5, y = 2;\nint mod = x % y; // 1\nint and = x & y; // Bitwise AND</code></pre>"
+                    q: "Explain in detail all categories of operators in C: arithmetic, relational, logical, bitwise, assignment, conditional, and sizeof.",
+                    a: "<h4>Operator Overview</h4>" +
+                        "<ul>" +
+                        "<li><strong>Arithmetic:</strong> <code>+, -, *, /, %</code> (modulo for remainder).</li>" +
+                        "<li><strong>Relational:</strong> <code>==, !=, >, <, >=, <=</code> (return 0 or 1).</li>" +
+                        "<li><strong>Logical:</strong> <code>&&</code> (and), <code>||</code> (or), <code>!</code> (not).</li>" +
+                        "<li><strong>Bitwise:</strong> <code>&, |, ^, ~, <<, >></code> (operate on binary bits).</li>" +
+                        "<li><strong>Ternary:</strong> <code>(cond) ? true_part : false_part;</code></li>" +
+                        "<li><strong>sizeof:</strong> Returns memory size of type in bytes.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Describe operator precedence and associativity rules in C.",
-                    a: "<h4>Overview</h4><p>Determines evaluation order. High precedence (Brackets, Postfix) runs first. Associativity (Left-to-Right or Right-to-Left) breaks ties.</p><h4>Table (Abbrev)</h4><ol><li>() [] -> .</li><li>++ -- ! (Unary)</li><li>* / %</li><li>+ -</li></ol><h4>Example</h4><p><code>10 + 5 * 2</code> = 20 (Multiplication first).</p>"
-                },
-                {
-                    q: "Explain bitwise operators and their practical applications like swapping without temp.",
-                    a: "<h4>Bitwise Operators</h4><ul><li><b>& (AND):</b> Bit mask.</li><li><b>^ (XOR):</b> Toggle bits / Swapping.</li><li><b>&lt;&lt; / &gt;&gt;:</b> Fast multiply/divide by 2.</li></ul><h4>Swap Algorithm</h4><pre><code>a = a ^ b;\nb = a ^ b;\na = a ^ b;</code></pre>"
+                    q: "Explain bitwise operators and their practical applications like swapping without temp variables and odd/even checking.",
+                    a: "<h4>Bitwise Logic & Use-cases</h4>" +
+                        "<ul>" +
+                        "<li><strong>Checking Odd/Even:</strong> <code>if (num & 1)</code> is much faster than modulo. If the last bit is 1, it's odd.</li>" +
+                        "<li><strong>Fast Multiply/Divide:</strong> <code>x << 1</code> doubles x; <code>x >> 1</code> halves x.</li>" +
+                        "<li><strong>Swapping:</strong> Using XOR (<code>^</code>) avoids using temporary RAM for swapping operations.</li>" +
+                        "</ul>" +
+                        "<h4>Code Example: XOR Swapping</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\nint main() {\n    int a = 5, b = 10;\n    a = a ^ b; b = a ^ b; a = a ^ b;\n    printf(\"Swapped: a=%d, b=%d\", a, b);\n    return 0;\n}</code></pre>"
                 }
             ],
             "4": [
                 {
-                    q: "Explain all basic data types in C including sizes and ranges.",
-                    a: "<h4>Data Types (Standard 32-bit)</h4><ul><li><b>char:</b> 1 byte (-128 to 127)</li><li><b>int:</b> 4 bytes (-2B to 2B)</li><li><b>float:</b> 4 bytes (6-7 decimal precision)</li><li><b>double:</b> 8 bytes (15 decimal precision)</li></ul><h4>Usage</h4><pre><code>char initial = 'S';\nfloat temp = 98.6f;</code></pre>"
+                    q: "Explain all data types available in C programming including basic, derived, and user-defined data types. Discuss their sizes, ranges, and usage scenarios with programs.",
+                    a: "<h4>Categories of Data Types</h4>" +
+                        "<ul>" +
+                        "<li><strong>Basic Types:</strong> The building blocks: <code>int</code> (whole numbers), <code>char</code> (symbols), <code>float</code>/<code>double</code> (precision decimals).</li>" +
+                        "<li><strong>Derived Types:</strong> Built from basic types: <code>Arrays</code> (collections), <code>Pointers</code> (addresses), <code>Functions</code> (behavior).</li>" +
+                        "<li><strong>User-Defined Types:</strong> Created by programmer: <code>struct</code> (mixed group), <code>union</code> (shared memory), <code>enum</code> (named constants), <code>typedef</code> (aliases).</li>" +
+                        "</ul>" +
+                        "<h4>Sizes & Ranges (Standard 32-bit Architecture)</h4>" +
+                        "<ul><li>char: 1 Byte (-128 to 127)</li><li>int: 4 Bytes (-2,147,483,648 to 2,147,483,647)</li><li>float: 4 Bytes (6 decimal precision)</li><li>double: 8 Bytes (15 decimal precision)</li></ul>" +
+                        "<h4>Code Example: Demonstration of Types</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\n\n// User-defined type\ntypedef struct { int id; float marks; } Student;\n\nint main() {\n    int a = 10;                // Basic\n    float b = 95.5;\n    int arr[3] = {1, 2, 3};    // Derived (Array)\n    Student s1 = {101, 88.5};  // User-defined (Struct)\n    \n    printf(\"Int size: %lu bytes\\n\", sizeof(a));\n    printf(\"Student Mark: %.1f\\n\", s1.marks);\n    return 0;\n}</code></pre>"
                 },
                 {
-                    q: "Describe in detail all I/O functions: formatted, character, and string.",
-                    a: "<h4>Functions</h4><ul><li><b>printf/scanf:</b> Formatted (%d, %s).</li><li><b>getchar/putchar:</b> Single char.</li><li><b>fgets/puts:</b> Safe string handling.</li></ul><h4>Code Snippet</h4><pre><code>char str[20];\nfgets(str, 20, stdin);\nputs(str);</code></pre>"
+                    q: "Describe in detail all input/output functions in C: formatted (printf, scanf), character (getchar, putchar), and string (gets, puts). Explain format specifiers with a comprehensive program.",
+                    a: "<h4>1. Formatted I/O</h4>" +
+                        "<p>Uses format specifiers like <code>%d</code> (int), <code>%f</code> (float), <code>%c</code> (char), <code>%s</code> (string), <code>%p</code> (pointer address).</p>" +
+                        "<h4>2. Character & String I/O</h4>" +
+                        "<ul>" +
+                        "<li><code>getchar()</code> / <code>putchar()</code>: Handle one character at a time. Efficient for raw streams.</li>" +
+                        "<li><code>gets()</code> / <code>puts()</code>: Handle strings. Note: Modern C prefers <code>fgets()</code> because <code>gets()</code> creates buffer overflow risks.</li>" +
+                        "</ul>" +
+                        "<h4>Comprehensive I/O Program</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\n\nint main() {\n    char ch, str[100];\n    int num;\n\n    printf(\"Enter a character: \");\n    ch = getchar();\n    \n    printf(\"Enter a number: \");\n    scanf(\"%d\", &num);\n    getchar(); // Clear newline\n\n    printf(\"Enter a sentence: \");\n    gets(str);\n\n    printf(\"\\n--- OUTPUT ---\\n\");\n    printf(\"Num: %d, Char: \", num);\n    putchar(ch);\n    printf(\"\\nString: \");\n    puts(str);\n    return 0;\n}</code></pre>"
                 },
                 {
-                    q: "Explain type conversion and type casting (Implicit vs Explicit).",
-                    a: "<h4>Concepts</h4><ul><li><b>Implicit:</b> Automatic promotion by compiler (e.g., int to float).</li><li><b>Explicit (Casting):</b> User forced via <code>(type)expression</code>.</li></ul><h4>Example</h4><pre><code>float ratio = (float)5 / 2; // Result: 2.5\n// Without casting, result is 2.0 (integer division)</code></pre>"
+                    q: "Explain type conversion and type casting in C. Differentiate between implicit and explicit. Discuss mixed-mode expressions with examples.",
+                    a: "<h4>Type Conversion Mechanisms</h4>" +
+                        "<ul>" +
+                        "<li><strong>Implicit (Coercion):</strong> Performed automatically by the compiler. Usually moves from smaller type to larger type (e.g., int to float) to prevent data loss. Rule: <code>char -> int -> float -> double</code>.</li>" +
+                        "<li><strong>Explicit (Casting):</strong> Forced by the programmer using <code>(type) expression</code>. Allows data narrowing (e.g., float to int) where precision is intentionally sacrificed.</li>" +
+                        "</ul>" +
+                        "<h4>Mixed-Mode Expressions</h4>" +
+                        "<p>In expressions like <code>5 + 2.0</code>, C promotes the integer 5 to a float automatically before performing the addition. The result is 7.0.</p>" +
+                        "<h4>10 Examples of Scenarios</h4>" +
+                        "<ol>" +
+                        "<li><code>(int)3.99</code> results in 3</li>" +
+                        "<li><code>5 / 2</code> results in 2 (integer div)</li>" +
+                        "<li><code>(float)5 / 2</code> results in 2.5</li>" +
+                        "<li><code>'A' + 1</code> results in 66 (int)</li>" +
+                        "<li><code>int x = 2.5;</code> (Implicitly x becomes 2)</li>" +
+                        "<li><code>double d = 5;</code> (Implicitly d becomes 5.0)</li>" +
+                        "<li><code>float f = (int)10.5 % 3;</code> (Result: 1.0)</li>" +
+                        "<li><code>(char)65</code> results in 'A'</li>" +
+                        "<li><code>5 + 2.5L</code> (int promotes to long double)</li>" +
+                        "<li><code>abs(-5.5) vs fabs(-5.5)</code> (Integer vs Float math)</li>" +
+                        "</ol>"
                 }
             ],
             "5": [
                 {
-                    q: "Explain all decision-making statements in C: if, if-else, nested if-else, if-else-if ladder, and switch.",
-                    a: "<h4>Branching Logic</h4><ul><li><b>if-else:</b> Simple binary choice.</li><li><b>if-else-if:</b> Multi-way decision ladder.</li><li><b>switch:</b> Multi-way choice based on constant integer/char values.</li></ul><h4>Switch Example</h4><pre><code>switch(day) {\n    case 1: puts(\"Mon\"); break;\n    case 2: puts(\"Tue\"); break;\n    default: puts(\"Other\");\n}</code></pre>"
+                    q: "Explain all decision-making statements in C: if, if-else, nested if-else, if-else-if ladder, and switch. Provide programs for each.",
+                    a: "<h4>Decision Structures</h4>" +
+                        "<ul>" +
+                        "<li><strong>if-else:</strong> Basic binary branching.</li>" +
+                        "<li><strong>if-else-if ladder:</strong> Multiple condition checks (e.g., grading system).</li>" +
+                        "<li><strong>switch:</strong> Multi-way branching based on discrete constant values. Much faster for many conditions.</li>" +
+                        "</ul>" +
+                        "<h4>Example: Grading System (Ladder)</h4>" +
+                        "<pre><code>if(m >= 90) printf(\"A\");\nelse if(m >= 80) printf(\"B\");\nelse printf(\"C\");</code></pre>"
                 },
                 {
-                    q: "Describe all loop control structures in C: while, do-while, and for loops.",
-                    a: "<h4>Iteration Control</h4><ul><li><b>for:</b> Entry-controlled. Best for known counts (Init; Cond; Upd).</li><li><b>while:</b> Entry-controlled. Checks condition before any action.</li><li><b>do-while:</b> Exit-controlled. Runs at least once.</li></ul><h4>Loop Demo</h4><pre><code>for(int i=0; i < 5; i++) printf(\"%d\", i);</code></pre>"
-                },
-                {
-                    q: "Explain loop control statements (break, continue, goto) in detail.",
-                    a: "<h4>Jump Statements</h4><ul><li><b>break:</b> Exits the innermost loop/switch immediately.</li><li><b>continue:</b> Stops the current iteration and jumps to the next one.</li><li><b>goto:</b> Jumps to a labeled part of the code (Use sparingly).</li></ul><h4>Example</h4><pre><code>for(int i=0; i<10; i++) {\n    if(i == 5) break; // Stops at 5\n    if(i % 2 == 0) continue; // Skips evens\n}</code></pre>"
+                    q: "Describe all loop control structures (while, do-while, for). Write programs for factorial, Fibonacci, and pattern printing.",
+                    a: "<h4>Iterative Logic</h4>" +
+                        "<ul>" +
+                        "<li><strong>for:</strong> Entry-controlled. Best for known counts.</li>" +
+                        "<li><strong>while:</strong> Entry-controlled. Checks condition first.</li>" +
+                        "<li><strong>do-while:</strong> Exit-controlled. Runs at least once.</li>" +
+                        "</ul>" +
+                        "<h4>Comprehensive Pattern Program</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\nint main() {\n    int i, j, n=5;\n    // Nested For Loop for Pattern\n    for(i=1; i<=n; i++) {\n        for(j=1; j<=i; j++) printf(\"* \");\n        printf(\"\\n\");\n    }\n    return 0;\n}</code></pre>"
                 }
             ],
             "6": [
                 {
-                    q: "Explain arrays in C in detail: declaration, initialization, and multidimensional representation.",
-                    a: "<h4>Concepts</h4><p>An array is a collection of elements of the same type stored in contiguous memory.</p><ul><li><b>1D Array:</b> <code>int arr[5];</code></li><li><b>2D Array (Matrix):</b> <code>int mat[2][3];</code></li></ul><h4>Matrix Sum snippet</h4><pre><code>for(int i=0; i<2; i++)\n    for(int j=0; j<3; j++)\n        sum += mat[i][j];</code></pre>"
+                    q: "Explain arrays in C in detail: declaration, initialization, and matrix operations (addition and multiplication).",
+                    a: "<h4>Matrix Math logic</h4>" +
+                        "<p>A 2D array <code>mat[r][c]</code> stores data in row-major order. To add two matrices, they must have identical dimensions.</p>" +
+                        "<h4>Code: Matrix Addition snippet</h4>" +
+                        "<pre><code>for(i=0; i&lt;r; i++)\n    for(j=0; j&lt;c; j++)\n        sum[i][j] = m1[i][j] + m2[i][j];</code></pre>"
                 },
                 {
-                    q: "Describe strings in C comprehensively and string manipulation functions.",
-                    a: "<h4>Strings</h4><p>Strings are null-terminated (<code>\\0</code>) character arrays.</p><h4>Functions (string.h)</h4><ul><li><b>strlen:</b> Length.</li><li><b>strcpy:</b> Copy.</li><li><b>strcat:</b> Concatenate.</li><li><b>strcmp:</b> Comparison (0 if equal).</li></ul><h4>Example</h4><pre><code>char s1[10] = \"Hi\";\nchar s2[10];\nstrcpy(s2, s1);</code></pre>"
-                },
-                {
-                    q: "Explain passing arrays to functions in detail.",
-                    a: "<h4>Mechanisms</h4><p>Arrays are always passed by <b>address</b> (reference). Only the pointer to the first element is passed.</p><h4>Function Signature</h4><pre><code>void process(int arr[], int size) {\n    arr[0] = 10; // Changes original array\n}</code></pre>"
+                    q: "Describe strings in C comprehensively. Explain all string manipulation functions and a program for palindrome checking.",
+                    a: "<h4>String Management</h4>" +
+                        "<ul>" +
+                        "<li><code>strlen()</code>: length excluding \\0.</li><li><code>strcmp()</code>: 0 if equal.</li><li><code>strcat()</code>: join strings.</li>" +
+                        "</ul>" +
+                        "<h4>Palindrome Checker</h4>" +
+                        "<pre><code>#include &lt;stdio.h&gt;\n#include &lt;string.h&gt;\nint main() {\n    char s[20] = \"madam\", r[20];\n    strcpy(r, s); strrev(r);\n    if(strcmp(s, r) == 0) printf(\"Palindrome\");\n    else printf(\"Not\");\n    return 0;\n}</code></pre>"
                 }
             ],
             "7": [
                 {
-                    q: "Explain pointers in C comprehensively: declaration, operators (&, *), and arithmetic.",
-                    a: "<h4>Pointers</h4><p>A pointer stores the memory address of another variable.</p><ul><li><b>& (Address-of):</b> Returns variable's address.</li><li><b>* (Dereference):</b> Accesses value at that address.</li><li><b>Arithmetic:</b> ptr++ moves to the next memory block of that type.</li></ul><h4>Usage</h4><pre><code>int x = 10;\nint *p = &x;\n*p = 20; // x is now 20</code></pre>"
-                },
-                {
-                    q: "Describe the relationship between pointers and arrays in detail.",
-                    a: "<h4>Relationship</h4><p>The array name is a constant pointer to its first element. <code>arr[i]</code> is same as <code>*(arr + i)</code>.</p><h4>Example</h4><pre><code>int a[3] = {1, 2, 3};\nint *p = a;\nprintf(\"%d\", *(p+1)); // Prints 2</code></pre>"
-                },
-                {
-                    q: "Explain advanced pointer concepts: pointers to pointers and arrays of pointers.",
-                    a: "<h4>Advanced Usage</h4><ul><li><b>Pointer to Pointer:</b> <code>int **pp;</code> stores address of a pointer.</li><li><b>Array of Ptr:</b> <code>int *ptrArr[5];</code> useful for ragged arrays or string arrays.</li></ul><h4>Ragged String Example</h4><pre><code>char *names[] = {\"AI\", \"CS\", \"IT\"};</code></pre>"
+                    q: "Explain pointers in C comprehensively including pointer arithmetic, and the difference between Call by Value and Call by Reference.",
+                    a: "<h4>Pointers & Function Calls</h4>" +
+                        "<ul>" +
+                        "<li><strong>Call by Value:</strong> Function receives a copy. Changes don't affect original variables.</li>" +
+                        "<li><strong>Call by Reference:</strong> Function receives memory addresses. Changes <em>permanently</em> affect original data.</li>" +
+                        "</ul>" +
+                        "<h4>Call by Reference (Swapping)</h4>" +
+                        "<pre><code>void swap(int *x, int *y) {\n    int t = *x; *x = *y; *y = t;\n}\nint main() {\n    int a=1, b=2;\n    swap(&a, &b);\n    printf(\"%d %d\", a, b); // Prints 2 1\n}</code></pre>"
                 }
             ],
             "8": [
                 {
-                    q: "Explain structures in C: definition, nested structures, and member access.",
-                    a: "<h4>Structures</h4><p>Grouping different data types under one name.</p><h4>Syntax</h4><pre><code>struct Student {\n    char name[20];\n    struct { int day, month; } dob;\n};</code></pre>"
+                    q: "Describe arrays of structures and pointers to structures comprehensively (dot vs arrow operator).",
+                    a: "<h4>Advanced Structs</h4>" +
+                        "<ul>" +
+                        "<li><strong>Array of structures:</strong> <code>struct Student s[60];</code> (Managing a whole classroom).</li>" +
+                        "<li><strong>Struct Pointers:</strong> Used to pass structures efficiently to functions without copying large data blocks.</li>" +
+                        "</ul>" +
+                        "<h4>Accessing Members</h4>" +
+                        "<p><code>s1.marks</code> (Value based) vs <code>ptr->marks</code> (Pointer based).</p>"
                 },
                 {
-                    q: "Describe arrays of structures and pointers to structures (arrow operator).",
-                    a: "<h4>Collections</h4><ul><li><b>Array of struct:</b> <code>struct Book b[10];</code></li><li><b>Pointer to struct:</b> <code>struct Book *ptr = &b[0];</code></li></ul><h4>Accessing</h4><p>Use <code>.</code> for normal struct and <code>-></code> for pointers.</p><pre><code>ptr->price = 500.0;</code></pre>"
-                },
-                {
-                    q: "Explain unions in C and compare them with structures.",
-                    a: "<h4>Comparison</h4><ul><li><b>Struct:</b> Every member has its own memory.</li><li><b>Union:</b> All members share the same starting memory location. Only one member can be used at a time.</li></ul><h4>Memory Example</h4><pre><code>union Temp { int i; float f; };\n// Sizeof Temp is the max of i and f.</code></pre>"
+                    q: "Explain unions in C and compare them with structures in terms of memory allocation and practical applications.",
+                    a: "<h4>Struct vs Union</h4>" +
+                        "<ul>" +
+                        "<li><strong>Structure:</strong> Size = Sum of member sizes. All members can be used at once.</li>" +
+                        "<li><strong>Union:</strong> Size = Size of the largest member. Memory is shared; only one member can be used at a time.</li>" +
+                        "</ul>" +
+                        "<h4>Memory Usage Demo</h4>" +
+                        "<pre><code>struct S { int a; char b; }; // Size 5 or 8 (padding)\nunion U { int a; char b; };  // Size 4 (int)</code></pre>"
                 }
             ],
             "9": [
                 {
-                    q: "Explain functions in C comprehensively: definition, declaration, calling, and return values.",
-                    a: "<h4>Functions Basics</h4><ul><li><b>Declaration:</b> <code>int add(int, int);</code></li><li><b>Definition:</b> The actual code block.</li><li><b>Call:</b> Invoking by name.</li><li><b>Return:</b> Sending a value back to caller.</li></ul><h4>Simple Function</h4><pre><code>int square(int n) { return n * n; }</code></pre>"
+                    q: "Explain functions in C comprehensively: definition, declaration, calling, and return values with a program.",
+                    a: "<h4>Function Fundamentals</h4>" +
+                        "<ul>" +
+                        "<li><strong>Declaration (Prototype):</strong> <code>return_type function_name(parameter_list);</code></li>" +
+                        "<li><strong>Definition:</strong> The actual body of the function where logic resides.</li>" +
+                        "<li><strong>Call:</strong> Passing control to the function.</li>" +
+                        "</ul>" +
+                        "<h4>Example: Standard Function</h4>" +
+                        "<pre><code>int add(int a, int b) { return a + b; }\n\nint main() {\n    printf(\"%d\", add(5, 10));\n    return 0;\n}</code></pre>"
                 },
                 {
-                    q: "Describe parameter passing mechanisms: call by value and call by reference.",
-                    a: "<h4>Mechanisms</h4><ul><li><b>Call by Value:</b> A photocopy is passed. Original stays safe.</li><li><b>Call by Reference:</b> Address is passed via pointers. Original can be changed.</li></ul><h4>Swap Example (Reference)</h4><pre><code>void swap(int *a, int *b) {\n    int t = *a; *a = *b; *b = t;\n}</code></pre>"
+                    q: "Describe parameter passing mechanisms in C: call by value and call by reference. Explain with examples.",
+                    a: "<h4>Passing Mechanisms</h4>" +
+                        "<ul>" +
+                        "<li><strong>Call by Value:</strong> Copy is passed. Original variables are safe. Default for basic types.</li>" +
+                        "<li><strong>Call by Reference:</strong> Address is passed using pointers. Direct modification of original values.</li>" +
+                        "</ul>" +
+                        "<h4>Swap Logic comparison</h4>" +
+                        "<p>Value: <code>swap(a, b)</code> - fail.<br>Reference: <code>swap(&a, &b)</code> with <code>void swap(int *x, int *y)</code> - success.</p>"
                 },
                 {
-                    q: "Explain recursion in detail: concept, base case, and applications like Factorial.",
-                    a: "<h4>Recursion</h4><p>A function calling itself. Must have a <b>Base Case</b> to prevent infinite loops.</p><h4>Factorial Code</h4><pre><code>int fact(int n) {\n    if(n <= 1) return 1; // Base case\n    return n * fact(n-1); // Recursive case\n}</code></pre>"
+                    q: "Explain recursion in detail: concept, base case, and recursive case. Provide a program for Factorial.",
+                    a: "<h4>Recursion Architecture</h4>" +
+                        "<p>A function calls itself. To avoid infinite loops, a <strong>Base Case</strong> is required.</p>" +
+                        "<h4>Factorial Program</h4>" +
+                        "<pre><code>int fact(int n) {\n    if(n <= 1) return 1; // Base case\n    return n * fact(n-1);\n}</code></pre>"
                 }
             ],
             "10": [
                 {
-                    q: "Explain all storage classes in C: auto, static, external, and register.",
-                    a: "<h4>Storage Classes</h4><ul><li><b>auto:</b> Default for local variables.</li><li><b>register:</b> Request storage in CPU registers.</li><li><b>static:</b> Retains value between function calls.</li><li><b>extern:</b> Shared across files.</li></ul><h4>Static Proof</h4><pre><code>void count() {\n    static int c = 0;\n    printf(\"%d\", ++c);\n}</code></pre>"
+                    q: "Explain all storage classes in C: auto, static, external, and register. Discuss scope, lifetime, and initial values.",
+                    a: "<h4>Storage Classes</h4>" +
+                        "<ul>" +
+                        "<li><strong>auto:</strong> Local to block, vanishes after block exit. Initial: Garbage.</li>" +
+                        "<li><strong>static:</strong> Persistent throughout program life. Initial: 0.</li>" +
+                        "<li><strong>extern:</strong> Global variables accessible across multiple files.</li>" +
+                        "<li><strong>register:</strong> Hints to compiler to use CPU registers for extreme speed.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Describe variable scope and visibility rules in C.",
-                    a: "<h4>Visibility Types</h4><ul><li><b>Local:</b> Inside a block/function.</li><li><b>Global:</b> Outside all functions.</li><li><b>Block:</b> Limited to control statements (if/loop).</li></ul>"
+                    q: "Describe variable scope and visibility rules in C: local, global, and block level scope.",
+                    a: "<h4>Visibility Levels</h4>" +
+                        "<ul>" +
+                        "<li><strong>Local:</strong> Defined inside <code>{}</code>. Visible only inside.</li>" +
+                        "<li><strong>Global:</strong> Defined outside all functions. Accessible by all.</li>" +
+                        "<li><strong>Shadowing:</strong> If local and global have the same name, local takes precedence in that block.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Explain static variables in depth: Memory, Lifetime, and default values.",
-                    a: "<h4>Static Deep-Dive</h4><ul><li><b>Memory:</b> Data segment (not stack).</li><li><b>Lifetime:</b> Entire program duration.</li><li><b>Default:</b> Automatically initialized to 0.</li></ul>"
+                    q: "Explain static variables in depth: difference between local and global static variables.",
+                    a: "<h4>Static Deep Dive</h4>" +
+                        "<ul>" +
+                        "<li><strong>Local Static:</strong> Persistent between function calls but invisible outside.</li>" +
+                        "<li><strong>Global Static:</strong> Invisible to other files (Internal Linkage).</li>" +
+                        "</ul>"
                 }
             ],
             "11": [
                 {
-                    q: "Explain dynamic memory allocation: malloc, calloc, realloc, and free.",
-                    a: "<h4>Library: stdlib.h</h4><ul><li><b>malloc:</b> Allocates bytes (garbage inside).</li><li><b>calloc:</b> Allocates and zeroes out memory.</li><li><b>realloc:</b> Resizes existing block.</li><li><b>free:</b> Releases memory to OS.</li></ul><h4>Usage</h4><pre><code>int *p = (int*)malloc(5 * sizeof(int));\nfree(p);</code></pre>"
+                    q: "Explain dynamic memory allocation in C: malloc, calloc, realloc, and free with syntax and examples.",
+                    a: "<h4>Memory Allocation Functions</h4>" +
+                        "<ul>" +
+                        "<li><code>malloc()</code>: Reserves N bytes. Contents are garbage.</li>" +
+                        "<li><code>calloc()</code>: Reserves N elements. Contents are zeroed.</li>" +
+                        "<li><code>realloc()</code>: Resizes previously allocated block.</li>" +
+                        "<li><code>free()</code>: Deallocates to prevent leaks.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Describe dynamic memory management: Heap vs Stack, and Memory Leaks.",
-                    a: "<h4>Memory Areas</h4><ul><li><b>Stack:</b> Automated, fixed, fast.</li><li><b>Heap:</b> Manual, flexible, slower.</li></ul><p><b>Memory Leak:</b> Occurs when you forget to call <code>free()</code> after allocating on the heap.</p>"
+                    q: "Describe dynamic memory management: differences between Heap and Stack memory.",
+                    a: "<h4>Memory Allocation Areas</h4>" +
+                        "<ul>" +
+                        "<li><strong>Stack:</strong> Automatic, LIFO structure, small size, very fast. Used for local variables.</li>" +
+                        "<li><strong>Heap:</strong> Manual (Dynamic), large size, slower. Used for data needed beyond function life.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Explain practical applications like dynamic structures and flexible arrays.",
-                    a: "<h4>Applications</h4><ul><li>Linked Lists, Trees, Graphs.</li><li>Buffers whose size is unknown until input.</li></ul>"
+                    q: "Explain practical applications of dynamic memory: flexible arrays and dynamic structures.",
+                    a: "<h4>Use Cases</h4>" +
+                        "<ul>" +
+                        "<li><strong>Linked Lists:</strong> Nodes are created on the fly as needed.</li>" +
+                        "<li><strong>Buffers:</strong> Resizing an input buffer to match the incoming data stream size.</li>" +
+                        "</ul>"
                 }
             ],
             "12": [
                 {
                     q: "Explain file management in C: modes (r, w, a) and text vs binary types.",
-                    a: "<h4>File Handling</h4><ul><li><b>\"r\":</b> Open for reading.</li><li><b>\"w\":</b> Open for writing (overwrites).</li><li><b>\"a\":</b> Open for appending.</li><li><b>Binary:</b> Add 'b' (e.g., \"wb\").</li></ul><h4>Opening Code</h4><pre><code>FILE *fp = fopen(\"data.txt\", \"r\");</code></pre>"
+                    a: "<h4>Opening Files</h4>" +
+                        "<ul>" +
+                        "<li><code>\"r\"</code>: Read. Error if nonexistent.</li>" +
+                        "<li><code>\"w\"</code>: Write (Overwrites). Creates if nonexistent.</li>" +
+                        "<li><code>\"a\"</code>: Append. Writes at the end.</li>" +
+                        "</ul>"
                 },
                 {
-                    q: "Describe file I/O operations: fgetc, fputc, fscanf, and fprintf.",
-                    a: "<h4>I/O Operations</h4><ul><li><b>fgetc/fputc:</b> Character I/O.</li><li><b>fscanf/fprintf:</b> Formatted I/O.</li></ul><h4>Write Example</h4><pre><code>fprintf(fp, \"ID: %d\", id);</code></pre>"
+                    q: "Describe file I/O operations: fgetc, fputc, fscanf, and fprintf with examples.",
+                    a: "<h4>I/O Utility</h4>" +
+                        "<p><code>fgetc()</code> and <code>fputc()</code> are for char-by-char. <code>fprintf()</code> and <code>fscanf()</code> handle formatted data (int, float, string).</p>"
                 },
                 {
-                    q: "Explain random access to files: fseek, ftell, and rewind.",
-                    a: "<h4>Positioning</h4><ul><li><b>fseek:</b> Move pointer to specific byte.</li><li><b>ftell:</b> Current byte position.</li><li><b>rewind:</b> Back to start.</li></ul><h4>File Size Check</h4><pre><code>fseek(fp, 0, SEEK_END);\nlong size = ftell(fp);</code></pre>"
+                    q: "Explain random access to files: fseek, ftell, and rewind functions with a program.",
+                    a: "<h4>Position Control</h4>" +
+                        "<ul>" +
+                        "<li><code>fseek(fp, offset, SEEK_SET)</code>: Moves to specific byte.</li>" +
+                        "<li><code>ftell(fp)</code>: Reports current position.</li>" +
+                        "<li><code>rewind(fp)</code>: Resets to start.</li>" +
+                        "</ul>"
                 }
             ]
         };
