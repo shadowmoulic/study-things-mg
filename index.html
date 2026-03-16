@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG Study Portal | Sayak</title>
+    <!-- Modern Typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b1e;
+            --violet: #7c3aed;
+            --blue: #3b82f6;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #f1f5f9;
+            --text-dim: #94a3b8;
+            --accent-gradient: linear-gradient(135deg, #7c3aed, #3b82f6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            flex-grow: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        /* Portal Grid */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--violet);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .card .file-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--blue);
+            margin-top: 1.5rem;
+            display: block;
+        }
+
+        .card::after {
+            content: '→';
+            position: absolute;
+            right: 2rem;
+            bottom: 2rem;
+            font-size: 1.5rem;
+            color: var(--violet);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s;
+        }
+
+        .card:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Quotes Section */
+        .quotes-slider {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            position: relative;
+        }
+
+        #quote-text {
+            font-size: 1.8rem;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            min-height: 80px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        #quote-author {
+            color: var(--violet);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .love-line {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .heart {
+            color: #ff4d4d;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .love-line:hover .heart {
+            transform: scale(1.4);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" id="main-content">
+        <header>
+            <h1>MG Study Central</h1>
+            <p class="subtitle">Unified repository for CS, Gender Studies & Resources</p>
+        </header>
+
+        <div class="portal-grid">
+            <a href="cs_study_hub.html" class="card">
+                <div>
+                    <h3>CS Exam Hub</h3>
+                    <p>The core platform with 12 modules, interactive quizzes, flashcards, and deep Q&A repository.</p>
+                </div>
+                <span class="file-tag">cs_study_hub.html</span>
+            </a>
+
+            <a href="cs-suggestions.txt" class="card">
+                <div>
+                    <h3>Suggestion Bank</h3>
+                    <p>Raw pool of objective, short, and long answer questions for C & Data Structures.</p>
+                </div>
+                <span class="file-tag">cs-suggestions.txt</span>
+            </a>
+
+            <a href="study_hub1.html" class="card">
+                <div>
+                    <h3>Study Vault v1</h3>
+                    <p>Alternative dashboard for quick revision and resource planning.</p>
+                </div>
+                <span class="file-tag">study_hub1.html</span>
+            </a>
+
+            <a href="Unit2.pdf" target="_blank" class="card">
+                <div>
+                    <h3>Module Resource: Unit 2</h3>
+                    <p>Direct PDF access for Control Statements & Core logic documentation.</p>
+                </div>
+                <span class="file-tag">Unit2.pdf</span>
+            </a>
+
+            <a href="unit 3.pdf" target="_blank" class="card">
+                <div>
+                    <h3>Module Resource: Unit 3</h3>
+                    <p>Direct PDF access for Arrays, Strings & Data structure foundations.</p>
+                </div>
+                <span class="file-tag">unit 3.pdf</span>
+            </a>
+
+            <a href="Analysis of Gender Spheres, Labour, and Feminist Theory.pdf" target="_blank" class="card">
+                <div>
+                    <h3>Feminist Theory Analysis</h3>
+                    <p>Gender spheres, labour dynamics, and core theoretical research document.</p>
+                </div>
+                <span class="file-tag">GS_Analysis.pdf</span>
+            </a>
+        </div>
+
+        <section class="quotes-slider">
+            <div id="quote-text">"The best thing to hold onto in life is each other."</div>
+            <div id="quote-author">— Audrey Hepburn</div>
+        </section>
+    </div>
+
+    <footer>
+        <p class="love-line">Made with <span class="heart">❤️</span> by Sayak for MG :)</p>
+    </footer>
+
+    <script>
+        const quotes = [
+            { text: "The best thing to hold onto in life is each other.", author: "Audrey Hepburn" },
+            { text: "In all the world, there is no heart for me like yours.", author: "Maya Angelou" },
+            { text: "Love is not about how many days, months, or years you have been together. Love is about how much you love each other every single day.", author: "Unknown" },
+            { text: "I realized I was thinking of you, and I began to wonder how long you'd been on my mind. Then it occurred to me: Since I met you.", author: "Unknown" },
+            { text: "You are my heart, my life, my one and only thought.", author: "Arthur Conan Doyle" },
+            { text: "Whatever our souls are made of, his and mine are the same.", author: "Emily Brontë" }
+        ];
+
+        let currentQuote = 0;
+        const quoteEl = document.getElementById('quote-text');
+        const authorEl = document.getElementById('quote-author');
+
+        function updateQuote() {
+            quoteEl.style.opacity = 0;
+
+            setTimeout(() => {
+                quoteEl.textContent = `"${quotes[currentQuote].text}"`;
+                authorEl.textContent = `— ${quotes[currentQuote].author}`;
+                quoteEl.style.opacity = 1;
+                currentQuote = (currentQuote + 1) % quotes.length;
+            }, 600);
+        }
+
+        // Initialize and rotate every 5 seconds
+        updateQuote();
+        setInterval(updateQuote, 5000);
+
+        // Simple entry animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+
+</html>
