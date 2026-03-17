@@ -1321,199 +1321,30 @@
 
         <!-- Suggestions for 17th March View -->
         <div id="view-suggestions" class="view">
-            <div class="suggestion-header">
-                <h2>🎯 Exam Prep: 17th March Suggestions</h2>
-                <p style="color: var(--text-muted);">Highly probable questions and core concepts to survive the exam.
-                </p>
+            <div class="suggestion-header" style="text-align: center; margin-bottom: 3rem;">
+                <h2
+                    style="font-size: 2.8rem; letter-spacing: -1px; margin-bottom: 0.5rem; background: linear-gradient(to right, #fca5a5, #818cf8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    🎯 17th March: Deep Prep Hub</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Deep-dive into core concepts, thorough
+                    explanations, and exam-ready code.</p>
             </div>
 
-            <!-- Survival Kit Section -->
-            <h3 style="margin-bottom: 1.5rem; color: #f87171; display: flex; align-items: center; gap: 10px;">
-                <span class="pulse" style="width: 12px; height: 12px; background: #f87171; border-radius: 50%;"></span>
-                💣 Survival Kit (Most Critical)
-            </h3>
-            <div class="survival-grid">
-                <div class="survival-card">
-                    <h4>Pointer Basics</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Arithmetic & null pointers are 100% coming.
-                    </p>
-                </div>
-                <div class="survival-card">
-                    <h4>Arrays Program</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Max/Min or Sorting basics.</p>
-                </div>
-                <div class="survival-card">
-                    <h4>Recursion</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">GCD or Factorial using recursion.</p>
-                </div>
-                <div class="survival-card">
-                    <h4>Memory Allocation</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Difference between malloc and calloc.</p>
-                </div>
-                <div class="survival-card">
-                    <h4>Loops</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Difference between break and continue.</p>
-                </div>
-                <div class="survival-card">
-                    <h4>Structures</h4>
-                    <p style="font-size: 0.85rem; color: var(--text-muted);">Definition and Array of Structures.</p>
-                </div>
+            <!-- Unit Selection Grid -->
+            <div id="prep-selector"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem;">
+                <!-- Buttons injected via JS -->
             </div>
 
-            <!-- Unit Wise Breakdown -->
-            <div class="unit-section">
-                <div class="unit-title"><span>🔹</span> UNIT 1: Basics of C</div>
-                <div class="prob-grid">
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Compiler vs Interpreter</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Also define Linker and Preprocessor.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Source vs Object Code</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">What is the difference and how it's
-                            generated?</p>
-                    </div>
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Operator Precedence</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Expected: 2–5 marks theory + 1 MCQ.</p>
-                    </div>
-                </div>
+            <!-- Content Area -->
+            <div id="prep-content-area"
+                style="min-height: 500px; background: rgba(30, 41, 59, 0.3); padding: 2.5rem; border-radius: 24px; border: 1px solid var(--border); transition: all 0.3s ease;">
+                <!-- Dynamic Content Loading -->
             </div>
 
-            <div class="unit-section">
-                <div class="unit-title"><span>🔹</span> UNIT 2: Branching & Looping</div>
-                <div class="prob-grid">
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Break vs Continue</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Most frequent theory question in Unit 2.
-                        </p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-code">Code</span>
-                        <h4>Standard Loop Programs</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Sum, Factorial, Reverse number, or
-                            Palindrome.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>The exit() function</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">What does it do and where is it defined?
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="unit-section">
-                <div class="unit-title"><span>🔹</span> UNIT 3: Arrays & Structures</div>
-                <div class="prob-grid">
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Array Properties</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Types of arrays and memory
-                            representation.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Structure Definition</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Define structure with clear example and
-                            syntax.</p>
-                    </div>
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Array vs Structure</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Compulsory 1 coding question expected
-                            here.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="unit-section">
-                <div class="unit-title"><span>⚠️</span> UNIT 4: Pointers (High Priority)</div>
-                <div class="prob-grid">
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Null Pointer & Arithmetic</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">What is a null pointer? Pointer math
-                            rules.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-code">Code</span>
-                        <h4>Arrays & Pointers</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">The relationship between them in memory.
-                        </p>
-                    </div>
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Output Questions</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Address-of (&) and Value-at (*) based
-                            traces.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="unit-section">
-                <div class="unit-title"><span>🔹</span> UNIT 5: Functions</div>
-                <div class="prob-grid">
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Call by Value vs Reference</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Classic comparison question.</p>
-                    </div>
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>Storage Classes</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Auto, Extern, Static, Register (4
-                            types).</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-code">Code</span>
-                        <h4>Recursive GCD/Factorial</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Learn both theory and logic.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="unit-section">
-                <div class="unit-title"><span>🔹</span> UNIT 6 & 7: Memory & Files</div>
-                <div class="prob-grid">
-                    <div class="prob-card high">
-                        <span class="tag tag-critical">Critical</span>
-                        <h4>malloc() vs calloc()</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Syntax and key differences.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>Dynamic vs Static</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Advantages over static memory.</p>
-                    </div>
-                    <div class="prob-card">
-                        <span class="tag tag-theory">Theory</span>
-                        <h4>File Types & Modes</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted);">Text vs Binary; fopen flags (r, w, a).
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Topics Checklist -->
-            <div class="board-card" style="margin-bottom: 3rem;">
-                <h3 style="color: var(--secondary);">📚 Quick Content Checklist</h3>
-                <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <li>Compiler, Preprocessor</li>
-                    <li>Operator Precedence</li>
-                    <li>Break, Continue, exit()</li>
-                    <li>Arrays & Structures</li>
-                    <li>Pointers & Arithmetic</li>
-                    <li>Storage Classes</li>
-                    <li>Recursion (GCD, Factorial)</li>
-                    <li>malloc / calloc</li>
-                    <li>File Handling (r/w/a)</li>
-                    <li>Call by Value/Ref</li>
-                </ul>
+            <!-- Pagination -->
+            <div id="prep-pagination"
+                style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 3rem; margin-bottom: 4rem;">
+                <!-- Pagination Buttons injected via JS -->
             </div>
         </div>
     </main>
@@ -2088,8 +1919,244 @@
             ]
         };
 
+        // --- Prep Hub Data ---
+        const prepData = {
+            "1": {
+                title: "UNIT 1: Basics of C",
+                concepts: [
+                    {
+                        name: "Compiler, Interpreter, Linker, Preprocessor",
+                        explanation: "<b>Preprocessing:</b> Lines like #include are handled first. <b>Compiler:</b> Translates C to assembly/object code. <b>Linker:</b> Joins object code with libraries to make .exe. <b>Interpreter:</b> Executes line-by-line (e.g. Python), but C is a Compiled language.",
+                        code: "// Preprocessing -> Compilation -> Linking -> Execution\n#include <stdio.h>\n// ^ This is preprocessing instruction",
+                        gfg: "https://www.geeksforgeeks.org/compilation-process-in-c/"
+                    },
+                    {
+                        name: "Source vs Object Code",
+                        explanation: "<b>Source Code:</b> Human-readable .c files. <b>Object Code:</b> Machine-readable .obj or .o binary files produced by the compiler.",
+                        code: "// hello.c (Source) -> compiler -> hello.obj (Object)",
+                        gfg: "https://www.geeksforgeeks.org/difference-between-source-code-and-object-code/"
+                    },
+                    {
+                        name: "Operator Precedence",
+                        explanation: "Decides which operator to evaluate first. Example: * has higher priority than +. <b>Associativity</b> decides direction (left-to-right or right-to-left) if priority is same.",
+                        code: "int res = 10 + 2 * 5; // 2*5 happens first. res = 20.\nint x = (10 + 2) * 5; // Parentheses () has highest priority. x = 60.",
+                        gfg: "https://www.geeksforgeeks.org/operator-precedence-and-associativity-in-c/"
+                    }
+                ]
+            },
+            "2": {
+                title: "UNIT 2: Branching & Looping",
+                concepts: [
+                    {
+                        name: "Break vs Continue vs exit()",
+                        explanation: "<b>break:</b> Jumps out of the entire loop. <b>continue:</b> Skips ONLY the current turn. <b>exit():</b> Kills the whole program immediately regardless of where it is.",
+                        code: "while(1) {\n    if(x == 0) break; // Exits loop\n    if(x == 1) continue; // Skips to next turn\n    if(x == 99) exit(0); // Closes software\n}",
+                        gfg: "https://www.geeksforgeeks.org/break-continue-and-goto-in-c/"
+                    },
+                    {
+                        name: "Classic Loop Programs",
+                        explanation: "Loops are essential for Factorial (n!), Palindrome (121 reversal), and Sum of digits.",
+                        code: "// Sum of Digits\nwhile(n > 0) {\n    sum += n % 10;\n    n /= 10;\n}",
+                        gfg: "https://www.geeksforgeeks.org/c-programming-examples/#loops"
+                    }
+                ]
+            },
+            "3": {
+                title: "UNIT 3: Arrays & Structures",
+                concepts: [
+                    {
+                        name: "Arrays: Types & Syntax",
+                        explanation: "Arrays store fixed-size sequential elements of SAME type. 1D is a list, 2D is a matrix.",
+                        code: "int arr[5] = {1, 2, 3, 4, 5};\nint matrix[2][2] = {{1,0}, {0,1}};",
+                        gfg: "https://www.geeksforgeeks.org/arrays-in-c-cpp/"
+                    },
+                    {
+                        name: "Structures (Self-Defined Types)",
+                        explanation: "<b>struct</b> allows you to group different types (int, string, float) together as one object. Unlike arrays, types can be different.",
+                        code: "struct Student {\n    int roll;\n    char name[20];\n    float marks;\n};\nstruct Student s1 = {101, \"Sayak\", 95.5};",
+                        gfg: "https://www.geeksforgeeks.org/structures-c/"
+                    },
+                    {
+                        name: "Array vs Structure",
+                        explanation: "1. Array: Homogeneous (Same types). 2. Structure: Heterogeneous (Mixed types). 3. Array elements accessed by index [i]. 4. Struct elements accessed by dot operator (.)",
+                        code: "arr[0] = 10; \ns1.roll = 101;",
+                        gfg: "https://www.geeksforgeeks.org/difference-between-structure-and-array-in-c/"
+                    }
+                ]
+            },
+            "4": {
+                title: "UNIT 4: Pointers (CORE)",
+                concepts: [
+                    {
+                        name: "Pointer Basics & Null Pointer",
+                        explanation: "A pointer stores memory addresses. <b>Null Pointer</b> points to address 0, meaning it's not pointing anywhere currently. Essential for safety.",
+                        code: "int a = 10;\nint *p = &a; // p points to address of a\nint *n = NULL; // Safety first!",
+                        gfg: "https://www.geeksforgeeks.org/c-pointers/"
+                    },
+                    {
+                        name: "Pointer Arithmetic & Indirect Op",
+                        explanation: "<b>Indirect Operation (Dereferencing):</b> Using *p to change 'a' from a distance. <b>Arithmetic:</b> adding 1 to a pointer moves it by 'size of type'.",
+                        code: "int arr[3] = {10, 20, 30};\nint *p = arr;\n// *p is 10, *(p+1) is 20.\n*p = 50; // a now becomes 50 via indirection",
+                        gfg: "https://www.geeksforgeeks.org/pointer-arithmetic-c-answers/"
+                    },
+                    {
+                        name: "Output Questions (Trace Example)",
+                        explanation: "Frequently asked: What is the output of *&i or &*p? *&i is simply i. &*p is simply p.",
+                        code: "int i = 5;\nprintf(\"%d\", *&i); // Output: 5\nprintf(\"%p\", &*p); // Output: memory address",
+                        gfg: "https://www.geeksforgeeks.org/output-of-c-programs-set-1-pointers/"
+                    }
+                ]
+            },
+            "5": {
+                title: "UNIT 5: Functions & Scope",
+                concepts: [
+                    {
+                        name: "Definition vs Prototype vs Header",
+                        explanation: "<b>Prototype:</b> Tells the compiler about return type and parameters at the start. <b>Header:</b> The very first line of the definition. <b>Definition:</b> The whole body of function.",
+                        code: "int gcd(int, int); // Prototype\n\nint gcd(int a, int b) { // Header\n    if (b == 0) return a; // Logic\n    return gcd(b, a % b);\n}",
+                        gfg: "https://www.geeksforgeeks.org/function-prototype-in-c/"
+                    },
+                    {
+                        name: "Call by Value vs Reference (CRITICAL)",
+                        explanation: "<b>Value:</b> Copies input (Safe). <b>Reference:</b> Passes pointer (Changes original). Use pointers in Reference to change values across functions.",
+                        code: "void swap(int *x, int *y) {\n    int temp = *x; *x = *y; *y = temp;\n} // Swap logic using pointers",
+                        gfg: "https://www.geeksforgeeks.org/difference-between-call-by-value-and-call-by-reference/"
+                    },
+                    {
+                        name: "Recursion (Factorial & GCD)",
+                        explanation: "A process where function calls itself. <b>Base Case</b> is mandatory to stop. <b>Recursive Case</b> breaks down problem.",
+                        code: "// Factorial Program\nint fact(int n) {\n    if(n <= 1) return 1; // Base Case\n    return n * fact(n-1);\n}",
+                        gfg: "https://www.geeksforgeeks.org/recursion-in-c/"
+                    },
+                    {
+                        name: "Storage Classes (4 Types + Static)",
+                        explanation: "<b>auto:</b> Local, exists in block. <b>extern:</b> Global, defined in other file. <b>static:</b> Lives until program ends (doesn't reset value). <b>register:</b> Request CPU storage.",
+                        code: "void test() {\n    static int x = 0; x++;\n    printf(\"%d \", x);\n} // Output: 1 2 3... (doesn't reset to 0)",
+                        gfg: "https://www.geeksforgeeks.org/storage-classes-in-c/"
+                    }
+                ]
+            },
+            "6": {
+                title: "UNIT 6: Dynamic Memory",
+                concepts: [
+                    {
+                        name: "malloc() vs calloc()",
+                        explanation: "<b>malloc:</b> Single block, garbage values. <b>calloc:</b> Multiple blocks, initializes to 0. <b>free:</b> Cleans up memory (Prevents Memory Leaks).",
+                        code: "int *p = (int*)malloc(5 * sizeof(int));\nfree(p); // CRITICAL STEP",
+                        gfg: "https://www.geeksforgeeks.org/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/"
+                    },
+                    {
+                        name: "Static vs Dynamic Memory",
+                        explanation: "<b>Static:</b> Allocated during compile (fixed size). <b>Dynamic:</b> Allocated during runtime (flexible size).",
+                        code: "// Dynamic is safer for unknown data sizes.",
+                        gfg: "https://www.geeksforgeeks.org/stack-vs-heap-memory-allocation/"
+                    }
+                ]
+            },
+            "7": {
+                title: "UNIT 7: File Handling",
+                concepts: [
+                    {
+                        name: "File Types & Operations",
+                        explanation: "Text (.txt) vs Binary (.bin). Major operations: <b>fopen</b> (open), <b>fclose</b> (close), <b>fprintf</b> (write), <b>fscanf</b> (read).",
+                        code: "FILE *f = fopen(\"data.txt\", \"r\");\nif(f == NULL) exit(1);",
+                        gfg: "https://www.geeksforgeeks.org/basics-file-handling-c/"
+                    }
+                ]
+            }
+        };
+
+        // --- Prep Hub Logic ---
+        let currentPrepBatch = 0;
+        let activePrepUnit = 4;
+        function renderPrepSelector() {
+            const selector = document.getElementById('prep-selector');
+            selector.innerHTML = "";
+            const keys = Object.keys(prepData).sort((a, b) => parseInt(a) - parseInt(b));
+            const start = currentPrepBatch * 4;
+            const end = start + 4;
+            const currentKeys = keys.slice(start, end);
+
+            currentKeys.forEach(key => {
+                const btn = document.createElement('button');
+                btn.className = "nav-btn";
+                if (key == activePrepUnit) btn.classList.add('active');
+                btn.style.flex = "1";
+                btn.innerText = prepData[key].title;
+                btn.onclick = () => {
+                    activePrepUnit = key;
+                    document.querySelectorAll('#prep-selector .nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadPrepUnit(key);
+                };
+                selector.appendChild(btn);
+            });
+
+            // Pagination
+            const pag = document.getElementById('prep-pagination');
+            pag.innerHTML = "";
+            if (currentPrepBatch > 0) {
+                pag.innerHTML += `<button class="nav-btn" onclick="movePrepBatch(-1)">← Previous 4</button>`;
+            }
+            if (end < keys.length) {
+                pag.innerHTML += `<button class="nav-btn" onclick="movePrepBatch(1)" style="border-color: #fca5a5; color: #fca5a5;">Next 4 Units →</button>`;
+            }
+        }
+
+        function movePrepBatch(dir) {
+            currentPrepBatch += dir;
+            // Load the first unit of the new batch automatically
+            const keys = Object.keys(prepData).sort((a, b) => parseInt(a) - parseInt(b));
+            const firstOfBatch = keys[currentPrepBatch * 4];
+            if (firstOfBatch) {
+                activePrepUnit = firstOfBatch;
+                loadPrepUnit(firstOfBatch);
+            }
+            renderPrepSelector();
+        }
+
+        function loadPrepUnit(unitId) {
+            const area = document.getElementById('prep-content-area');
+            const unit = prepData[unitId];
+            if (!unit) return;
+
+            let html = `<h3 style="color: var(--secondary); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 15px; font-size: 1.8rem;">${unit.title}</h3>`;
+
+            unit.concepts.forEach(c => {
+                html += `
+                    <div class="board-card" style="margin-bottom: 2.5rem; border-left: 5px solid var(--primary); background: rgba(15, 23, 42, 0.4);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                            <h4 style="color: var(--primary); font-size: 1.4rem;">${c.name}</h4>
+                            <a href="${c.gfg}" target="_blank" style="color: var(--secondary); text-decoration: none; font-size: 0.85rem; background: rgba(129, 140, 248, 0.1); padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(129, 140, 248, 0.3);">GFG Reference ↗</a>
+                        </div>
+                        <p style="line-height: 1.8; color: var(--text); margin-bottom: 1.5rem; font-size: 1.05rem;">${c.explanation}</p>
+                        <div style="background: #0f172a; padding: 1.5rem; border-radius: 12px; position: relative; border: 1px solid var(--border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);">
+                            <pre style="margin: 0;"><code style="font-family: 'Fira Code', monospace; color: #a78bfa; font-size: 0.95rem;">${c.code}</code></pre>
+                            <button class="copy-btn" onclick="copyPrepCode(this)" style="position: absolute; top: 10px; right: 10px; padding: 6px 12px; font-size: 0.75rem; background: var(--border); border: none; border-radius: 6px; color: var(--text); cursor: pointer;">Copy</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Add Survival Tips ONLY for last batch or specific trigger
+            if (unitId == "7") {
+                html += `
+                    <div style="margin-top: 4rem; padding: 2rem; border-radius: 24px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, transparent 100%); border: 1px dashed #ef4444;">
+                        <h3 style="color: #ef4444; margin-bottom: 1.5rem;">💣 100% PASS Survival Tips</h3>
+                        <ul style="color: var(--text-muted); line-height: 2;">
+                            <li>✅ Learn <b>Factorial</b> (Recursion) and <b>GCD</b> (Function) by heart.</li>
+                            <li>✅ Practice <b>Pointer Swap</b> and <b>Array Max/Min</b> programs.</li>
+                            <li>✅ memorize exactly: <b>malloc vs calloc</b> and <b>break vs continue</b>.</li>
+                            <li>✅ If you're stuck on a theory question, draw a SMALL syntax example.</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            area.innerHTML = html;
+        }
+
         // --- View Logic ---
-        let currentView = 'boards'; // Track current active view for search
+        let currentView = 'boards';
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -2098,11 +2165,15 @@
             const btn = document.querySelector(`button[onclick*="showView('${viewId}')"]`);
             if (btn) btn.classList.add('active');
 
-            currentView = viewId; // Update current view tracker
+            currentView = viewId;
 
             if (viewId === 'quiz') restartQuiz();
             if (viewId === 'flashcards') updateCard();
             if (viewId === 'laq') loadLaqModule();
+            if (viewId === 'suggestions') {
+                renderPrepSelector();
+                loadPrepUnit(activePrepUnit);
+            }
         }
 
         function loadLaqModule() {
