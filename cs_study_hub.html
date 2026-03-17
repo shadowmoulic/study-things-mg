@@ -629,6 +629,7 @@
             margin-bottom: 0.5rem;
             background: linear-gradient(to right, #f87171, #818cf8);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -1279,6 +1280,42 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+
+        <!-- Long Answers View -->
+        <div id="view-laq" class="view">
+            <div class="quiz-container" id="laq-ui">
+                <div id="laq-setup">
+                    <h3
+                        style="font-family: 'Fira Code', monospace; color: var(--secondary); margin-bottom: 1rem; font-size: 2rem;">
+                        Deep Dive Q&A Repository</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; line-height: 1.6;">
+                        Detailed explanations, step-by-step algorithms, and complete C code implementations for the most
+                        common Long Answer university questions.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <select id="laq-module-select"
+                            style="flex: 2; background: var(--code-bg); color: var(--text); border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; min-width: 250px;"
+                            onchange="loadLaqModule()">
+                            <option value="1">Module 1 (Algorithms & Flowcharts)</option>
+                            <option value="2">Module 2 (Intro to C)</option>
+                            <option value="3">Module 3 (Operators)</option>
+                            <option value="4">Module 4 (Data Types & I/O)</option>
+                            <option value="5">Module 5 (Control Statements)</option>
+                            <option value="6">Module 6 (Arrays & Strings)</option>
+                            <option value="7">Module 7 (Pointers)</option>
+                            <option value="8">Module 8 (Structures & Unions)</option>
+                            <option value="9">Module 9 (Functions & Recursion)</option>
+                            <option value="10">Module 10 (Storage Classes)</option>
+                            <option value="11">Module 11 (Dynamic Memory Alloc.)</option>
+                            <option value="12">Module 12 (File Management)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="laq-container" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                    <!-- Content injected via JS -->
+                </div>
             </div>
         </div>
 
