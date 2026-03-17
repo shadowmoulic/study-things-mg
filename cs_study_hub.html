@@ -613,6 +613,127 @@
             color: #000;
             box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
+
+        /* --- Suggestions View Styles --- */
+        .suggestion-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(248, 113, 113, 0.1) 0%, rgba(129, 140, 248, 0.1) 100%);
+            border-radius: 24px;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .suggestion-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #f87171, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .survival-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .survival-card {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .survival-card:hover {
+            transform: scale(1.05);
+            background: rgba(248, 113, 113, 0.2);
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
+        }
+
+        .survival-card h4 {
+            color: #fca5a5;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .unit-section {
+            margin-bottom: 4rem;
+        }
+
+        .unit-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .prob-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .prob-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .prob-card.high {
+            border-left-color: #f87171;
+            background: rgba(248, 113, 113, 0.05);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .tag-theory {
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--primary);
+        }
+
+        .tag-code {
+            background: rgba(45, 212, 191, 0.2);
+            color: var(--secondary);
+        }
+
+        .tag-critical {
+            background: rgba(248, 113, 113, 0.2);
+            color: #f87171;
+        }
+
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% {
+                box-shadow: 0 0 0 0px rgba(248, 113, 113, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 0 15px rgba(248, 113, 113, 0);
+            }
+        }
     </style>
 </head>
 
@@ -626,6 +747,8 @@
             <button class="nav-btn" onclick="showView('flashcards')">Flashcards</button>
             <button class="nav-btn" onclick="showView('quiz')">Self-Quiz</button>
             <button class="nav-btn" onclick="showView('laq')">Deep Q&A</button>
+            <button class="nav-btn" style="border-color: #f87171; color: #fca5a5;" onclick="showView('suggestions')">🔥
+                17th Prep</button>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -1159,39 +1282,201 @@
             </div>
         </div>
 
-        <!-- Long Answers View -->
-        <div id="view-laq" class="view">
-            <div class="quiz-container" id="laq-ui">
-                <div id="laq-setup">
-                    <h3
-                        style="font-family: 'Fira Code', monospace; color: var(--secondary); margin-bottom: 1rem; font-size: 2rem;">
-                        Deep Dive Q&A Repository</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; line-height: 1.6;">
-                        Detailed explanations, step-by-step algorithms, and complete C code implementations for the most
-                        common Long Answer university questions.</p>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                        <select id="laq-module-select"
-                            style="flex: 2; background: var(--code-bg); color: var(--text); border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; min-width: 250px;"
-                            onchange="loadLaqModule()">
-                            <option value="1">Module 1 (Algorithms & Flowcharts)</option>
-                            <option value="2">Module 2 (Intro to C)</option>
-                            <option value="3">Module 3 (Operators)</option>
-                            <option value="4">Module 4 (Data Types & I/O)</option>
-                            <option value="5">Module 5 (Control Statements)</option>
-                            <option value="6">Module 6 (Arrays & Strings)</option>
-                            <option value="7">Module 7 (Pointers)</option>
-                            <option value="8">Module 8 (Structures & Unions)</option>
-                            <option value="9">Module 9 (Functions & Recursion)</option>
-                            <option value="10">Module 10 (Storage Classes)</option>
-                            <option value="11">Module 11 (Dynamic Memory Alloc.)</option>
-                            <option value="12">Module 12 (File Management)</option>
-                        </select>
+        <!-- Suggestions for 17th March View -->
+        <div id="view-suggestions" class="view">
+            <div class="suggestion-header">
+                <h2>🎯 Exam Prep: 17th March Suggestions</h2>
+                <p style="color: var(--text-muted);">Highly probable questions and core concepts to survive the exam.
+                </p>
+            </div>
+
+            <!-- Survival Kit Section -->
+            <h3 style="margin-bottom: 1.5rem; color: #f87171; display: flex; align-items: center; gap: 10px;">
+                <span class="pulse" style="width: 12px; height: 12px; background: #f87171; border-radius: 50%;"></span>
+                💣 Survival Kit (Most Critical)
+            </h3>
+            <div class="survival-grid">
+                <div class="survival-card">
+                    <h4>Pointer Basics</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Arithmetic & null pointers are 100% coming.
+                    </p>
+                </div>
+                <div class="survival-card">
+                    <h4>Arrays Program</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Max/Min or Sorting basics.</p>
+                </div>
+                <div class="survival-card">
+                    <h4>Recursion</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">GCD or Factorial using recursion.</p>
+                </div>
+                <div class="survival-card">
+                    <h4>Memory Allocation</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Difference between malloc and calloc.</p>
+                </div>
+                <div class="survival-card">
+                    <h4>Loops</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Difference between break and continue.</p>
+                </div>
+                <div class="survival-card">
+                    <h4>Structures</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Definition and Array of Structures.</p>
+                </div>
+            </div>
+
+            <!-- Unit Wise Breakdown -->
+            <div class="unit-section">
+                <div class="unit-title"><span>🔹</span> UNIT 1: Basics of C</div>
+                <div class="prob-grid">
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Compiler vs Interpreter</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Also define Linker and Preprocessor.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Source vs Object Code</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">What is the difference and how it's
+                            generated?</p>
+                    </div>
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Operator Precedence</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Expected: 2–5 marks theory + 1 MCQ.</p>
                     </div>
                 </div>
+            </div>
 
-                <div id="laq-container" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
-                    <!-- Content injected via JS -->
+            <div class="unit-section">
+                <div class="unit-title"><span>🔹</span> UNIT 2: Branching & Looping</div>
+                <div class="prob-grid">
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Break vs Continue</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Most frequent theory question in Unit 2.
+                        </p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-code">Code</span>
+                        <h4>Standard Loop Programs</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Sum, Factorial, Reverse number, or
+                            Palindrome.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>The exit() function</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">What does it do and where is it defined?
+                        </p>
+                    </div>
                 </div>
+            </div>
+
+            <div class="unit-section">
+                <div class="unit-title"><span>🔹</span> UNIT 3: Arrays & Structures</div>
+                <div class="prob-grid">
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Array Properties</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Types of arrays and memory
+                            representation.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Structure Definition</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Define structure with clear example and
+                            syntax.</p>
+                    </div>
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Array vs Structure</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Compulsory 1 coding question expected
+                            here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unit-section">
+                <div class="unit-title"><span>⚠️</span> UNIT 4: Pointers (High Priority)</div>
+                <div class="prob-grid">
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Null Pointer & Arithmetic</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">What is a null pointer? Pointer math
+                            rules.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-code">Code</span>
+                        <h4>Arrays & Pointers</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">The relationship between them in memory.
+                        </p>
+                    </div>
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Output Questions</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Address-of (&) and Value-at (*) based
+                            traces.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unit-section">
+                <div class="unit-title"><span>🔹</span> UNIT 5: Functions</div>
+                <div class="prob-grid">
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Call by Value vs Reference</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Classic comparison question.</p>
+                    </div>
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>Storage Classes</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Auto, Extern, Static, Register (4
+                            types).</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-code">Code</span>
+                        <h4>Recursive GCD/Factorial</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Learn both theory and logic.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unit-section">
+                <div class="unit-title"><span>🔹</span> UNIT 6 & 7: Memory & Files</div>
+                <div class="prob-grid">
+                    <div class="prob-card high">
+                        <span class="tag tag-critical">Critical</span>
+                        <h4>malloc() vs calloc()</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Syntax and key differences.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>Dynamic vs Static</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Advantages over static memory.</p>
+                    </div>
+                    <div class="prob-card">
+                        <span class="tag tag-theory">Theory</span>
+                        <h4>File Types & Modes</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">Text vs Binary; fopen flags (r, w, a).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Topics Checklist -->
+            <div class="board-card" style="margin-bottom: 3rem;">
+                <h3 style="color: var(--secondary);">📚 Quick Content Checklist</h3>
+                <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <li>Compiler, Preprocessor</li>
+                    <li>Operator Precedence</li>
+                    <li>Break, Continue, exit()</li>
+                    <li>Arrays & Structures</li>
+                    <li>Pointers & Arithmetic</li>
+                    <li>Storage Classes</li>
+                    <li>Recursion (GCD, Factorial)</li>
+                    <li>malloc / calloc</li>
+                    <li>File Handling (r/w/a)</li>
+                    <li>Call by Value/Ref</li>
+                </ul>
             </div>
         </div>
     </main>
