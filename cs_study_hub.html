@@ -750,6 +750,8 @@
             <button class="nav-btn" onclick="showView('laq')">Deep Q&A</button>
             <button class="nav-btn" style="border-color: #f87171; color: #fca5a5;" onclick="showView('suggestions')">🔥
                 17th Prep</button>
+            <button class="nav-btn" style="border-color: #fbbf24; color: #fcd34d;" onclick="showView('readiness')">🚀
+                Readiness Check</button>
         </div>
         <div class="search-container">
             <span class="search-icon">🔍</span>
@@ -1345,6 +1347,90 @@
             <div id="prep-pagination"
                 style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 3rem; margin-bottom: 4rem;">
                 <!-- Pagination Buttons injected via JS -->
+            </div>
+        </div>
+
+        <!-- Readiness Check View -->
+        <div id="view-readiness" class="view">
+            <div class="suggestion-header" style="text-align: center; margin-bottom: 2rem;">
+                <h2
+                    style="font-size: 2.8rem; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                    🚀 Readiness & Success Audit</h2>
+                <p style="color: var(--text-muted); font-size: 1.1rem;">Check if you've mastered the critical "17th
+                    Prep" concepts. Total honesty = Accurate prediction.</p>
+            </div>
+
+            <div id="readiness-quiz-container"
+                style="max-width: 800px; margin: 0 auto; background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border); padding: 2.5rem; border-radius: 24px;">
+                <div id="readiness-quiz-start">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1.5rem;">📊</div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem; font-size: 1.8rem;">How Prepared Are You?
+                        </h3>
+                        <p style="margin-bottom: 2.5rem; color: var(--text-muted); line-height: 1.6;">We will evaluate
+                            your mastery of the exact units and suggestions shared. This audit determines your
+                            probability of hitting the 90%+ mark.</p>
+                        <button onclick="startReadinessQuiz()"
+                            style="background: #fbbf24; color: #000; border: none; padding: 1.4rem 3rem; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1.2rem; transition: all 0.3s; box-shadow: 0 4px 20px rgba(251, 191, 36, 0.3);"
+                            class="pulse">Start Ready State Audit</button>
+                    </div>
+                </div>
+
+                <div id="readiness-quiz-main" style="display: none;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span id="readiness-progress-text"
+                            style="color: #fbbf24; font-size: 0.9rem; font-family: 'Fira Code', monospace;">Progress:
+                            0%</span>
+                        <span id="readiness-unit-tag"
+                            style="background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; border: 1px solid rgba(251, 191, 36, 0.2);">UNIT
+                            0 Check</span>
+                    </div>
+                    <div id="readiness-progress-bar-container"
+                        style="height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 2.5rem;">
+                        <div id="readiness-progress-bar"
+                            style="width: 0%; height: 100%; background: #fbbf24; border-radius: 3px; transition: width 0.3s;">
+                        </div>
+                    </div>
+                    <div id="readiness-question-area" style="margin-bottom: 2rem;">
+                        <h4 id="readiness-q-text"
+                            style="font-size: 1.6rem; color: var(--text); line-height: 1.4; margin-bottom: 2rem;">
+                            Question text?</h4>
+                        <div id="readiness-options" style="display: grid; gap: 1rem;">
+                            <!-- Readiness Options injected via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="readiness-results" style="display: none; text-align: center; padding: 1rem;">
+                    <div id="readiness-gauge"
+                        style="font-size: 5rem; font-weight: 800; color: #fbbf24; margin-bottom: 0.5rem; text-shadow: 0 0 30px rgba(251, 191, 36, 0.2);">
+                        85%</div>
+                    <div
+                        style="color: var(--text-muted); margin-bottom: 2.5rem; font-size: 1.3rem; letter-spacing: 1px;">
+                        READINESS INDEX</div>
+                    <h3 id="readiness-feedback-title"
+                        style="color: var(--primary); margin-bottom: 1rem; font-size: 2rem;">Pass Confirmed!</h3>
+                    <p id="readiness-feedback-text"
+                        style="color: var(--text-muted); line-height: 1.8; margin-bottom: 3rem; font-size: 1.1rem;">
+                        Details of your performance...</p>
+
+                    <div id="readiness-crit-path"
+                        style="text-align: left; background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3); padding: 2rem; border-radius: 20px; margin-bottom: 3rem;">
+                        <h4
+                            style="color: #ef4444; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>⚠️</span> CRITICAL ACTION REQUIRED:
+                        </h4>
+                        <ul id="readiness-missing-list" style="color: var(--text); font-size: 1rem; line-height: 2;">
+                            <!-- Recommendations -->
+                        </ul>
+                    </div>
+                    <button onclick="startReadinessQuiz()"
+                        style="background: var(--border); color: var(--text); border: none; padding: 1rem 2.5rem; border-radius: 12px; cursor: pointer; font-size: 1rem; transition: background 0.2s;"
+                        onmouseover="this.style.background='var(--primary)'; this.style.color='#000'"
+                        onmouseout="this.style.background='var(--border)'; this.style.color='var(--text)'">Restart
+                        Readiness Scan</button>
+                </div>
             </div>
         </div>
     </main>
@@ -2209,6 +2295,12 @@
                 renderPrepSelector();
                 loadPrepUnit(activePrepUnit);
             }
+            if (viewId === 'readiness') {
+                // Initial state for readiness
+                document.getElementById('readiness-quiz-start').style.display = 'block';
+                document.getElementById('readiness-quiz-main').style.display = 'none';
+                document.getElementById('readiness-results').style.display = 'none';
+            }
         }
 
         function loadLaqModule() {
@@ -2427,6 +2519,134 @@
                     }
                 })
                 .catch(() => alert('Something went wrong, but Sayak still loves you!'));
+        }
+
+        // --- Readiness Audit Logic ---
+        const readinessQuestions = [
+            { id: 0, q: "Can you draw a flowchart with correct symbols for a Palindrome check?", unit: "UNIT 0 / 2", unitKey: "0", weight: 1.5 },
+            { id: 1, q: "Do you know the exact difference between Compiler, Preprocessor and Linker?", unit: "UNIT 1", unitKey: "1", weight: 1.0 },
+            { id: 2, q: "Can you write the Bubble Sort logic from scratch without looking?", unit: "UNIT 3", unitKey: "3", weight: 2.0 },
+            { id: 3, q: "Are you 100% clear on the difference between Structure and Union memory?", unit: "UNIT 3", unitKey: "3", weight: 1.2 },
+            { id: 4, q: "Can you explain Pointer Indirection (*p) and Address Trace (*&i)?", unit: "UNIT 4", unitKey: "4", weight: 2.5 },
+            { id: 5, q: "Do you remember the 4 Storage Classes (auto, extern, static, register)?", unit: "UNIT 5", unitKey: "5", weight: 1.5 },
+            { id: 6, q: "Can you write a Recursive function for Factorial or GCD?", unit: "UNIT 5", unitKey: "5", weight: 2.0 },
+            { id: 7, q: "Do you know the difference between malloc() and calloc() initialization?", unit: "UNIT 6", unitKey: "6", weight: 1.5 },
+            { id: 8, q: "Can you list the common File Modes (r, w, a) and their effects?", unit: "UNIT 7", unitKey: "7", weight: 1.0 }
+        ];
+
+        let currentReadinessIdx = 0;
+        let readinessScore = 0;
+        let weakUnitsArr = [];
+
+        function goToPrepUnit(unitId) {
+            const idInt = parseInt(unitId);
+            currentPrepBatch = Math.floor(idInt / 4);
+            activePrepUnit = unitId;
+            showView('suggestions');
+            renderPrepSelector();
+            loadPrepUnit(unitId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startReadinessQuiz() {
+            currentReadinessIdx = 0;
+            readinessScore = 0;
+            weakUnitsArr = [];
+            document.getElementById('readiness-quiz-start').style.display = 'none';
+            document.getElementById('readiness-quiz-main').style.display = 'block';
+            document.getElementById('readiness-results').style.display = 'none';
+            renderReadinessQuestion();
+        }
+
+        function renderReadinessQuestion() {
+            const q = readinessQuestions[currentReadinessIdx];
+            document.getElementById('readiness-q-text').innerText = q.q;
+            document.getElementById('readiness-unit-tag').innerText = q.unit + " Check";
+
+            const progress = (currentReadinessIdx / readinessQuestions.length) * 100;
+            document.getElementById('readiness-progress-bar').style.width = progress + '%';
+            document.getElementById('readiness-progress-text').innerText = `Progress: ${Math.round(progress)}%`;
+
+            const options = [
+                { text: "🚀 Mastered: Can write/explain it now", points: 1.0 },
+                { text: "✅ Confident: Know the logic, need minor review", points: 0.7 },
+                { text: "⚠️ Shaky: Know it exists, but might struggle", points: 0.3 },
+                { text: "❌ Clueless: Have not touched this yet", points: 0.0 }
+            ];
+
+            const optionsHtml = options.map(opt => `
+                <button class="nav-btn" style="text-align: left; padding: 1.2rem; margin:0;" onclick="handleReadinessAnswer(${opt.points})">
+                    ${opt.text}
+                </button>
+            `).join('');
+            document.getElementById('readiness-options').innerHTML = optionsHtml;
+        }
+
+        function handleReadinessAnswer(points) {
+            const q = readinessQuestions[currentReadinessIdx];
+            readinessScore += (points * q.weight);
+
+            if (points < 0.7) {
+                if (!weakUnitsArr.some(u => u.id === q.unitKey)) {
+                    weakUnitsArr.push({ id: q.unitKey, label: q.unit });
+                }
+            }
+
+            currentReadinessIdx++;
+            if (currentReadinessIdx < readinessQuestions.length) {
+                renderReadinessQuestion();
+            } else {
+                showReadinessResults();
+            }
+        }
+
+        function showReadinessResults() {
+            document.getElementById('readiness-quiz-main').style.display = 'none';
+            document.getElementById('readiness-results').style.display = 'block';
+
+            const maxScore = readinessQuestions.reduce((acc, q) => acc + q.weight, 0);
+            const percentage = Math.round((readinessScore / maxScore) * 100);
+
+            const gauge = document.getElementById('readiness-gauge');
+            gauge.innerText = percentage + "%";
+
+            let title = "";
+            let feedback = "";
+
+            if (percentage >= 90) {
+                title = "🔥 EXAM CRUSHER DETECTED!";
+                feedback = "Your preparation is legendary. You've mastered the critical paths. Just stay calm and double-check your semicolons tomorrow!";
+                gauge.style.color = "#10b981";
+            } else if (percentage >= 70) {
+                title = "✅ SOLID PREPARATION";
+                feedback = "You are in the safe zone. A high-first class is likely. Tighten up the 'Shaky' units tonight to push for that 90+ bracket.";
+                gauge.style.color = "#818cf8";
+            } else if (percentage >= 45) {
+                title = "⚠️ CRUCIAL HOURS REMAIN";
+                feedback = "You have the basics, but the complex modules (Pointers/Sorting) are dragging you down. Focus 100% on the 'Critical Path' below.";
+                gauge.style.color = "#fbbf24";
+            } else {
+                title = "🚨 EMERGENCY PROTOCOL";
+                feedback = "Preparation is critically low. Stop everything and Mug up the 'Survival Tips' in Unit 7 and the code blocks in Unit 3/4 immediately.";
+                gauge.style.color = "#ef4444";
+            }
+
+            document.getElementById('readiness-feedback-title').innerText = title;
+            document.getElementById('readiness-feedback-text').innerText = feedback;
+
+            const list = document.getElementById('readiness-missing-list');
+            if (weakUnitsArr.length > 0) {
+                document.getElementById('readiness-crit-path').style.display = 'block';
+                list.innerHTML = weakUnitsArr.map(u => `
+                    <li style="margin-bottom: 0.8rem;">
+                        Go back and RE-READ 
+                        <a href="javascript:void(0)" onclick="goToPrepUnit('${u.id}')" style="color: #fbbf24; text-decoration: underline; font-weight: bold;">
+                            ${u.label}
+                        </a> in the 17th Prep Hub.
+                    </li>`).join('');
+            } else {
+                document.getElementById('readiness-crit-path').style.display = 'none';
+            }
         }
 
         // Search Logic for Deep Q&A
