@@ -1921,6 +1921,23 @@
 
         // --- Prep Hub Data ---
         const prepData = {
+            "0": {
+                title: "UNIT 0: Algorithms & Logic",
+                concepts: [
+                    {
+                        name: "Algorithm Rules & Pseudo-code",
+                        explanation: "An <b>Algorithm</b> is a step-by-step procedure to solve a problem. It must be: 1. Finite (must end), 2. Definite (each step is clear), 3. Effective. <b>Pseudo-code</b> is a human-readable way to write logic before coding.",
+                        code: "// Algorithm to find Max of 2 numbers\nStep 1: Start\nStep 2: Input A, B\nStep 3: If A > B then Print A else Print B\nStep 4: Stop",
+                        gfg: "https://www.geeksforgeeks.org/introduction-to-algorithms/"
+                    },
+                    {
+                        name: "Flowchart Symbols",
+                        explanation: "<b>Oval:</b> Start/End. <b>Parallelogram:</b> Input/Output. <b>Rectangle:</b> Processing. <b>Diamond:</b> Decision/Condition. <b>Arrows:</b> Flow direction.",
+                        code: "// Visual flow representation (Diamond for 'is n > 0?')",
+                        gfg: "https://www.geeksforgeeks.org/c-program-plot-flowchart-of-any-given-code/"
+                    }
+                ]
+            },
             "1": {
                 title: "UNIT 1: Basics of C",
                 concepts: [
@@ -1954,33 +1971,39 @@
                         gfg: "https://www.geeksforgeeks.org/break-continue-and-goto-in-c/"
                     },
                     {
-                        name: "Classic Loop Programs",
-                        explanation: "Loops are essential for Factorial (n!), Palindrome (121 reversal), and Sum of digits.",
-                        code: "// Sum of Digits\nwhile(n > 0) {\n    sum += n % 10;\n    n /= 10;\n}",
-                        gfg: "https://www.geeksforgeeks.org/c-programming-examples/#loops"
+                        name: "Palindrome / Reverse Program",
+                        explanation: "The logic involves extracting digits using %10 and building the reverse number.",
+                        code: "// Reverse a number\nwhile(n != 0) {\n    rem = n % 10;\n    rev = rev * 10 + rem;\n    n /= 10;\n}",
+                        gfg: "https://www.geeksforgeeks.org/c-program-to-reverse-numbers/"
                     }
                 ]
             },
             "3": {
-                title: "UNIT 3: Arrays & Structures",
+                title: "UNIT 3: Arrays, Strings & Structs",
                 concepts: [
                     {
-                        name: "Arrays: Types & Syntax",
-                        explanation: "Arrays store fixed-size sequential elements of SAME type. 1D is a list, 2D is a matrix.",
-                        code: "int arr[5] = {1, 2, 3, 4, 5};\nint matrix[2][2] = {{1,0}, {0,1}};",
-                        gfg: "https://www.geeksforgeeks.org/arrays-in-c-cpp/"
+                        name: "Strings & String Functions",
+                        explanation: "A string in C is a null-terminated char array. Key functions in <string.h>: <b>strlen</b> (length), <b>strcpy</b> (copy), <b>strcmp</b> (compare), <b>strcat</b> (concatenate).",
+                        code: "char s1[20] = \"Hello\";\nprintf(\"%d\", strlen(s1)); // Output: 5\nstrcpy(s2, s1); // Copies s1 into s2",
+                        gfg: "https://www.geeksforgeeks.org/strings-in-c/"
                     },
                     {
-                        name: "Structures (Self-Defined Types)",
-                        explanation: "<b>struct</b> allows you to group different types (int, string, float) together as one object. Unlike arrays, types can be different.",
-                        code: "struct Student {\n    int roll;\n    char name[20];\n    float marks;\n};\nstruct Student s1 = {101, \"Sayak\", 95.5};",
-                        gfg: "https://www.geeksforgeeks.org/structures-c/"
+                        name: "Matrix Logic (2D Arrays)",
+                        explanation: "Used for tables and grids. Most common programs: Matrix Addition and Matrix Multiplication.",
+                        code: "// Accessing element in 2D array\nint val = matrix[row][col];",
+                        gfg: "https://www.geeksforgeeks.org/multidimensional-arrays-c-cpp/"
                     },
                     {
-                        name: "Array vs Structure",
-                        explanation: "1. Array: Homogeneous (Same types). 2. Structure: Heterogeneous (Mixed types). 3. Array elements accessed by index [i]. 4. Struct elements accessed by dot operator (.)",
-                        code: "arr[0] = 10; \ns1.roll = 101;",
-                        gfg: "https://www.geeksforgeeks.org/difference-between-structure-and-array-in-c/"
+                        name: "Bubble Sort Logic",
+                        explanation: "Comparing adjacent elements and swapping if they are in wrong order. Takes O(n²) time.",
+                        code: "for(i=0; i<n-1; i++) {\n    for(j=0; j<n-i-1; j++) {\n        if(arr[j] > arr[j+1]) {\n            temp = arr[j]; arr[j] = arr[j+1]; arr[j+1] = temp;\n        }\n    }\n}",
+                        gfg: "https://www.geeksforgeeks.org/bubble-sort-in-c/"
+                    },
+                    {
+                        name: "Structure vs Union",
+                        explanation: "<b>Structure:</b> Every member gets its own memory. <b>Union:</b> All members share the same memory (size = size of largest member). Unions save space but only one member can be used at a time.",
+                        code: "struct S { int a; char b; }; // Size = 4+1 = 5 (approx)\nunion U { int a; char b; }; // Size = 4 (shares memory)",
+                        gfg: "https://www.geeksforgeeks.org/difference-structure-union-c/"
                     }
                 ]
             },
@@ -2033,6 +2056,12 @@
                         explanation: "<b>auto:</b> Local, exists in block. <b>extern:</b> Global, defined in other file. <b>static:</b> Lives until program ends (doesn't reset value). <b>register:</b> Request CPU storage.",
                         code: "void test() {\n    static int x = 0; x++;\n    printf(\"%d \", x);\n} // Output: 1 2 3... (doesn't reset to 0)",
                         gfg: "https://www.geeksforgeeks.org/storage-classes-in-c/"
+                    },
+                    {
+                        name: "Scope & Visibility",
+                        explanation: "<b>Global:</b> Visible everywhere. <b>Local:</b> Visible only inside function. <b>Static:</b> Local visibility but global lifetime.",
+                        code: "int x; // Global\nvoid f() { int y; } // Local to f",
+                        gfg: "https://www.geeksforgeeks.org/scope-rules-in-c/"
                     }
                 ]
             },
@@ -2043,6 +2072,12 @@
                         name: "malloc() vs calloc()",
                         explanation: "<b>malloc:</b> Single block, garbage values. <b>calloc:</b> Multiple blocks, initializes to 0. <b>free:</b> Cleans up memory (Prevents Memory Leaks).",
                         code: "int *p = (int*)malloc(5 * sizeof(int));\nfree(p); // CRITICAL STEP",
+                        gfg: "https://www.geeksforgeeks.org/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/"
+                    },
+                    {
+                        name: "realloc() and free()",
+                        explanation: "<b>realloc:</b> Changes size of already allocated memory. <b>free:</b> Releases memory back to the system.",
+                        code: "p = realloc(p, 10 * sizeof(int)); // resize to 10 bytes\nfree(p);",
                         gfg: "https://www.geeksforgeeks.org/dynamic-memory-allocation-in-c-using-malloc-calloc-free-and-realloc/"
                     },
                     {
@@ -2059,7 +2094,7 @@
                     {
                         name: "File Types & Operations",
                         explanation: "Text (.txt) vs Binary (.bin). Major operations: <b>fopen</b> (open), <b>fclose</b> (close), <b>fprintf</b> (write), <b>fscanf</b> (read).",
-                        code: "FILE *f = fopen(\"data.txt\", \"r\");\nif(f == NULL) exit(1);",
+                        code: "FILE *f = fopen(\"data.txt\", \"r\");\nif(f == NULL) exit(1);\nfclose(f);",
                         gfg: "https://www.geeksforgeeks.org/basics-file-handling-c/"
                     }
                 ]
