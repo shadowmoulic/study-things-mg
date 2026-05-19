@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             title: "Pretty please? 🥺💖",
-            text: "I'll make your favorite food, give you all the massages, and do whatever you say! Don't be mad, my queen...",
+            text: "I'll get you all the chocolates you want, and I will do whatever you say! Don't be mad, my queen...",
             gif: "https://media1.tenor.com/m/av_ZXW5aSI4AAAAC/sorry.gif"
         },
         {
@@ -92,6 +92,11 @@ document.addEventListener('DOMContentLoaded', () => {
         successCard.classList.remove('hidden');
         successCard.style.animation = 'fadeIn 1s ease-out';
         
+        // Remove No button if it was appended to body
+        if (noBtn.parentNode) {
+            noBtn.parentNode.removeChild(noBtn);
+        }
+        
         // Stop No Button flee listeners if any
         document.removeEventListener('mousemove', handleNoButtonFlee);
     });
@@ -104,12 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // No Button handler (Cycles stages, grows Yes button)
-    noBtn.addEventListener('click', () => {
-        if (currentStage < stages.length - 1) {
+    noBtn.addEventListener('click', (e) => {
+        if (currentStage < 3) {
             currentStage++;
             updateStage();
         } else {
-            // Already in stage 4+, flee button
+            // Already fleeing, block click and flee!
+            e.preventDefault();
+            e.stopPropagation();
             fleeNoButton();
         }
     });
@@ -160,23 +167,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Enable fleeing behavior for No button
     function enableNoButtonFleeing() {
-        noBtn.style.position = 'fixed';
-        // Place it somewhere nearby initially
-        const rect = noBtn.getBoundingClientRect();
-        noBtn.style.left = `${rect.left}px`;
-        noBtn.style.top = `${rect.top}px`;
-        noBtn.style.zIndex = '999';
+        if (noBtn.parentElement !== document.body) {
+            // Get position BEFORE making it fixed (to avoid jump)
+            const rect = noBtn.getBoundingClientRect();
+            document.body.appendChild(noBtn);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${rect.left}px`;
+            noBtn.style.top = `${rect.top}px`;
+            noBtn.style.zIndex = '9999';
+        }
 
         // Listen for mousemove to detect cursor proximity
+        document.removeEventListener('mousemove', handleNoButtonFlee);
         document.addEventListener('mousemove', handleNoButtonFlee);
         
-        // Listen for mouseover or touchstart/click as fallback
+        // Listen for mouseover or touchstart as fallback
+        noBtn.removeEventListener('mouseover', fleeNoButton);
         noBtn.addEventListener('mouseover', fleeNoButton);
+        noBtn.removeEventListener('touchstart', fleeNoButton);
         noBtn.addEventListener('touchstart', fleeNoButton);
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            fleeNoButton();
-        });
     }
 
     function handleNoButtonFlee(e) {
@@ -191,8 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Distance between mouse and button center
         const distance = Math.hypot(mouseX - buttonX, mouseY - buttonY);
 
-        // Flee if cursor gets within 90px
-        if (distance < 90) {
+        // Flee if cursor gets within 100px (increased slightly for better responsiveness)
+        if (distance < 100) {
             fleeNoButton();
         }
     }
