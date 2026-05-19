@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             title: "Hey My Beautiful Wifeyyy... 🥺",
             text: "I'm really sorry for making you upset... I never want to be the reason for your frown. Can we make up, please?",
-            gif: "https://media1.tenor.com/m/gd8KuNcSP7sAAAAC/im-sorry-bow.gif"
+            gif: "https://media1.tenor.com/m/yF69eFlE8h0AAAAC/sorry-cat.gif"
         },
         {
             title: "Please? I'm really really sorry... 🥺👉👈",
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             title: "Look at my face... 😭💔",
             text: "How can you say no to this cute little face? Please, please, please forgive me, wifeyyy!",
-            gif: "https://media1.tenor.com/m/yF69eFlE8h0AAAAC/sorry-cat.gif"
+            gif: "https://media1.tenor.com/m/gd8KuNcSP7sAAAAC/im-sorry-bow.gif"
         },
         {
             title: "Wait, no is not an option anymore! 😜❤️",
@@ -91,12 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
         apologyCard.classList.add('hidden');
         successCard.classList.remove('hidden');
         successCard.style.animation = 'fadeIn 1s ease-out';
-        
+
         // Remove No button if it was appended to body
         if (noBtn.parentNode) {
             noBtn.parentNode.removeChild(noBtn);
         }
-        
+
         // Stop No Button flee listeners if any
         document.removeEventListener('mousemove', handleNoButtonFlee);
     });
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Flee mechanism setup
     function updateStage() {
         const stage = stages[currentStage];
-        
+
         // Animate elements fading
         apologyCard.style.transform = 'scale(0.98)';
         setTimeout(() => {
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             yesBtn.style.fontSize = '2.4rem';
             // Shrink No button a bit to emphasize scale
             noBtn.style.transform = 'scale(0.85)';
-            
+
             // Enable cursor-evading behavior earlier (second-to-last stage)
             enableNoButtonFleeing();
         } else if (currentStage === 4) {
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             yesBtn.style.fontSize = '2.8rem';
             yesBtn.style.width = '90%';
             noBtn.style.transform = 'scale(0.7)';
-            
+
             // Enable cursor-evading behavior
             enableNoButtonFleeing();
         }
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Listen for mousemove to detect cursor proximity
         document.removeEventListener('mousemove', handleNoButtonFlee);
         document.addEventListener('mousemove', handleNoButtonFlee);
-        
+
         // Listen for mouseover or touchstart as fallback
         noBtn.removeEventListener('mouseover', fleeNoButton);
         noBtn.addEventListener('mouseover', fleeNoButton);
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleNoButtonFlee(e) {
         if (currentStage < 3) return;
-        
+
         const mouseX = e.clientX;
         const mouseY = e.clientY;
         const rect = noBtn.getBoundingClientRect();
@@ -209,15 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function fleeNoButton() {
         const buttonWidth = noBtn.offsetWidth;
         const buttonHeight = noBtn.offsetHeight;
-        
+
         // Keep it inside safe screen margins
         const margin = 50;
         const maxX = window.innerWidth - buttonWidth - margin;
         const maxY = window.innerHeight - buttonHeight - margin;
-        
+
         const randomX = Math.max(margin, Math.random() * maxX);
         const randomY = Math.max(margin, Math.random() * maxY);
-        
+
         noBtn.style.left = `${randomX}px`;
         noBtn.style.top = `${randomY}px`;
     }
@@ -240,47 +240,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function playBell(freq, time, duration, volume) {
         if (!audioCtx) return;
-        
+
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
+
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, time);
-        
+
         // Music box envelope
         gain.gain.setValueAtTime(0, time);
         gain.gain.linearRampToValueAtTime(volume, time + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-        
+
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        
+
         osc.start(time);
         osc.stop(time + duration);
     }
 
     function playChordTone(freq, time, duration, volume) {
         if (!audioCtx) return;
-        
+
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
+
         osc.type = 'triangle'; // Soft flute/organ sound
         osc.frequency.setValueAtTime(freq, time);
-        
+
         // Low pass filter to make it warmer
         const filter = audioCtx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(400, time);
-        
+
         gain.gain.setValueAtTime(0, time);
         gain.gain.linearRampToValueAtTime(volume, time + 0.2);
         gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-        
+
         osc.connect(filter);
         filter.connect(gain);
         gain.connect(audioCtx.destination);
-        
+
         osc.start(time);
         osc.stop(time + duration);
     }
@@ -294,12 +294,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let beat = 0;
-        
+
         synthInterval = setInterval(() => {
             const now = audioCtx.currentTime;
             const chordIndex = Math.floor(beat / 4) % chords.length;
             const currentChord = chords[chordIndex];
-            
+
             // Play root chord pads every 4 beats (starts of bars)
             if (beat % 4 === 0) {
                 currentChord.forEach((freq, idx) => {
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const note = currentChord[beat % currentChord.length];
                 playBell(note * 2, now, 1.5, 0.015);
             }
-            
+
             // Random cute melody notes
             if (Math.random() > 0.4) {
                 const randomBell = bellNotes[Math.floor(Math.random() * bellNotes.length)];
@@ -346,17 +346,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Coupon Claim logic
-window.claimCoupon = function(element, couponName) {
+window.claimCoupon = function (element, couponName) {
     if (element.classList.contains('claimed')) return;
-    
+
     // Add claimed styling
     element.classList.add('claimed');
     element.querySelector('.coupon-icon').textContent = '✅';
-    
+
     // Update status text
     const statusText = document.getElementById('couponStatus');
     statusText.textContent = `Claimed: "${couponName}" has been sent directly to hubby's honey-do list! 🥰`;
-    
+
     // Smooth fade status text in
     statusText.style.opacity = '0';
     setTimeout(() => {
