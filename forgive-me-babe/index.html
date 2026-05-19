@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry, My Love ❤️</title>
+    <!-- Montserrat & Playfair Display for modern, romantic typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Hearts background container -->
+    <div id="heart-container"></div>
+
+    <!-- Music Player Toggle -->
+    <button class="music-toggle-btn" id="musicToggle" aria-label="Toggle Music">
+        <span class="music-icon">🎵</span>
+        <span class="music-text">Play Music</span>
+    </button>
+
+    <main class="apology-container">
+        <div class="card glassmorphism" id="apologyCard">
+            <!-- Stage Header -->
+            <div class="card-header">
+                <span class="subtitle-badge">Apology Letter #1001</span>
+                <h1 class="main-title" id="cardTitle">Hey My Beautiful Wifeyyy... 🥺</h1>
+            </div>
+
+            <!-- GIF Display Area -->
+            <div class="gif-container">
+                <img id="apologyGif" src="https://media1.tenor.com/m/gd8KuNcSP7sAAAAC/im-sorry-bow.gif" alt="Sad Bear" class="gif-image">
+                <div class="gif-glow"></div>
+            </div>
+
+            <!-- Message & Question -->
+            <div class="message-container">
+                <p class="apology-text" id="apologyText">I'm really sorry for making you upset... I never want to be the reason for your frown. Can we make up, please?</p>
+                <h2 class="question-text" id="questionText">Do you forgive me?</h2>
+            </div>
+
+            <!-- Interactive Buttons -->
+            <div class="btn-group" id="btnGroup">
+                <button class="btn btn-yes" id="yesBtn">Yes, I do! ❤️</button>
+                <button class="btn btn-no" id="noBtn">No 😡</button>
+            </div>
+        </div>
+
+        <!-- Success Screen (Hidden by default) -->
+        <div class="card glassmorphism success-card hidden" id="successCard">
+            <div class="confetti-cannon"></div>
+            <div class="card-header">
+                <span class="subtitle-badge success-badge">Forever & Always</span>
+                <h1 class="main-title success-title">YAYYYYYYY! 🎉❤️</h1>
+            </div>
+
+            <div class="gif-container">
+                <img id="successGif" src="https://media1.tenor.com/m/vjmdNLA5gNAAAAAC/cookie-cookies.gif" alt="Happy Hugs" class="gif-image">
+                <div class="gif-glow success-glow"></div>
+            </div>
+
+            <div class="message-container">
+                <p class="success-intro">Thank you for forgiving me, my beautiful queen! You make me the happiest person in the universe.</p>
+                
+                <div class="letter-box">
+                    <p class="handwritten-letter">
+                        My Dearest Wifey,<br><br>
+                        I promise to love you more each day, to listen to you, to cherish you, and to never let small things come between us. You are my safe place, my best friend, and my whole world.<br><br>
+                        I can't wait to hold you tight and make you smile every single day. <br><br>
+                        <span class="letter-signature">Yours forever, Hubby ❤️</span>
+                    </p>
+                </div>
+
+                <!-- Sweet Promises Interactive Coupon Deck -->
+                <div class="coupon-section">
+                    <h3 class="coupon-title">🎁 Love Coupons For You</h3>
+                    <p class="coupon-subtitle">Tap to claim any coupon, I promise to fulfill it immediately!</p>
+                    <div class="coupon-grid">
+                        <div class="coupon-item" onclick="claimCoupon(this, 'Unlimited Hugs & Kisses')">
+                            <span class="coupon-icon">🤗</span>
+                            <span class="coupon-name">Unlimited Hugs</span>
+                        </div>
+                        <div class="coupon-item" onclick="claimCoupon(this, 'A Special Dinner Date of Your Choice')">
+                            <span class="coupon-icon">🍕</span>
+                            <span class="coupon-name">Dinner Date</span>
+                        </div>
+                        <div class="coupon-item" onclick="claimCoupon(this, 'A Relaxing Head Scratch Session')">
+                            <span class="coupon-icon">💆‍♀️</span>
+                            <span class="coupon-name">Head Scratches</span>
+                        </div>
+                        <div class="coupon-item" onclick="claimCoupon(this, 'A Whole Day of No Chores')">
+                            <span class="coupon-icon">🧹</span>
+                            <span class="coupon-name">Lazy Day Coupon</span>
+                        </div>
+                    </div>
+                    <div id="couponStatus" class="coupon-status-text"></div>
+                </div>
+
+                <div class="extra-actions">
+                    <button class="love-button" id="celebrateBtn">Shower Me With Love! 💖</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sweet custom script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
