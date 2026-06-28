@@ -17,11 +17,8 @@
     <!-- Load React, ReactDOM, Lucide React, and Babel from CDN (UMD versions for offline file:/// support) -->
     <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    <script>
-        // Lucide React UMD expects React on global.react (lowercase), but React UMD exports as window.React (capitalized)
-        window.react = window.React;
-    </script>
-    <script src="https://unpkg.com/lucide-react@0.263.0/dist/umd/lucide-react.min.js"></script>
+    <script>window.react = window.React; // Fix for lucide-react UMD build</script>
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
