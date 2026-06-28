@@ -1,0 +1,1156 @@
+
+        const { useState, useEffect, useRef } = React;
+        const {
+            Sparkles, KeyRound, Eye, KeySquare, Calculator, Grid3x3,
+            PenLine, Shield, Terminal, Network,
+            Lock, Unlock, Check, X, ArrowRight, Play, RotateCcw, ChevronRight
+        } = LucideReact;
+        const TerminalIcon = Terminal;
+    
+
+
+
+/* ----------------------------------------------------------------------------
+   CipherLab — a hands-on lab for cryptography & network security
+   Colors encode the *state of data*: green = readable (plaintext),
+   coral = scrambled (ciphertext), gold = the key/action. That mapping is the
+   spine of the whole app, grounded in the diagrams in the source notes.
+---------------------------------------------------------------------------- */
+
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+.cl {
+  --ink:#0C0F2A; --ink2:#141845;
+  --panel:rgba(255,255,255,0.045); --panel-2:rgba(255,255,255,0.07);
+  --line:rgba(255,255,255,0.10); --line-2:rgba(255,255,255,0.18);
+  --text:#ECEEFB; --muted:#9AA0CE; --faint:#6B7099;
+  --plain:#6EE7A8; --cipher:#FF7A8A; --key:#FFC24B; --signal:#5BD1E6; --priv:#B79BFF;
+  --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  font-family:var(--body); color:var(--text);
+  background:
+    radial-gradient(1100px 700px at 12% -8%, #1b2160 0%, transparent 55%),
+    radial-gradient(900px 600px at 105% 8%, #2a1747 0%, transparent 50%),
+    linear-gradient(160deg, var(--ink), var(--ink2));
+  min-height:100vh; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.cl *{box-sizing:border-box;}
+.cl button{font-family:inherit; cursor:pointer;}
+.cl ::selection{background:var(--key); color:#241a00;}
+
+.cl-wrap{max-width:1180px; margin:0 auto; padding:26px 20px 60px;
+  display:grid; grid-template-columns:268px 1fr; gap:26px; align-items:start;}
+@media(max-width:880px){ .cl-wrap{grid-template-columns:1fr; gap:18px;} }
+
+/* ---------- sidebar ---------- */
+.cl-side{position:sticky; top:18px;}
+@media(max-width:880px){ .cl-side{position:static;} }
+.cl-brand{display:flex; align-items:center; gap:11px; margin-bottom:20px;}
+.cl-mark{width:38px;height:38px;border-radius:11px;flex:none;
+  background:linear-gradient(140deg,var(--key),#ff9d57); color:#241a00;
+  display:grid;place-items:center; box-shadow:0 6px 22px rgba(255,194,75,.28);}
+.cl-brand h1{font-family:var(--disp); font-weight:700; font-size:20px; margin:0; letter-spacing:-.4px;}
+.cl-brand p{margin:1px 0 0; font-size:11.5px; color:var(--faint); letter-spacing:.5px; text-transform:uppercase;}
+
+.cl-prog{display:flex; align-items:center; gap:12px; padding:12px 14px; margin-bottom:16px;
+  background:var(--panel); border:1px solid var(--line); border-radius:14px;}
+.cl-ring{--p:0; width:42px;height:42px;flex:none; border-radius:50%;
+  background:conic-gradient(var(--key) calc(var(--p)*1%), rgba(255,255,255,.12) 0);
+  display:grid; place-items:center;}
+.cl-ring span{width:32px;height:32px;border-radius:50%;background:var(--ink2);
+  display:grid;place-items:center; font-family:var(--mono); font-size:11px; font-weight:700;}
+.cl-prog small{display:block; color:var(--faint); font-size:11px; margin-top:1px;}
+.cl-prog b{font-family:var(--disp); font-size:14px; font-weight:500;}
+
+.cl-nav{display:flex; flex-direction:column; gap:5px;}
+@media(max-width:880px){ .cl-nav{flex-direction:row; overflow-x:auto; padding-bottom:6px; -webkit-overflow-scrolling:touch;} }
+.cl-navbtn{display:flex; align-items:center; gap:11px; text-align:left; width:100%;
+  background:transparent; border:1px solid transparent; color:var(--muted);
+  padding:9px 11px; border-radius:11px; transition:.16s; font-size:13.5px; white-space:nowrap;}
+.cl-navbtn:hover{background:var(--panel); color:var(--text);}
+.cl-navbtn.on{background:var(--panel-2); border-color:var(--line-2); color:var(--text);}
+.cl-navbtn .ic{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
+  background:rgba(255,255,255,.05); color:var(--signal); transition:.16s;}
+.cl-navbtn.on .ic{background:var(--key); color:#241a00;}
+.cl-navbtn .tx b{display:block; font-family:var(--disp); font-weight:500; font-size:13.5px; line-height:1.2;}
+.cl-navbtn .tx small{font-size:10.5px; color:var(--faint); letter-spacing:.3px;}
+.cl-navbtn .dn{margin-left:auto; color:var(--plain); display:flex;}
+@media(max-width:880px){ .cl-navbtn .tx small{display:none;} .cl-navbtn .dn{display:none;} }
+
+/* ---------- main ---------- */
+.cl-main{min-width:0;}
+.cl-eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--key); margin-bottom:8px;}
+.cl-h2{font-family:var(--disp); font-weight:700; font-size:30px; letter-spacing:-.6px; margin:0 0 8px;}
+@media(max-width:880px){ .cl-h2{font-size:24px;} }
+.cl-lead{color:var(--muted); font-size:15px; max-width:62ch; margin:0 0 22px;}
+.cl-lead b{color:var(--text); font-weight:600;}
+
+.cl-card{background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:22px; margin-bottom:18px;}
+.cl-card-h{font-family:var(--disp); font-weight:500; font-size:16px; margin:0 0 14px; display:flex; align-items:center; gap:9px;}
+.cl-card-h .badge{font-family:var(--mono); font-size:10px; color:var(--faint); border:1px solid var(--line); padding:2px 7px; border-radius:20px; margin-left:auto; letter-spacing:.5px;}
+
+.cl-label{font-family:var(--mono); font-size:11px; letter-spacing:1px; text-transform:uppercase; color:var(--faint); margin-bottom:7px; display:block;}
+.cl-input, .cl-area{width:100%; background:rgba(0,0,0,.28); border:1px solid var(--line-2); color:var(--text);
+  border-radius:11px; padding:11px 13px; font-family:var(--mono); font-size:14px; transition:.15s; resize:vertical;}
+.cl-input:focus, .cl-area:focus{outline:none; border-color:var(--key); box-shadow:0 0 0 3px rgba(255,194,75,.16);}
+
+.cl-btn{display:inline-flex; align-items:center; gap:8px; background:var(--key); color:#241a00;
+  border:none; border-radius:11px; padding:10px 16px; font-weight:600; font-size:13.5px;
+  font-family:var(--disp); transition:.15s; box-shadow:0 5px 18px rgba(255,194,75,.22);}
+.cl-btn:hover{transform:translateY(-1px); box-shadow:0 8px 22px rgba(255,194,75,.32);}
+.cl-btn.ghost{background:transparent; color:var(--text); border:1px solid var(--line-2); box-shadow:none;}
+.cl-btn.ghost:hover{background:var(--panel-2); transform:none;}
+.cl-btn:disabled{opacity:.4; cursor:not-allowed; transform:none; box-shadow:none;}
+
+.cl-seg{display:inline-flex; background:rgba(0,0,0,.28); border:1px solid var(--line); border-radius:11px; padding:3px;}
+.cl-seg button{background:transparent; border:none; color:var(--muted); padding:7px 13px; border-radius:8px; font-size:13px; font-weight:600; transition:.15s;}
+.cl-seg button.on{background:var(--key); color:#241a00;}
+
+.cl-slider{width:100%; -webkit-appearance:none; appearance:none; height:6px; border-radius:6px;
+  background:rgba(255,255,255,.14); outline:none;}
+.cl-slider::-webkit-slider-thumb{-webkit-appearance:none; width:20px;height:20px;border-radius:50%;
+  background:var(--key); cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.4); border:3px solid var(--ink2);}
+.cl-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%; background:var(--key); cursor:pointer; border:3px solid var(--ink2);}
+
+.cl-chip{font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:8px;
+  border:1px solid var(--line-2); background:rgba(0,0,0,.22); color:var(--muted); transition:.14s;}
+.cl-chip:hover{border-color:var(--signal); color:var(--text);}
+
+.mono{font-family:var(--mono);}
+.plain{color:var(--plain);} .cipher{color:var(--cipher);} .keyc{color:var(--key);} .sig{color:var(--signal);} .priv{color:var(--priv);}
+.cl-note{font-size:13px; color:var(--muted); background:rgba(91,209,230,.08); border-left:3px solid var(--signal);
+  padding:11px 14px; border-radius:0 10px 10px 0; margin-top:14px;}
+.cl-note b{color:var(--text);}
+.cl-take{display:flex; gap:11px; align-items:flex-start; background:rgba(110,231,168,.08);
+  border:1px solid rgba(110,231,168,.25); border-radius:14px; padding:15px; margin-top:6px;}
+.cl-take .ic{color:var(--plain); flex:none; margin-top:1px;}
+.cl-take b{font-family:var(--disp);}
+
+.cl-done{display:flex; align-items:center; gap:10px; margin-top:18px;}
+.cl-donebtn{display:inline-flex; align-items:center; gap:8px; border-radius:11px; padding:9px 15px; font-weight:600; font-size:13px; font-family:var(--disp); transition:.15s;
+  background:rgba(110,231,168,.12); color:var(--plain); border:1px solid rgba(110,231,168,.3);}
+.cl-donebtn:hover{background:rgba(110,231,168,.2);}
+.cl-donebtn.is-done{background:var(--plain); color:#04331f; border-color:var(--plain);}
+
+@keyframes fadeUp{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:none;}}
+.fade{animation:fadeUp .4s ease both;}
+@keyframes pop{from{opacity:0; transform:scale(.85);} to{opacity:1; transform:none;}}
+.cell-anim{animation:pop .25s ease both;}
+@media(prefers-reduced-motion:reduce){ .fade,.cell-anim{animation:none;} .cl-btn:hover{transform:none;} }
+`;
+
+/* ----------------------------- crypto helpers ----------------------------- */
+const A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function caesar(text, shift, decrypt) {
+  const s = ((decrypt ? -shift : shift) % 26 + 26) % 26;
+  return text.toUpperCase().replace(/[A-Z]/g, (c) => A[(A.indexOf(c) + s) % 26]);
+}
+function gcd(a, b) { while (b) { [a, b] = [b, a % b]; } return a; }
+function modPow(base, exp, mod) {
+  let b = BigInt(base), e = BigInt(exp), m = BigInt(mod), r = 1n; b %= m;
+  while (e > 0n) { if (e & 1n) r = (r * b) % m; e >>= 1n; b = (b * b) % m; }
+  return Number(r);
+}
+function findD(e, phi) { for (let d = 2; d < phi; d++) if ((d * e) % phi === 1) return d; return null; }
+function tinyHash(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0).toString(16).padStart(8, "0").slice(0, 8).toUpperCase();
+}
+
+/* ============================ MODULE: START =============================== */
+function Start({ go }) {
+  const [open, setOpen] = useState(null);
+  const goals = [
+    ["Confidentiality", "Only the people you intend can read the data.", "var(--plain)"],
+    ["Integrity", "Nobody altered the message in secret along the way.", "var(--signal)"],
+    ["Authentication", "You can prove who you're really talking to.", "var(--key)"],
+    ["Availability", "The system stays up and usable when needed.", "var(--priv)"],
+    ["Non-repudiation", "A sender can't later deny they sent it.", "var(--cipher)"],
+  ];
+  const [demoShift, setDemoShift] = useState(3);
+  const word = "HELLO";
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Welcome</div>
+      <h2 className="cl-h2">Learn security by doing it</h2>
+      <p className="cl-lead">
+        This is a lab, not a lecture. You'll scramble real messages, build keys, defend a network,
+        and run Linux commands — one small idea at a time. Everything maps to your notes. Throughout the app the colors
+        mean something: <b className="plain">green is readable</b>, <b className="cipher">coral is encrypted</b>, and <b className="keyc">gold is the key</b>.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">The whole field in one picture <span className="badge">live demo</span></div>
+        <p style={{ color: "var(--muted)", fontSize: 14, marginTop: 0 }}>
+          Two people want to talk. A stranger watches the wire. So you scramble the message with a secret <span className="keyc">key</span>.
+          Drag it and watch a real cipher work:
+        </p>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", margin: "8px 0 4px" }}>
+          <div className="mono plain" style={{ fontSize: 26, letterSpacing: 4 }}>{word}</div>
+          <ArrowRight size={20} color="var(--key)" />
+          <div className="mono cipher" style={{ fontSize: 26, letterSpacing: 4 }}>{caesar(word, demoShift, false)}</div>
+        </div>
+        <div style={{ marginTop: 12 }}>
+          <span className="cl-label">Secret key — shift by {demoShift}</span>
+          <input className="cl-slider" type="range" min="0" max="25" value={demoShift}
+            onChange={(e) => setDemoShift(+e.target.value)} />
+        </div>
+        <div className="cl-note">That's encryption. The <b>method</b> ("shift the letters") is public — only the <b>key</b> is secret. That single rule runs all of modern cryptography.</div>
+      </div>
+
+      <div className="cl-card">
+        <div className="cl-card-h">The five words behind everything</div>
+        <p style={{ color: "var(--muted)", fontSize: 14, marginTop: 0 }}>Every tool you'll meet exists to deliver one or more of these. Tap to expand.</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 9 }}>
+          {goals.map(([t, d, c], i) => (
+            <button key={t} onClick={() => setOpen(open === i ? null : i)}
+              className="cl-chip" style={{ borderColor: open === i ? c : "var(--line-2)", color: open === i ? "var(--text)" : "var(--muted)" }}>
+              {t}
+            </button>
+          ))}
+        </div>
+        {open !== null && (
+          <div className="cl-note fade" style={{ borderColor: goals[open][2], background: "rgba(255,255,255,.04)" }}>
+            <b style={{ color: goals[open][2] }}>{goals[open][0]}.</b> {goals[open][1]}
+          </div>
+        )}
+      </div>
+
+      <div className="cl-card" style={{ marginBottom: 8 }}>
+        <div className="cl-card-h">Your path</div>
+        <div style={{ display: "grid", gap: 8 }}>
+          {[["caesar", "Start with the simplest cipher you can do by hand"],
+            ["asym", "See why two keys beat one"],
+            ["firewall", "Switch gears — control who gets in at all"]].map(([id, t]) => (
+            <button key={id} onClick={() => go(id)} className="cl-navbtn" style={{ border: "1px solid var(--line)" }}>
+              <span className="ic"><ChevronRight size={16} /></span>
+              <span className="tx"><b>{t}</b></span>
+            </button>
+          ))}
+        </div>
+        <p style={{ color: "var(--faint)", fontSize: 12.5, margin: "14px 0 0" }}>
+          Tip: work top to bottom in the sidebar — each lab assumes the one above it. Stuck on anything? Ask me in the chat and I'll go deeper.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ MODULE: CAESAR ============================== */
+function Caesar({ done, mark }) {
+  const [text, setText] = useState("HELLO");
+  const [shift, setShift] = useState(3);
+  const [mode, setMode] = useState("enc"); // enc | dec
+  const out = caesar(text, shift, mode === "dec");
+  const inChars = text.toUpperCase().split("");
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 01 · Symmetric encryption</div>
+      <h2 className="cl-h2">Caesar Cipher Lab</h2>
+      <p className="cl-lead">
+        The oldest trick in the book: shift every letter forward by a fixed amount. The same key shifts it back.
+        Because <b>one key does both jobs</b>, this is called <b>symmetric</b> encryption. Type, drag the key, and watch each letter move.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Try it
+          <span className="cl-seg" style={{ marginLeft: "auto" }}>
+            <button className={mode === "enc" ? "on" : ""} onClick={() => setMode("enc")}>Encrypt</button>
+            <button className={mode === "dec" ? "on" : ""} onClick={() => setMode("dec")}>Decrypt</button>
+          </span>
+        </div>
+
+        <span className="cl-label">{mode === "enc" ? "Plaintext — your readable message" : "Ciphertext — the scrambled input"}</span>
+        <input className="cl-input" value={text} maxLength={40}
+          style={{ color: mode === "enc" ? "var(--plain)" : "var(--cipher)" }}
+          onChange={(e) => setText(e.target.value)} />
+
+        <div style={{ margin: "16px 0 6px" }}>
+          <span className="cl-label">Secret key — shift by <span className="keyc">{shift}</span></span>
+          <input className="cl-slider" type="range" min="0" max="25" value={shift} onChange={(e) => setShift(+e.target.value)} />
+        </div>
+
+        <span className="cl-label" style={{ marginTop: 10 }}>{mode === "enc" ? "Ciphertext — what travels over the wire" : "Plaintext — recovered message"}</span>
+        <div className="cl-input mono" style={{ color: mode === "enc" ? "var(--cipher)" : "var(--plain)", letterSpacing: 2, minHeight: 44 }}>
+          {out || "…"}
+        </div>
+
+        {/* per-letter mapping */}
+        <span className="cl-label" style={{ marginTop: 18 }}>Letter by letter</span>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+          {inChars.slice(0, 24).map((c, i) => {
+            const mapped = /[A-Z]/.test(c) ? caesar(c, shift, mode === "dec") : c;
+            return (
+              <div key={i + c + shift} className="cell-anim" style={{ textAlign: "center", minWidth: 26 }}>
+                <div className="mono" style={{ fontSize: 16, color: mode === "enc" ? "var(--plain)" : "var(--cipher)" }}>{c === " " ? "·" : c}</div>
+                <div style={{ color: "var(--faint)", fontSize: 11, lineHeight: 1 }}>↓</div>
+                <div className="mono" style={{ fontSize: 16, color: mode === "enc" ? "var(--cipher)" : "var(--plain)" }}>{mapped === " " ? "·" : mapped}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="cl-card">
+        <div className="cl-card-h">The five ingredients — labeled live</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 10 }}>
+          {[
+            ["Plaintext", mode === "enc" ? text.toUpperCase() : out, "plain"],
+            ["Encryption algorithm", "Shift letters", "sig"],
+            ["Secret key", String(shift), "keyc"],
+            ["Ciphertext", mode === "enc" ? out : text.toUpperCase(), "cipher"],
+            ["Decryption algorithm", "Shift back", "sig"],
+          ].map(([k, v, cls]) => (
+            <div key={k} style={{ background: "rgba(0,0,0,.22)", border: "1px solid var(--line)", borderRadius: 11, padding: "11px 13px" }}>
+              <div className="cl-label" style={{ marginBottom: 4 }}>{k}</div>
+              <div className={"mono " + cls} style={{ fontSize: 13, wordBreak: "break-all" }}>{v || "—"}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>Key takeaway.</b> Same key encrypts and decrypts. Strong in practice (AES does this on real data), but it has one fatal gap — both sides must already share the secret key. <i>How do they share it safely?</i> That's the next lab.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+
+/* ============================ MODULE: EVE ================================= */
+function Eve({ done, mark }) {
+  const [stage, setStage] = useState(0); // 0 idle, 1 sent, 2 cracked
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 02 · The problem</div>
+      <h2 className="cl-h2">The Eavesdropper</h2>
+      <p className="cl-lead">
+        Symmetric encryption needs both people to hold the <b>same secret key</b>. But the only way to talk is over
+        a wire someone is watching. So how does Alice get the key to Bob without the watcher grabbing it? Watch it fail.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Alice needs to send Bob the key “3”</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 10, textAlign: "center" }}>
+          <Actor name="Alice" sub="wants to share a key" color="var(--plain)" />
+          <div style={{ position: "relative", padding: "0 4px" }}>
+            <div style={{ height: 2, background: "var(--line-2)", position: "relative" }}>
+              {stage >= 1 && (
+                <div className="mono keyc cell-anim" style={{ position: "absolute", top: -26, left: "50%", transform: "translateX(-50%)", fontSize: 13, whiteSpace: "nowrap" }}>
+                  key = 3 →
+                </div>
+              )}
+            </div>
+            <div style={{ marginTop: 28, color: "var(--cipher)", fontSize: 12, fontWeight: 600 }}>
+              👁 Eve is watching this wire
+            </div>
+          </div>
+          <Actor name="Bob" sub="needs the key" color="var(--signal)" />
+        </div>
+
+        <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
+          <button className="cl-btn" disabled={stage >= 1} onClick={() => setStage(1)}>
+            <Play size={15} /> Send key over the wire
+          </button>
+          {stage === 1 && <button className="cl-btn ghost" onClick={() => setStage(2)}>What does Eve do now?</button>}
+          {stage >= 1 && <button className="cl-btn ghost" onClick={() => setStage(0)}><RotateCcw size={14} /> Reset</button>}
+        </div>
+
+        {stage === 2 && (
+          <div className="cl-note fade" style={{ borderColor: "var(--cipher)", background: "rgba(255,122,138,.08)" }}>
+            <b className="cipher">Eve intercepted “3”.</b> She now holds the same key — every future message Alice and Bob send is readable to her.
+            The encryption was fine; <b>sharing the key was the weak point.</b> This is the <b>key distribution problem</b>.
+          </div>
+        )}
+      </div>
+
+      <div className="cl-take">
+        <KeySquare className="ic" size={20} />
+        <div><b>The leap.</b> What if Bob had a special lock — one <i>anyone</i> can snap shut, but <i>only Bob</i> can open? Then Alice never needs Bob's secret at all. That impossible-sounding lock is real, and it's called <b>public-key cryptography</b>.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+function Actor({ name, sub, color }) {
+  return (
+    <div>
+      <div style={{ width: 52, height: 52, margin: "0 auto", borderRadius: "50%", background: "rgba(255,255,255,.06)", border: `2px solid ${color}`, display: "grid", placeItems: "center", fontSize: 22 }}>🧑</div>
+      <div style={{ fontFamily: "var(--disp)", fontWeight: 600, marginTop: 7, color }}>{name}</div>
+      <div style={{ fontSize: 11.5, color: "var(--faint)" }}>{sub}</div>
+    </div>
+  );
+}
+
+/* ============================ MODULE: ASYM =============================== */
+function Asym({ done, mark }) {
+  const [goal, setGoal] = useState("secret"); // secret | prove
+  const [locked, setLocked] = useState(false);
+  const [msg, setMsg] = useState("");
+
+  // reset on goal change
+  useEffect(() => { setLocked(false); setMsg(""); }, [goal]);
+
+  const secretCfg = {
+    lockKey: "public", lockLabel: "Bob's PUBLIC key", lockColor: "var(--key)",
+    unlockKey: "private", unlockLabel: "Bob's PRIVATE key", unlockColor: "var(--priv)",
+    intro: "Goal: send Bob a secret only he can read.",
+    lockMsg: "Locked with Bob's public key. Anyone could lock it — but now only Bob's private key opens it.",
+    okMsg: "Opened! Only Bob holds the private key, so only Bob could read this. → Confidentiality.",
+    failPub: "The public key can only lock, not unlock. It can't open what it just closed.",
+  };
+  const proveCfg = {
+    lockKey: "private", lockLabel: "Alice's PRIVATE key", lockColor: "var(--priv)",
+    unlockKey: "public", unlockLabel: "Alice's PUBLIC key", unlockColor: "var(--key)",
+    intro: "Goal: prove a message really came from Alice.",
+    lockMsg: "Locked with Alice's private key — only Alice could have done this.",
+    okMsg: "Opened with Alice's public key. Since only her private key could lock it, it's provably from Alice. → Authentication.",
+    failPriv: "Bob doesn't have Alice's private key — that's hers alone. He uses her public key to verify.",
+  };
+  const cfg = goal === "secret" ? secretCfg : proveCfg;
+
+  const tryKey = (which) => {
+    if (!locked) { if (which === cfg.lockKey) { setLocked(true); setMsg("lock-ok"); } else setMsg("lock-wrong"); }
+    else { if (which === cfg.unlockKey) { setLocked(false); setMsg("unlock-ok"); } else setMsg("unlock-wrong"); }
+  };
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 03 · Public-key crypto</div>
+      <h2 className="cl-h2">Two Keys</h2>
+      <p className="cl-lead">
+        Each person has a <b className="keyc">public key</b> (shared with the world) and a <b className="priv">private key</b> (kept secret).
+        They're a matched pair: what one locks, only the other opens. Flip which key locks, and you get either <b>secrecy</b> or a <b>signature</b>.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Pick what you're trying to do
+          <span className="cl-seg" style={{ marginLeft: "auto" }}>
+            <button className={goal === "secret" ? "on" : ""} onClick={() => setGoal("secret")}>Send a secret</button>
+            <button className={goal === "prove" ? "on" : ""} onClick={() => setGoal("prove")}>Prove it's me</button>
+          </span>
+        </div>
+        <p style={{ color: "var(--muted)", fontSize: 14, marginTop: 0 }}>{cfg.intro} {locked ? "Now open the box." : "Lock the box with the right key."}</p>
+
+        <div style={{ display: "grid", placeItems: "center", padding: "14px 0 6px" }}>
+          <div className="cell-anim" key={String(locked)} style={{
+            width: 96, height: 96, borderRadius: 16, display: "grid", placeItems: "center",
+            background: locked ? "rgba(255,122,138,.12)" : "rgba(110,231,168,.12)",
+            border: `2px solid ${locked ? "var(--cipher)" : "var(--plain)"}`,
+          }}>
+            {locked ? <Lock size={40} color="var(--cipher)" /> : <Unlock size={40} color="var(--plain)" />}
+          </div>
+          <div className="mono" style={{ marginTop: 10, fontSize: 13, color: locked ? "var(--cipher)" : "var(--plain)" }}>
+            {locked ? "ENCRYPTED" : "READABLE"}
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 10, flexWrap: "wrap" }}>
+          <button className="cl-btn ghost" style={{ borderColor: "var(--key)" }} onClick={() => tryKey("public")}>
+            <KeyRound size={15} color="var(--key)" /> Use public key
+          </button>
+          <button className="cl-btn ghost" style={{ borderColor: "var(--priv)" }} onClick={() => tryKey("private")}>
+            <KeyRound size={15} color="var(--priv)" /> Use private key
+          </button>
+        </div>
+
+        {msg && (
+          <div className="cl-note fade" style={{
+            borderColor: msg.endsWith("ok") ? "var(--plain)" : "var(--cipher)",
+            background: msg.endsWith("ok") ? "rgba(110,231,168,.08)" : "rgba(255,122,138,.08)",
+          }}>
+            {msg === "lock-ok" && <span><b className="plain">✓ {cfg.lockMsg}</b></span>}
+            {msg === "unlock-ok" && <span><b className="plain">✓ {cfg.okMsg}</b></span>}
+            {msg === "lock-wrong" && <span><b className="cipher">✗</b> You need <b>{cfg.lockLabel}</b> to lock here. {goal === "secret" ? secretCfg.failPub : ""}</span>}
+            {msg === "unlock-wrong" && <span><b className="cipher">✗</b> Wrong key. {goal === "secret" ? secretCfg.failPub : proveCfg.failPriv} You need <b>{cfg.unlockLabel}</b>.</span>}
+          </div>
+        )}
+      </div>
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>The big idea.</b> Lock with the <b className="keyc">public</b> key → only the private key reads it (a secret). Lock with the <b className="priv">private</b> key → anyone verifies it with the public key (a signature). Same math, two superpowers — and Alice never had to share a secret with Bob.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+
+/* ============================ MODULE: RSA ================================ */
+const PRIMES = [3, 5, 7, 11, 13, 17, 19, 23];
+function RSA({ done, mark }) {
+  const [p, setP] = useState(3);
+  const [q, setQ] = useState(11);
+  const distinct = p !== q;
+  const n = p * q;
+  const phi = (p - 1) * (q - 1);
+  const eOptions = [];
+  for (let e = 2; e < phi && eOptions.length < 8; e++) if (gcd(e, phi) === 1) eOptions.push(e);
+  const [e, setE] = useState(3);
+  const validE = eOptions.includes(e) ? e : (eOptions[0] ?? null);
+  const d = validE ? findD(validE, phi) : null;
+  const [m, setM] = useState(4);
+  const M = Math.min(m, Math.max(0, n - 1));
+  const C = validE != null && n > 1 ? modPow(M, validE, n) : null;
+  const back = d != null && C != null ? modPow(C, d, n) : null;
+
+  // keep e valid when primes change
+  useEffect(() => { if (!eOptions.includes(e)) setE(eOptions[0] ?? 3); /* eslint-disable-next-line */ }, [p, q]);
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 04 · Asymmetric math</div>
+      <h2 className="cl-h2">RSA Playground</h2>
+      <p className="cl-lead">
+        Now the actual math behind those two keys. RSA turns a pair of prime numbers into a public and private key.
+        Pick the pieces and watch a number get encrypted and decrypted for real. (The defaults match the worked example in your notes.)
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Build the keys <span className="badge">step by step</span></div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div>
+            <span className="cl-label">Step 1 · prime p</span>
+            <select className="cl-input" value={p} onChange={(ev) => setP(+ev.target.value)}>
+              {PRIMES.map((x) => <option key={x} value={x}>{x}</option>)}
+            </select>
+          </div>
+          <div>
+            <span className="cl-label">Step 1 · prime q</span>
+            <select className="cl-input" value={q} onChange={(ev) => setQ(+ev.target.value)}>
+              {PRIMES.map((x) => <option key={x} value={x}>{x}</option>)}
+            </select>
+          </div>
+        </div>
+        {!distinct && <div className="cl-note" style={{ borderColor: "var(--cipher)", background: "rgba(255,122,138,.08)" }}>Pick two <b>different</b> primes — RSA needs p ≠ q.</div>}
+
+        {distinct && (
+          <>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 10, marginTop: 14 }}>
+              <Stat label="Step 2 · n = p × q" val={`${n}`} hint={`${p} × ${q}`} color="sig" />
+              <Stat label="Step 3 · φ(n) = (p−1)(q−1)" val={`${phi}`} hint={`${p - 1} × ${q - 1}`} color="sig" />
+            </div>
+
+            <div style={{ marginTop: 14 }}>
+              <span className="cl-label">Step 4 · public exponent e (must share no factor with φ)</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                {eOptions.map((x) => (
+                  <button key={x} className="cl-chip" onClick={() => setE(x)}
+                    style={{ borderColor: validE === x ? "var(--key)" : "var(--line-2)", color: validE === x ? "var(--key)" : "var(--muted)" }}>{x}</button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 14 }}>
+              <div style={{ background: "rgba(255,194,75,.1)", border: "1px solid rgba(255,194,75,.3)", borderRadius: 12, padding: "12px 14px" }}>
+                <div className="cl-label" style={{ color: "var(--key)" }}>Public key (share freely)</div>
+                <div className="mono keyc" style={{ fontSize: 18, fontWeight: 700 }}>({validE}, {n})</div>
+              </div>
+              <div style={{ background: "rgba(183,155,255,.1)", border: "1px solid rgba(183,155,255,.3)", borderRadius: 12, padding: "12px 14px" }}>
+                <div className="cl-label" style={{ color: "var(--priv)" }}>Private key (keep secret)</div>
+                <div className="mono priv" style={{ fontSize: 18, fontWeight: 700 }}>({d ?? "—"}, {n})</div>
+              </div>
+            </div>
+            <div className="cl-note">Step 5 found <b className="priv">d = {d}</b> because <span className="mono">{d} × {validE} ≡ 1 (mod {phi})</span>. It's the only number that undoes e — and you can't get it from the public key alone.</div>
+          </>
+        )}
+      </div>
+
+      {distinct && (
+        <div className="cl-card">
+          <div className="cl-card-h">Encrypt & decrypt a number</div>
+          <span className="cl-label">Message M (a number from 0 to {n - 1})</span>
+          <input className="cl-slider" type="range" min="0" max={Math.max(1, n - 1)} value={M} onChange={(ev) => setM(+ev.target.value)} />
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", marginTop: 16 }}>
+            <Bubble label="Message" val={M} color="plain" />
+            <Op text={`encrypt:  M^e mod n`} />
+            <Bubble label="Ciphertext" val={C} color="cipher" />
+            <Op text={`decrypt:  C^d mod n`} />
+            <Bubble label="Recovered" val={back} color="plain" />
+          </div>
+          <div className="cl-note fade" style={{ borderColor: back === M ? "var(--plain)" : "var(--cipher)", background: back === M ? "rgba(110,231,168,.08)" : "rgba(255,122,138,.08)" }}>
+            <span className="mono">C = {M}^{validE} mod {n} = <b className="cipher">{C}</b></span><br />
+            <span className="mono">M = {C}^{d} mod {n} = <b className="plain">{back}</b></span><br />
+            {back === M ? <b className="plain">✓ It came back to the original. The private key undid the public key.</b> : <span className="cipher">Adjust the values above.</span>}
+          </div>
+        </div>
+      )}
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>Why it's safe.</b> Anyone can encrypt with the public ({validE}, {n}). Reversing it needs <b className="priv">d</b>, which requires factoring <b>n</b> back into its primes. With 17×11 that's trivial — with 600-digit primes it would take longer than the age of the universe.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+function Stat({ label, val, hint, color }) {
+  return (
+    <div style={{ background: "rgba(0,0,0,.22)", border: "1px solid var(--line)", borderRadius: 11, padding: "11px 13px" }}>
+      <div className="cl-label" style={{ marginBottom: 3 }}>{label}</div>
+      <div className={"mono " + color} style={{ fontSize: 20, fontWeight: 700 }}>{val}</div>
+      {hint && <div className="mono" style={{ fontSize: 11, color: "var(--faint)" }}>{hint}</div>}
+    </div>
+  );
+}
+function Bubble({ label, val, color }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div className={"mono " + color} style={{ fontSize: 24, fontWeight: 700, minWidth: 44 }}>{val ?? "—"}</div>
+      <div className="cl-label" style={{ marginTop: 2 }}>{label}</div>
+    </div>
+  );
+}
+function Op({ text }) {
+  return <div className="mono" style={{ fontSize: 11, color: "var(--key)", textAlign: "center", lineHeight: 1.3 }}>↓<br />{text}</div>;
+}
+
+/* ============================ MODULE: AES ================================ */
+function AES({ done, mark }) {
+  const [step, setStep] = useState(0);
+  const steps = [
+    ["AddRoundKey", "XOR the data with the round key. This is where your secret key first touches the message.", "var(--key)"],
+    ["SubBytes", "Swap each byte for another using a fixed lookup table (the S-box). Adds non-linearity — the part that resists clever math attacks.", "var(--signal)"],
+    ["ShiftRows", "Rotate the rows of the grid. Row 1 stays, row 2 shifts 1, row 3 shifts 2, row 4 shifts 3. Spreads bytes sideways.", "var(--plain)"],
+    ["MixColumns", "Blend each column together with matrix math. Now every output byte depends on several input bytes — diffusion.", "var(--priv)"],
+  ];
+  // ShiftRows interactive grid
+  const base = [["a0", "a4", "a8", "ac"], ["a1", "a5", "a9", "ad"], ["a2", "a6", "aa", "ae"], ["a3", "a7", "ab", "af"]];
+  const [shifted, setShifted] = useState(false);
+  const grid = shifted ? base.map((row, r) => row.map((_, c) => row[(c + r) % 4])) : base;
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 05 · Real block cipher</div>
+      <h2 className="cl-h2">AES Walkthrough</h2>
+      <p className="cl-lead">
+        AES is the symmetric cipher protecting most of the internet. It scrambles data in 16-byte blocks, arranged as a 4×4 grid,
+        by repeating four operations for several rounds. Step through what each one does.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">The four transformations <span className="badge">{step + 1} / 4</span></div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 16 }}>
+          {steps.map(([t], i) => (
+            <button key={t} onClick={() => setStep(i)} className="cl-chip"
+              style={{ borderColor: step === i ? steps[i][2] : "var(--line-2)", color: step === i ? "var(--text)" : "var(--muted)", fontFamily: "var(--disp)", fontWeight: 600 }}>
+              {i + 1}. {t}
+            </button>
+          ))}
+        </div>
+        <div className="fade" key={step} style={{ background: "rgba(0,0,0,.22)", border: `1px solid var(--line)`, borderLeft: `3px solid ${steps[step][2]}`, borderRadius: 12, padding: "16px 18px" }}>
+          <div style={{ fontFamily: "var(--disp)", fontWeight: 700, fontSize: 18, color: steps[step][2] }}>{steps[step][0]}</div>
+          <p style={{ color: "var(--muted)", margin: "6px 0 0", fontSize: 14 }}>{steps[step][1]}</p>
+        </div>
+      </div>
+
+      <div className="cl-card">
+        <div className="cl-card-h">See ShiftRows actually move</div>
+        <p style={{ color: "var(--muted)", fontSize: 14, marginTop: 0 }}>This is a real AES step you can watch. Each row rotates left by its row number.</p>
+        <div style={{ display: "inline-grid", gridTemplateColumns: "repeat(4, 46px)", gap: 6 }}>
+          {grid.map((row, r) => row.map((cell, c) => (
+            <div key={r + "-" + c + cell} className="cell-anim mono" style={{
+              height: 46, display: "grid", placeItems: "center", borderRadius: 9, fontSize: 14,
+              background: r === 0 ? "rgba(255,255,255,.05)" : `rgba(110,231,168,${0.08 + r * 0.05})`,
+              border: "1px solid var(--line)", color: r === 0 ? "var(--muted)" : "var(--plain)",
+            }}>{cell}</div>
+          )))}
+        </div>
+        <div style={{ marginTop: 14 }}>
+          <button className="cl-btn" onClick={() => setShifted(!shifted)}>
+            {shifted ? <RotateCcw size={15} /> : <ArrowRight size={15} />} {shifted ? "Reset rows" : "Apply ShiftRows"}
+          </button>
+        </div>
+      </div>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Worked example from your notes</div>
+        <div style={{ display: "grid", gap: 8 }}>
+          <Row k="Plaintext" v="abc" c="plain" />
+          <Row k="Padded to 16 bytes" v="abc0000000000000" c="muted" />
+          <Row k="As hex" v="61 62 63 30 30 30 …" c="sig" />
+          <Row k="After 10 rounds" v="e99a18c428cb38d5f260853678922e03" c="cipher" />
+          <Row k="Decrypts back to" v="abc" c="plain" />
+        </div>
+      </div>
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>Takeaway.</b> AES = AddRoundKey, then repeat (SubBytes → ShiftRows → MixColumns → AddRoundKey) for 9 rounds, then a final round without MixColumns. Substitution hides, shifting and mixing spread — together they make output that looks like pure noise.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+function Row({ k, v, c }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline", borderBottom: "1px solid var(--line)", paddingBottom: 7 }}>
+      <span className="cl-label" style={{ margin: 0 }}>{k}</span>
+      <span className={"mono " + c} style={{ fontSize: 13, wordBreak: "break-all", textAlign: "right" }}>{v}</span>
+    </div>
+  );
+}
+
+/* ============================ MODULE: SIGN =============================== */
+function Sign({ done, mark }) {
+  const original = "Transfer $500 to Bob";
+  const [msg, setMsg] = useState(original);
+  const [signedHash, setSignedHash] = useState(null);
+  const [signedMsg, setSignedMsg] = useState("");
+  const currentHash = tinyHash(msg);
+  const valid = signedHash && signedHash === currentHash;
+  const tampered = signedHash && msg !== signedMsg;
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 06 · Proof & integrity</div>
+      <h2 className="cl-h2">Digital Signatures</h2>
+      <p className="cl-lead">
+        A signature flips public-key crypto around: Alice signs with her <b className="priv">private</b> key, and anyone checks it with her <b className="keyc">public</b> key.
+        It proves two things at once — the message is really from her, and <b>not one character has changed</b>. Sign it, then try to cheat.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">1 · Alice writes and signs a message</div>
+        <span className="cl-label">Message</span>
+        <input className="cl-input" value={msg} onChange={(ev) => setMsg(ev.target.value)} style={{ color: tampered ? "var(--cipher)" : "var(--text)" }} />
+        <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap", alignItems: "center" }}>
+          <button className="cl-btn" onClick={() => { setSignedHash(currentHash); setSignedMsg(msg); }}>
+            <PenLine size={15} /> Sign with private key
+          </button>
+          {signedHash && (
+            <div className="mono priv" style={{ fontSize: 13 }}>
+              signature: <b>{signedHash}</b>
+            </div>
+          )}
+        </div>
+        {signedHash && <div className="cl-note">The signature is a fingerprint of the message, sealed with Alice's private key. Change one letter above and watch what happens at step 2.</div>}
+      </div>
+
+      {signedHash && (
+        <div className="cl-card">
+          <div className="cl-card-h">2 · Bob verifies with Alice's public key</div>
+          <div style={{ display: "grid", gap: 8 }}>
+            <Row k="Signed fingerprint" v={signedHash} c="priv" />
+            <Row k="Fingerprint of message now" v={currentHash} c={valid ? "plain" : "cipher"} />
+          </div>
+          <div className="cl-note fade" style={{ borderColor: valid ? "var(--plain)" : "var(--cipher)", background: valid ? "rgba(110,231,168,.08)" : "rgba(255,122,138,.08)" }}>
+            {valid
+              ? <span><b className="plain">✓ Verified.</b> The fingerprints match — the message is untouched and provably from Alice.</span>
+              : <span><b className="cipher">✗ Tampered!</b> The message was altered after signing, so the fingerprints don't match. Bob rejects it.</span>}
+          </div>
+          <p style={{ color: "var(--faint)", fontSize: 12.5, margin: "12px 0 0" }}>
+            Try editing the message above to, say, “Transfer $5000 to Eve” — the check fails instantly.
+          </p>
+        </div>
+      )}
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>Three guarantees in one move.</b> Authentication (only Alice's private key could sign), integrity (any edit breaks the match), and non-repudiation (she can't deny it later). This is how software updates, HTTPS certificates, and digital contracts are trusted.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+
+/* ============================ MODULE: FIREWALL =========================== */
+const PORTS = { 21: "FTP", 22: "SSH", 23: "Telnet", 25: "SMTP", 53: "DNS", 80: "HTTP", 443: "HTTPS", 3389: "RDP" };
+const PACKETS = [
+  { id: 1, ip: "203.0.113.9", port: 443, label: "Customer loading your website" },
+  { id: 2, ip: "198.51.100.7", port: 22, label: "Admin SSH login" },
+  { id: 3, ip: "45.13.···.66", port: 23, label: "Telnet probe from unknown host" },
+  { id: 4, ip: "45.13.···.66", port: 3389, label: "Remote-desktop scan" },
+  { id: 5, ip: "203.0.113.9", port: 80, label: "Plain web request" },
+  { id: 6, ip: "91.219.···.4", port: 25, label: "Spam mail relay attempt" },
+];
+function Firewall({ done, mark }) {
+  const [rules, setRules] = useState([]);
+  const [defAllow, setDefAllow] = useState(false);
+  const [newPort, setNewPort] = useState(443);
+  const [newAct, setNewAct] = useState("allow");
+  const [ran, setRan] = useState(false);
+
+  const addRule = () => { setRules([...rules, { act: newAct, port: +newPort }]); setRan(false); };
+  const removeRule = (i) => { setRules(rules.filter((_, x) => x !== i)); setRan(false); };
+
+  const verdict = (pkt) => {
+    for (const r of rules) if (r.port === pkt.port) return { pass: r.act === "allow", why: `rule: ${r.act} port ${r.port}` };
+    return { pass: defAllow, why: `default ${defAllow ? "allow" : "deny"}` };
+  };
+  const results = PACKETS.map((p) => ({ ...p, ...verdict(p) }));
+  // goal: allow 80,443,22 ; block 23,3389,25
+  const want = { 80: true, 443: true, 22: true, 23: false, 3389: false, 25: false };
+  const success = ran && results.every((r) => r.pass === want[r.port]);
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 07 · Controlling access</div>
+      <h2 className="cl-h2">Firewall Defender</h2>
+      <p className="cl-lead">
+        Encryption hides what's <i>in</i> a message. A firewall decides whether traffic gets in <i>at all</i>, by checking each packet against
+        your rules (by port, IP, or protocol). <b>Your mission:</b> let web and SSH through, block everything sketchy. Rules are checked top-down — first match wins.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">Write your rules</div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div>
+            <span className="cl-label">Action</span>
+            <span className="cl-seg">
+              <button className={newAct === "allow" ? "on" : ""} onClick={() => setNewAct("allow")}>Allow</button>
+              <button className={newAct === "deny" ? "on" : ""} onClick={() => setNewAct("deny")}>Deny</button>
+            </span>
+          </div>
+          <div style={{ flex: 1, minWidth: 150 }}>
+            <span className="cl-label">Port</span>
+            <select className="cl-input" value={newPort} onChange={(e) => setNewPort(+e.target.value)}>
+              {Object.entries(PORTS).map(([p, n]) => <option key={p} value={p}>{p} — {n}</option>)}
+            </select>
+          </div>
+          <button className="cl-btn" onClick={addRule}>+ Add rule</button>
+        </div>
+
+        <div style={{ marginTop: 16, display: "grid", gap: 7 }}>
+          {rules.length === 0 && <div style={{ color: "var(--faint)", fontSize: 13 }}>No rules yet. Add one above.</div>}
+          {rules.map((r, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,.22)", border: "1px solid var(--line)", borderRadius: 10, padding: "8px 12px" }}>
+              <span className="mono" style={{ color: "var(--faint)", fontSize: 12 }}>{i + 1}</span>
+              <span className="mono" style={{ color: r.act === "allow" ? "var(--plain)" : "var(--cipher)", fontWeight: 700, fontSize: 13, textTransform: "uppercase" }}>{r.act}</span>
+              <span className="mono" style={{ fontSize: 13 }}>port {r.port} <span style={{ color: "var(--faint)" }}>({PORTS[r.port]})</span></span>
+              <button onClick={() => removeRule(i)} className="cl-chip" style={{ marginLeft: "auto", padding: "3px 8px" }}><X size={13} /></button>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16, flexWrap: "wrap" }}>
+          <span className="cl-label" style={{ margin: 0 }}>If no rule matches:</span>
+          <span className="cl-seg">
+            <button className={!defAllow ? "on" : ""} onClick={() => { setDefAllow(false); setRan(false); }}>Deny (safe)</button>
+            <button className={defAllow ? "on" : ""} onClick={() => { setDefAllow(true); setRan(false); }}>Allow</button>
+          </span>
+          <button className="cl-btn" style={{ marginLeft: "auto" }} onClick={() => setRan(true)}><Play size={15} /> Run traffic</button>
+        </div>
+      </div>
+
+      {ran && (
+        <div className="cl-card fade">
+          <div className="cl-card-h">Incoming packets</div>
+          <div style={{ display: "grid", gap: 7 }}>
+            {results.map((r) => (
+              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(0,0,0,.22)", border: `1px solid ${r.pass ? "rgba(110,231,168,.3)" : "rgba(255,122,138,.3)"}`, borderRadius: 10, padding: "9px 12px" }}>
+                <span style={{ color: r.pass ? "var(--plain)" : "var(--cipher)", display: "flex" }}>{r.pass ? <Check size={17} /> : <X size={17} />}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 13 }}>{r.label}</div>
+                  <div className="mono" style={{ fontSize: 11, color: "var(--faint)" }}>{r.ip} : {r.port} ({PORTS[r.port]})</div>
+                </div>
+                <span className="mono" style={{ marginLeft: "auto", fontSize: 11, color: r.pass ? "var(--plain)" : "var(--cipher)", textAlign: "right" }}>
+                  {r.pass ? "ALLOWED" : "BLOCKED"}<br /><span style={{ color: "var(--faint)" }}>{r.why}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="cl-note fade" style={{ borderColor: success ? "var(--plain)" : "var(--key)", background: success ? "rgba(110,231,168,.08)" : "rgba(255,194,75,.08)" }}>
+            {success
+              ? <b className="plain">✓ Mission complete. Web (80/443) and SSH (22) get through; Telnet, RDP, and spam are blocked. That's a sane firewall policy.</b>
+              : <span><b className="keyc">Not quite.</b> Goal: allow ports 80, 443, 22 and block 23, 3389, 25. Tip: add allow rules for the good ports and set the default to <b>Deny</b> so everything else is blocked automatically.</span>}
+          </div>
+        </div>
+      )}
+
+      <div className="cl-take">
+        <Shield className="ic" size={20} />
+        <div><b>Takeaway.</b> A firewall is a list of allow/deny rules plus a default. The pro move is <b>default-deny</b>: block everything, then open only the ports you actually need. Fewer open doors, fewer ways in.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+
+/* ============================ MODULE: TERMINAL =========================== */
+function Term({ done, mark }) {
+  const [lines, setLines] = useState([
+    { t: "out", v: "Linux security lab — simulated shell. Type a command or tap one below. Try: help" },
+  ]);
+  const [input, setInput] = useState("");
+  const [fw, setFw] = useState({ enabled: false, rules: [] });
+  const endRef = useRef(null);
+  useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [lines]);
+
+  const commands = [
+    "sudo ufw status", "sudo ufw enable", "sudo ufw allow from 192.168.1.10",
+    "sudo ufw deny from 192.168.1.20", "sudo ufw allow from 192.168.1.10 to any port 22",
+    "who", "ps aux", "netstat -tulnp", "nmap localhost", "sudo cat /var/log/auth.log", "clear",
+  ];
+
+  const run = (raw) => {
+    const cmd = raw.trim();
+    if (!cmd) return;
+    let out = [];
+    const c = cmd.toLowerCase();
+
+    if (c === "clear") { setLines([]); return; }
+    else if (c === "help") {
+      out = ["Available commands in this lab:", ...commands.filter((x) => x !== "clear").map((x) => "  " + x), "  clear"];
+    }
+    else if (c === "sudo ufw enable") { setFw((f) => ({ ...f, enabled: true })); out = ["Firewall is active and enabled on system startup"]; }
+    else if (c === "sudo ufw disable") { setFw((f) => ({ ...f, enabled: false })); out = ["Firewall stopped and disabled on system startup"]; }
+    else if (c === "sudo ufw status" || c === "sudo ufw status numbered") {
+      if (!fw.enabled) out = ["Status: inactive", "(run 'sudo ufw enable' first)"];
+      else {
+        out = ["Status: active", "", "To                         Action      From", "--                         ------      ----"];
+        if (fw.rules.length === 0) out.push("(no rules yet — try 'sudo ufw allow from 192.168.1.10')");
+        fw.rules.forEach((r, i) => out.push(`${(c.includes("numbered") ? `[${i + 1}] ` : "")}${r.to.padEnd(26)} ${r.action.padEnd(11)} ${r.from}`));
+      }
+    }
+    else if (c.startsWith("sudo ufw allow from") || c.startsWith("sudo ufw deny from")) {
+      const action = c.includes("allow") ? "ALLOW" : "DENY";
+      const ipMatch = cmd.match(/from\s+([\d.]+)/i);
+      const portMatch = cmd.match(/port\s+(\d+)/i);
+      const ip = ipMatch ? ipMatch[1] : "any";
+      const to = portMatch ? portMatch[1] : "Anywhere";
+      setFw((f) => ({ ...f, rules: [...f.rules, { action, from: ip, to }] }));
+      out = fw.enabled ? ["Rule added"] : ["Rule added", "(note: firewall is inactive — enable it to enforce rules)"];
+    }
+    else if (c === "who") { out = ["abhijit   tty7         2026-06-25 09:14 (:0)", "abhijit   pts/0        2026-06-25 09:20 (192.168.1.10)"]; }
+    else if (c === "ps aux") {
+      out = ["USER   PID %CPU %MEM COMMAND", "root     1  0.0  0.1 /sbin/init", "root   642  0.1  0.4 /usr/sbin/sshd", "abhijit 1203 2.3 1.1 firefox", "abhijit 1450 0.0  0.2 bash"];
+    }
+    else if (c === "top") { out = ["top - 09:25:01 up 11 min, load avg: 0.18, 0.10, 0.05", "Tasks: 142 total, 1 running", "%Cpu(s): 3.1 us, 1.0 sy, 95.6 id", "(snapshot — press q to quit on a real system)"]; }
+    else if (c === "netstat -tulnp" || c === "netstat -an") {
+      out = ["Proto Local Address      State       PID/Program", "tcp   0.0.0.0:22          LISTEN      642/sshd", "tcp   127.0.0.1:631       LISTEN      820/cupsd", "tcp   0.0.0.0:80          LISTEN      990/nginx"];
+    }
+    else if (c === "nmap localhost") {
+      out = ["Starting Nmap scan on localhost (127.0.0.1)", "PORT    STATE  SERVICE", "22/tcp  open   ssh", "80/tcp  open   http", "631/tcp open   ipp", "Nmap done: 1 host up, scanned in 0.41s"];
+    }
+    else if (c === "sudo cat /var/log/auth.log" || c === "sudo journalctl") {
+      out = ["Jun 25 09:20:11 lab sshd[642]: Accepted password for abhijit from 192.168.1.10", "Jun 25 09:21:48 lab sshd[642]: Failed password for root from 45.13.7.66", "Jun 25 09:21:52 lab sshd[642]: Failed password for root from 45.13.7.66", "Jun 25 09:21:59 lab sshd[642]: Failed password for admin from 45.13.7.66", "  ↑ repeated failures from one IP = a brute-force attempt. Block it: sudo ufw deny from 45.13.7.66"];
+    }
+    else { out = [`command not found: ${cmd}`, "type 'help' to see what this lab supports"]; }
+
+    setLines((L) => [...L, { t: "cmd", v: cmd }, ...out.map((o) => ({ t: "out", v: o }))]);
+  };
+
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 08 · Linux practicals 3 & 4</div>
+      <h2 className="cl-h2">Security Terminal</h2>
+      <p className="cl-lead">
+        A safe, simulated Linux shell that runs the exact commands from your practicals — IP-based firewall rules and threat detection.
+        Nothing here touches a real system. Tap a command chip or type your own.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">
+          <TerminalIcon size={16} color="var(--plain)" /> abhijit@lab
+          <span className="badge" style={{ color: fw.enabled ? "var(--plain)" : "var(--faint)" }}>firewall: {fw.enabled ? "active" : "inactive"}</span>
+        </div>
+
+        <div style={{ background: "#05071c", border: "1px solid var(--line-2)", borderRadius: 12, padding: 14, height: 300, overflowY: "auto", fontFamily: "var(--mono)", fontSize: 12.5, lineHeight: 1.7 }}>
+          {lines.map((l, i) => (
+            <div key={i} style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+              {l.t === "cmd"
+                ? <span><span className="plain">abhijit@lab</span><span style={{ color: "var(--faint)" }}>:~$ </span><span style={{ color: "var(--text)" }}>{l.v}</span></span>
+                : <span style={{ color: "var(--muted)" }}>{l.v}</span>}
+            </div>
+          ))}
+          <div ref={endRef} />
+        </div>
+
+        <div style={{ display: "flex", gap: 8, marginTop: 12, alignItems: "center" }}>
+          <span className="mono plain" style={{ fontSize: 13 }}>$</span>
+          <input className="cl-input" style={{ flex: 1 }} value={input} placeholder="type a command…"
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { run(input); setInput(""); } }} />
+          <button className="cl-btn" onClick={() => { run(input); setInput(""); }}>Run</button>
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
+          {commands.map((cmd) => (
+            <button key={cmd} className="cl-chip" onClick={() => run(cmd)}>{cmd}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="cl-take">
+        <TerminalIcon className="ic" size={20} />
+        <div><b>The workflow.</b> Enable the firewall → allow your trusted IP → deny suspicious ones → then watch logs (<span className="mono">auth.log</span>, <span className="mono">netstat</span>, <span className="mono">nmap</span>) for repeated failed logins or unexpected open ports. That loop is the heart of both practicals.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+
+/* ============================ MODULE: VPN ================================ */
+function Vpn({ done, mark }) {
+  const [on, setOn] = useState(false);
+  return (
+    <div className="fade">
+      <div className="cl-eyebrow">Lab 09 · Encrypted tunneling</div>
+      <h2 className="cl-h2">VPN Tunnel</h2>
+      <p className="cl-lead">
+        On public WiFi, anyone nearby can watch your traffic. A VPN wraps everything in an <b>encrypted tunnel</b> to a VPN server first,
+        so the snooper sees only scrambled data going to one address. Flip it on and compare what the eavesdropper sees.
+      </p>
+
+      <div className="cl-card">
+        <div className="cl-card-h">
+          VPN is {on ? <span className="plain">ON</span> : <span className="cipher">OFF</span>}
+          <button className="cl-btn" style={{ marginLeft: "auto" }} onClick={() => setOn(!on)}>{on ? "Turn off" : "Turn on VPN"}</button>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "18px 4px", flexWrap: "wrap" }}>
+          <Node icon="💻" label="You" />
+          <Flow on={on} />
+          {on && <><Node icon="🛡️" label="VPN server" color="var(--key)" /><Flow on={on} /></>}
+          <Node icon="🏦" label="Your bank" />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 8 }}>
+          <Panel title="What you're really doing" color="var(--plain)">
+            <Row k="Destination" v="bank.com" c="plain" />
+            <Row k="Your data" v="balance: $4,210" c="plain" />
+          </Panel>
+          <Panel title="What the WiFi snooper sees" color={on ? "var(--plain)" : "var(--cipher)"}>
+            {on
+              ? <><Row k="Destination" v="vpn-server (only)" c="muted" /><Row k="Your data" v="a9f3··encrypted··e1" c="cipher" /></>
+              : <><Row k="Destination" v="bank.com" c="cipher" /><Row k="Your data" v="balance: $4,210" c="cipher" /></>}
+          </Panel>
+        </div>
+
+        <div className="cl-note fade" key={String(on)} style={{ borderColor: on ? "var(--plain)" : "var(--cipher)", background: on ? "rgba(110,231,168,.08)" : "rgba(255,122,138,.08)" }}>
+          {on
+            ? <span><b className="plain">Protected.</b> The snooper sees only an encrypted stream to the VPN server. Your real destination and data are hidden inside the tunnel.</span>
+            : <span><b className="cipher">Exposed.</b> Without a VPN, the snooper reads both where you're going and what you're sending.</span>}
+        </div>
+      </div>
+
+      <div className="cl-card">
+        <div className="cl-card-h">The three things a VPN gives you</div>
+        <div style={{ display: "grid", gap: 8 }}>
+          <Row k="Encryption" v="scrambles your data (AES-256, ChaCha20)" c="sig" />
+          <Row k="Authentication" v="verifies you before connecting" c="sig" />
+          <Row k="Tunneling" v="wraps traffic so the route is hidden" c="sig" />
+        </div>
+        <div className="cl-note">Notice this is everything you've learned, combined: a VPN <b>is</b> encryption + authentication applied to your whole connection.</div>
+      </div>
+
+      <div className="cl-take">
+        <Check className="ic" size={20} />
+        <div><b>You've connected the dots.</b> Ciphers scramble data, keys solve trust, signatures prove identity, firewalls control access — and a VPN bundles them into one secure pipe. That's the shape of the whole field.</div>
+      </div>
+      <DoneRow done={done} mark={mark} />
+    </div>
+  );
+}
+function Node({ icon, label, color }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <div style={{ width: 50, height: 50, borderRadius: 13, background: "rgba(255,255,255,.06)", border: `2px solid ${color || "var(--line-2)"}`, display: "grid", placeItems: "center", fontSize: 22, margin: "0 auto" }}>{icon}</div>
+      <div style={{ fontSize: 11.5, color: "var(--muted)", marginTop: 6 }}>{label}</div>
+    </div>
+  );
+}
+function Flow({ on }) {
+  return (
+    <div style={{ flex: 1, minWidth: 36, height: 3, borderRadius: 3, position: "relative", background: on ? "linear-gradient(90deg,var(--plain),var(--key))" : "var(--cipher)", opacity: on ? 1 : 0.6 }} />
+  );
+}
+function Panel({ title, color, children }) {
+  return (
+    <div style={{ background: "rgba(0,0,0,.22)", border: `1px solid var(--line)`, borderTop: `2px solid ${color}`, borderRadius: 12, padding: "13px 15px" }}>
+      <div className="cl-label" style={{ color, marginBottom: 9 }}>{title}</div>
+      <div style={{ display: "grid", gap: 7 }}>{children}</div>
+    </div>
+  );
+}
+
+/* ============================ shared: done row ============================ */
+function DoneRow({ done, mark }) {
+  return (
+    <div className="cl-done">
+      <button className={"cl-donebtn" + (done ? " is-done" : "")} onClick={mark}>
+        <Check size={15} /> {done ? "Completed" : "Mark as done"}
+      </button>
+      <span style={{ color: "var(--faint)", fontSize: 12.5 }}>Ask me in the chat to go deeper on anything here.</span>
+    </div>
+  );
+}
+
+/* ================================= APP =================================== */
+const MODULES = [
+  { id: "start", label: "Start here", sub: "The big idea", icon: Sparkles, C: Start },
+  { id: "caesar", label: "Caesar Cipher", sub: "Symmetric", icon: KeyRound, C: Caesar },
+  { id: "eve", label: "The Eavesdropper", sub: "The key problem", icon: Eye, C: Eve },
+  { id: "asym", label: "Two Keys", sub: "Public-key", icon: KeySquare, C: Asym },
+  { id: "rsa", label: "RSA Playground", sub: "Asymmetric math", icon: Calculator, C: RSA },
+  { id: "aes", label: "AES Walkthrough", sub: "Block cipher", icon: Grid3x3, C: AES },
+  { id: "sign", label: "Signatures", sub: "Proof & integrity", icon: PenLine, C: Sign },
+  { id: "firewall", label: "Firewall Defender", sub: "Access control", icon: Shield, C: Firewall },
+  { id: "terminal", label: "Security Terminal", sub: "Linux labs", icon: TerminalIcon, C: Term },
+  { id: "vpn", label: "VPN Tunnel", sub: "Tunneling", icon: Network, C: Vpn },
+];
+
+function App() {
+  const [active, setActive] = useState("start");
+  const [done, setDone] = useState({});
+  const topRef = useRef(null);
+
+  const go = (id) => { setActive(id); topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const mark = (id) => setDone((d) => ({ ...d, [id]: !d[id] }));
+
+  const Current = MODULES.find((m) => m.id === active).C;
+  const completedCount = Object.values(done).filter(Boolean).length;
+  const pct = Math.round((completedCount / MODULES.length) * 100);
+
+  return (
+    <div className="cl">
+      <style>{STYLES}</style>
+      <div className="cl-wrap" ref={topRef}>
+        {/* sidebar */}
+        <aside className="cl-side">
+          <div className="cl-brand">
+            <div className="cl-mark"><Lock size={19} /></div>
+            <div>
+              <h1>CipherLab</h1>
+              <p>Security, hands-on</p>
+            </div>
+          </div>
+
+          <div className="cl-prog">
+            <div className="cl-ring" style={{ ["--p"]: pct }}>
+              <span>{pct}%</span>
+            </div>
+            <div>
+              <b>{completedCount} of {MODULES.length} done</b>
+              <small>{pct === 100 ? "You finished — nice." : "Work top to bottom"}</small>
+            </div>
+          </div>
+
+          <nav className="cl-nav">
+            {MODULES.map((m) => {
+              const Ic = m.icon;
+              return (
+                <button key={m.id} className={"cl-navbtn" + (active === m.id ? " on" : "")} onClick={() => go(m.id)}>
+                  <span className="ic"><Ic size={15} /></span>
+                  <span className="tx"><b>{m.label}</b><small>{m.sub}</small></span>
+                  {done[m.id] && <span className="dn"><Check size={15} /></span>}
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
+
+        {/* main */}
+        <main className="cl-main">
+          <Current done={!!done[active]} mark={() => mark(active)} go={go} />
+        </main>
+      </div>
+    </div>
+  );
+}
