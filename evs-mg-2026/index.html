@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVS Semester Prep Hub (2026) | Study Guides & Active Recall</title>
+    <meta name="description" content="An interactive exam preparation portal for Environmental Science and Sustainability, featuring solved assignments, active recall quizzes, and voice recording aids.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #080c14;
+            --bg-secondary: #0f172a;
+            --bg-glass: rgba(15, 23, 42, 0.65);
+            --bg-glass-hover: rgba(30, 41, 59, 0.8);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --accent-cyan: #06b6d4;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --color-success: #10b981;
+            --color-error: #ef4444;
+            --color-warning: #f59e0b;
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --glow-cyan: rgba(6, 182, 212, 0.15);
+            --glow-blue: rgba(59, 130, 246, 0.2);
+            --transition-speed: 0.3s;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Ambient Background Blobs */
+        .ambient-blobs {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.35;
+            animation: float-blob 25s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-cyan) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+        }
+
+        .blob-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-purple) 0%, transparent 70%);
+            bottom: -200px;
+            left: -150px;
+            animation-duration: 35s;
+        }
+
+        .blob-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%);
+            top: 40%;
+            left: 30%;
+            opacity: 0.2;
+            animation-duration: 20s;
+        }
+
+        @keyframes float-blob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 30px) scale(1.1); }
+            100% { transform: translate(-30px, -50px) scale(0.9); }
+        }
+
+        /* Canvas Particle Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.25;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Layout Structure */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Styling */
+        aside {
+            background: rgba(10, 15, 30, 0.8);
+            border-right: 1px solid var(--border-glass);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-primary);
+        }
+
+        .logo-text h1 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation Links */
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .nav-item button {
+            width: 100%;
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition-speed);
+        }
+
+        .nav-item button svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            transition: transform var(--transition-speed);
+        }
+
+        .nav-item button:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(3px);
+        }
+
+        .nav-item.active button {
+            color: var(--text-primary);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(59, 130, 246, 0.05));
+            border-left: 3px solid var(--accent-cyan);
+            box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.05);
+            padding-left: 0.85rem;
+        }
+
+        .nav-item.active button svg {
+            stroke: var(--accent-cyan);
+            transform: scale(1.1);
+        }
+
+        /* User Info Panel */
+        .sidebar-footer {
+            border-top: 1px solid var(--border-glass);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .user-details h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content Panel */
+        main {
+            padding: 2.5rem 3rem;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header Summary Bar */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            gap: 2rem;
+        }
+
+        .welcome-text h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-text p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .quick-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .stat-badge {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2;
+        }
+
+        .stat-info span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-info strong {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-badge.cyan .stat-icon { color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1); }
+        .stat-badge.purple .stat-icon { color: var(--accent-purple); background: rgba(139, 92, 246, 0.1); }
+        .stat-badge.green .stat-icon { color: var(--color-success); background: rgba(16, 185, 129, 0.1); }
+
+        /* Page View Wrapper */
+        .content-view {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .content-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.2);
+        }
+
+        .glass-card h3.card-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+        }
+
+        .glass-card h3.card-title svg {
+            width: 22px;
+            height: 22px;
+            stroke-width: 2;
+            color: var(--accent-cyan);
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Alert / Note Boxes */
+        .info-box {
+            background: rgba(6, 182, 212, 0.06);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .warning-box {
+            background: rgba(245, 158, 11, 0.06);
+            border-left: 4px solid var(--color-warning);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+            color: #e2e8f0;
+        }
+
+        .warning-box strong {
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Memory Aid Panel Styling */
+        .memory-aid {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(59, 130, 246, 0.03));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-aid::before {
+            content: "MEMORY AID";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            letter-spacing: 1.5px;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .memory-aid-title {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .memory-aid-title svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent-purple);
+        }
+
+        /* Timelines and Lists */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-event {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 3px solid var(--accent-cyan);
+            z-index: 2;
+        }
+
+        .timeline-date {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-body strong {
+            color: var(--text-primary);
+        }
+
+        /* Accordions/Collapsibles for Solved Qs */
+        .solved-item {
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .solved-item:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .solved-header {
+            padding: 1.1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 0.98rem;
+            user-select: none;
+            transition: background 0.3s;
+        }
+
+        .solved-header.active {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .solved-header .q-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding-right: 1.5rem;
+        }
+
+        .q-badge {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .solved-header .chevron {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.5;
+            transition: transform 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .solved-header.active .chevron {
+            transform: rotate(180deg);
+            color: var(--accent-cyan);
+        }
+
+        .solved-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        .solved-body.open {
+            padding: 1.5rem;
+            max-height: 1000px; /* high limit to accommodate body */
+        }
+
+        .solved-body p {
+            margin-bottom: 1rem;
+        }
+
+        .solved-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* MCQ styling inside list */
+        .mcq-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .mcq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .mcq-question {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .mcq-no {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .mcq-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .mcq-opt {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.65rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mcq-opt.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--color-success);
+            color: var(--color-success);
+            font-weight: 600;
+        }
+
+        .mcq-opt.selected-incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--color-error);
+            color: var(--color-error);
+        }
+
+        .mcq-explain {
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 0.85rem 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-radius: 0 0 12px 12px;
+            margin-top: 0.5rem;
+        }
+
+        .mcq-explain strong {
+            color: var(--accent-cyan);
+        }
+
+        /* Biodiversity Section Subcategories */
+        .bio-section-box {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .bio-section-box:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .bio-header {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bio-header .sec-no {
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .bio-body {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .bio-grid-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .bio-stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .bio-stat-val {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .bio-stat-lbl {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bio-case-study {
+            background: rgba(16, 185, 129, 0.03);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .bio-case-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--color-success);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .bio-case-title svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 3D Flashcards Panel */
+        .flashcards-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .flashcard-scene {
+            width: 550px;
+            height: 320px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(12px);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border-color: rgba(6, 182, 212, 0.2);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 12, 20, 0.95));
+            transform: rotateY(180deg);
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .card-header.back-header {
+            color: var(--accent-purple);
+        }
+
+        .card-body-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            text-align: center;
+            color: var(--text-primary);
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .card-back .card-body-text {
+            font-size: 0.92rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .card-footer-tip {
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .btn-nav:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        .btn-nav:active {
+            transform: scale(0.95);
+        }
+
+        .card-indicator {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Active Voice Recording Panel */
+        .voice-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .record-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .record-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-record {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border: 4px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            color: #fff;
+        }
+
+        .btn-record:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        .btn-record.recording {
+            animation: pulse-recording 1.5s infinite alternate;
+            background: #ef4444;
+        }
+
+        @keyframes pulse-recording {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1.05); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .btn-record svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .record-status {
+            text-align: center;
+        }
+
+        .record-status h4 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .record-status p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .timer-display {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-top: 0.5rem;
+        }
+
+        /* Recordings List */
+        .recordings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .rec-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .rec-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex-grow: 1;
+        }
+
+        .rec-title-input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid transparent;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            outline: none;
+            padding: 2px 0;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .rec-title-input:focus {
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .rec-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .rec-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-play-audio {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-play-audio:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+            transform: scale(1.05);
+        }
+
+        .btn-delete-audio {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--color-error);
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-audio:hover {
+            background: var(--color-error);
+            color: var(--text-primary);
+            transform: scale(1.05);
+        }
+
+        /* Quiz UI Elements */
+        .quiz-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-question-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .quiz-option-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(6, 182, 212, 0.3);
+            color: var(--text-primary);
+        }
+
+        .quiz-option-btn.correct-choice {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--color-success);
+            color: var(--color-success);
+            font-weight: 600;
+        }
+
+        .quiz-option-btn.incorrect-choice {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: var(--color-error);
+            color: var(--color-error);
+        }
+
+        .quiz-explanation {
+            margin-top: 1.5rem;
+            background: rgba(6, 182, 212, 0.04);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.1rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .quiz-footer-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-next-q {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: var(--text-primary);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.75rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+            display: none;
+        }
+
+        .btn-next-q:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .quiz-results-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .quiz-score-num {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .quiz-feedback {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .btn-reset-quiz {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 0.75rem 1.75rem;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset-quiz:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile Tab-Bar (Responsive fallback) */
+        .mobile-tabs {
+            display: none;
+            background: rgba(10, 15, 30, 0.95);
+            border-bottom: 1px solid var(--border-glass);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.75rem 1rem;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .mobile-tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-tab-btn.active {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        /* Responsive Layout Media Queries */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            aside {
+                display: none;
+            }
+
+            .mobile-tabs {
+                display: flex;
+            }
+
+            main {
+                padding: 1.5rem;
+            }
+
+            .header-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .quick-stats {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .stat-badge {
+                flex-shrink: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .flashcard-scene {
+                width: 100%;
+                max-width: 450px;
+                height: 280px;
+            }
+
+            .mcq-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient background glows -->
+    <div class="ambient-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Interactive node link canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Mobile Top Navigation Tabs -->
+    <nav class="mobile-tabs" id="mobile-tabs-container">
+        <button class="mobile-tab-btn active" onclick="switchTab('ca1-ca2')">CA 1 & 2</button>
+        <button class="mobile-tab-btn" onclick="switchTab('ca3')">CA 3 (Energy & Waste)</button>
+        <button class="mobile-tab-btn" onclick="switchTab('ca4')">CA 4 (Air & Water)</button>
+        <button class="mobile-tab-btn" onclick="switchTab('biodiversity')">Biodiversity Guide</button>
+        <button class="mobile-tab-btn" onclick="switchTab('active-recall')">Recall Station</button>
+    </nav>
+
+    <!-- Main Application Wrapper -->
+    <div class="app-container">
+
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside>
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>EVS Study Portal</h1>
+                    <span>Prepping for Exams</span>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item active" id="nav-ca1-ca2">
+                    <button onclick="switchTab('ca1-ca2')">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        CA 1 & CA 2 Prep
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-ca3">
+                    <button onclick="switchTab('ca3')">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+                        CA 3 Solved
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-ca4">
+                    <button onclick="switchTab('ca4')">
+                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        CA 4 Solved
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-biodiversity">
+                    <button onclick="switchTab('biodiversity')">
+                        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-10 10c0 5.523 4.477 10 10 10s10-4.477 10-10A10 10 0 0 0 12 2zm1 10h-2V7h2v5zm0 4h-2v-2h2v2z"/></svg>
+                        Biodiversity Guide
+                    </button>
+                </li>
+                <li class="nav-item" id="nav-active-recall">
+                    <button onclick="switchTab('active-recall')">
+                        <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Recall Station
+                    </button>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="user-avatar">MG</div>
+                    <div class="user-details">
+                        <h3>Madhurima Ghosh</h3>
+                        <p>EVS Prep Candidate</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main>
+
+            <!-- Top Header & Stats -->
+            <header class="header-bar">
+                <div class="welcome-text">
+                    <h2 id="header-view-title">CA 1 & CA 2 Core Concepts</h2>
+                    <p id="header-view-desc">High-Yield Exam Summaries & Key Historical Timelines</p>
+                </div>
+
+                <div class="quick-stats">
+                    <div class="stat-badge cyan">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span>Syllabus Parts</span>
+                            <strong>5 Sections</strong>
+                        </div>
+                    </div>
+                    <div class="stat-badge purple">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span>Solved MCQs</span>
+                            <strong>20 Solved</strong>
+                        </div>
+                    </div>
+                    <div class="stat-badge green">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <span>Recall Cards</span>
+                            <strong>8 Flashcards</strong>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ================= VIEW 1: CA 1 & CA 2 ================= -->
+            <section class="content-view active" id="view-ca1-ca2">
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        CA 1: World Population Year (1974) & International Women's Year (1975)
+                    </h3>
+                    <div class="info-box">
+                        <strong>Concept Breakthrough</strong>
+                        This topic tracks the historical shift in global policy making from a mechanical "population control" approach to a human-rights-focused development model that integrates women's empowerment.
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-event">
+                            <div class="timeline-date">1974: World Population Year (Bucharest Conference)</div>
+                            <div class="timeline-body">
+                                <p>The UN held the first <strong>World Population Conference in Bucharest</strong>. Western nations initially pushed for strict, top-down quantitative population control targets. However, developing nations (led by India and Argentina) resisted, arguing that <em>"Development is the best contraceptive"</em>. The conference formally recognized that population policies cannot be decoupled from socio-economic progress.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-event">
+                            <div class="timeline-date">1975: International Women's Year (Mexico City Conference)</div>
+                            <div class="timeline-body">
+                                <p>Centering on <strong>"Equality, Development, and Peace"</strong>, the first World Conference on Women was held in Mexico City. It transformed the global policy perspective on women: rather than treating them as passive recipients of family planning or economic aid, they were recognized as <strong>active agents</strong> and equal participants in planning and policy making.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2" style="margin-top: 1.5rem;">
+                        <div>
+                            <h4 style="margin-bottom: 0.5rem; color: var(--accent-cyan);">Key Policy Impacts</h4>
+                            <ul style="padding-left: 1.2rem; font-size: 0.92rem; color: var(--text-secondary);">
+                                <li style="margin-bottom: 0.5rem;"><strong>Integration of Women:</strong> The 1974 Plan of Action recommended increasing women's political, economic, and social roles, which became the cornerstone of the 1975 goals.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Reproductive Rights:</strong> Replaced strict demographic targets with the autonomy of couples and individuals to choose their family size safely.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Long-Term UN Infrastructure:</strong> Spawned the <em>UN Decade for Women (1976–1985)</em>, the <em>International Research and Training Institute for the Advancement of Women (INSTRAW)</em>, and the <em>United Nations Development Fund for Women (UNIFEM)</em>.</li>
+                            </ul>
+                        </div>
+                        <div class="memory-aid">
+                            <div class="memory-aid-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                Memory Aid: The "Autonomy Chain"
+                            </div>
+                            <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                                <strong>Bucharest (1974)</strong> shifted focus from <em>Numbers</em> to <em>Development</em>.<br>
+                                <strong>Mexico City (1975)</strong> shifted focus from <em>Development</em> to <em>Women's Agency</em>.<br>
+                                Together they established that: <strong>Healthy Women = Sustainable Demographics.</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        CA 2: Norman Borlaug & The Green Revolution
+                    </h3>
+                    <div class="info-box" style="background: rgba(139, 92, 246, 0.04); border-left-color: var(--accent-purple);">
+                        <strong>Who was Norman Borlaug?</strong>
+                        An American agronomist (1914–2009) widely hailed as the <strong>"Father of the Green Revolution"</strong>. He won the <strong>Nobel Peace Prize in 1970</strong> for saving hundreds of millions of lives through agricultural science.
+                    </div>
+
+                    <div style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        <h4 style="color: var(--text-primary); margin-bottom: 0.75rem;">1. Development of Semi-Dwarf Wheat (Mexico)</h4>
+                        <p style="margin-bottom: 1rem;">Working under the Rockefeller Foundation in Mexico in the 1940s-50s, Borlaug bred <strong>semi-dwarf wheat varieties</strong>. Traditional tall wheat strains would bend and collapse (known as <em>lodging</em>) under the weight of large, fertilizer-heavy grain heads. Borlaug's shorter, sturdier wheat could absorb abundant nutrients without falling, drastically raising crop yields and making Mexico wheat self-sufficient by 1956.</p>
+                        <p style="margin-bottom: 1rem;">He pioneered <strong>"shuttle breeding"</strong>—growing two crops a year in geographically distinct Mexican regions (one in highland Chapingo, one in lowland Sonora)—slashing the time needed to breed new varieties in half and producing crops with wide ecological tolerance.</p>
+                        
+                        <h4 style="color: var(--text-primary); margin-top: 1.5rem; margin-bottom: 0.75rem;">2. Deployment to South Asia (India & Pakistan)</h4>
+                        <p style="margin-bottom: 1rem;">In the mid-1960s, during severe food crisis/famines in India and Pakistan, Borlaug imported tons of semi-dwarf wheat seed (Lerma Rojo 64 and Sonora 64). Under partnerships with scientists like M.S. Swaminathan in India, grain yields doubled in just a few seasons, causing a production boom termed the <strong>Green Revolution</strong>.</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Critical Evaluation for Exams</strong>
+                        Be ready to discuss the dual legacy of the Green Revolution:
+                        <ul style="padding-left: 1.2rem; margin-top: 0.5rem;">
+                            <li><strong>Pros:</strong> Massive reduction in starvation, grain self-sufficiency for vulnerable nations, preservation of forests by increasing crop yields on existing farmland.</li>
+                            <li><strong>Cons:</strong> Heavy reliance on expensive chemical inputs (synthetic fertilizers and pesticides), water tables depleted by intensive tubewell irrigation, loss of crop genetic diversity, and economic marginalization of smallholders.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 2: CA 3 ================= -->
+            <section class="content-view" id="view-ca3">
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        CA 3 Solved MCQs (10 Marks)
+                    </h3>
+                    <ul class="mcq-list" id="ca3-mcq-container">
+                        <!-- Filled by JS -->
+                    </ul>
+                </div>
+
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        CA 3 Solved Short Questions (Any 3 - 15 Marks)
+                    </h3>
+                    <div id="ca3-short-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 3: CA 4 ================= -->
+            <section class="content-view" id="view-ca4">
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                        CA 4 Solved MCQs (10 Marks)
+                    </h3>
+                    <ul class="mcq-list" id="ca4-mcq-container">
+                        <!-- Filled by JS -->
+                    </ul>
+                </div>
+
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        CA 4 Solved Short Questions (Any 3 - 15 Marks)
+                    </h3>
+                    <div id="ca4-short-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 4: BIODIVERSITY ================= -->
+            <section class="content-view" id="view-biodiversity">
+                <div class="glass-card">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        Biodiversity Course Book Summary (Upto Section 4.8 / Page 94)
+                    </h3>
+                    
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.1</span> Introduction & Definitions</div>
+                        <div class="bio-body">
+                            <p style="margin-bottom: 0.75rem;">Biodiversity is defined as the variety of life on Earth across three levels of biological organization:</p>
+                            <ul style="padding-left: 1.5rem; margin-bottom: 1rem;">
+                                <li style="margin-bottom: 0.5rem;"><strong>Genetic Diversity:</strong> The variation of genes within a single species. (e.g., thousands of distinct traditional cultivars of rice like basmati, jasmine). It allows species to adapt to environmental changes and resist diseases.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Species Diversity:</strong> The variety of different species within a region. Estimated to be around 1.8 million species described worldwide, but true numbers could be 10 million or more.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Ecosystem Diversity:</strong> The variety of ecological habitats, niches, and communities (e.g., tropical rainforests, coral reefs, grasslands, wetlands, mangroves).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.2</span> Biogeographic Classification of India</div>
+                        <div class="bio-body">
+                            <p style="margin-bottom: 1rem;">India is divided into <strong>10 distinct Biogeographic Zones</strong> based on climate, terrain, and characteristic vegetation patterns:</p>
+                            <div class="grid-2" style="font-size: 0.9rem;">
+                                <ol style="padding-left: 1.2rem;">
+                                    <li style="margin-bottom: 0.4rem;"><strong>Trans-Himalaya:</strong> Cold, high-altitude desert of Ladakh.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Himalaya:</strong> Rugged mountain ranges and valleys.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Terai:</strong> Wet swampy grasslands at the Himalayan foothills.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Gangetic & Brahmaputra Plains:</strong> Highly fertile alluvial plains.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Thar Desert:</strong> Arid sand dune ecosystem of Rajasthan.</li>
+                                </ol>
+                                <ol start="6" style="padding-left: 1.2rem;">
+                                    <li style="margin-bottom: 0.4rem;"><strong>Deccan Peninsula (Semi-arid):</strong> Dry forest/grasslands plateau.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Northeast States:</strong> High-rainfall tropical forest zone.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Western Ghats:</strong> Mountain range with rich evergreen forests.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Andaman & Nicobar Islands:</strong> Equatorial island biodiversity.</li>
+                                    <li style="margin-bottom: 0.4rem;"><strong>Coastal Belts:</strong> Mangroves, sandy beaches, estuaries.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.3</span> Value of Biodiversity</div>
+                        <div class="bio-body">
+                            <p style="margin-bottom: 0.75rem;">Biodiversity provides irreplaceable services and values categorized as follows:</p>
+                            <ul style="padding-left: 1.5rem;">
+                                <li style="margin-bottom: 0.5rem;"><strong>Consumptive Use Value:</strong> Direct consumption of natural products (e.g., harvesting firewood, wild fruits, game, forest medicinal herbs) without commercial marketing.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Productive Use Value:</strong> Commercial products sold in markets (e.g., timber, fish, industrial oils, crops, commercial pharmaceuticals like <em>Taxol</em> from Pacific Yew or <em>Vinblastine</em> from Periwinkle).</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Social & Ethical Values:</strong> Cultural, spiritual, and religious ties to nature (e.g., sacred groves, worship of specific trees/animals like Peepal or Tulsi), and the ethical belief that all species have a right to exist.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Aesthetic & Option Values:</strong> Ecotourism and recreation; plus option value—preserving species for future potential use (e.g., undiscovered genetic crop properties or drugs).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.5</span> India as a Mega-Diversity Nation</div>
+                        <div class="bio-body">
+                            <p>India is one of the top 10-15 megadiverse countries. Its unique biodiversity arose because it split from Gondwanaland ~70M years ago, drifted north across the equator, closed the Tethys Sea, collided with Eurasia (importing European/East Asian flora & fauna), and subsequently received savanna species from Africa.</p>
+                            
+                            <div class="bio-grid-stats">
+                                <div class="bio-stat-card">
+                                    <div class="bio-stat-val">350</div>
+                                    <div class="bio-stat-lbl">Mammal Species (8th)</div>
+                                </div>
+                                <div class="bio-stat-card">
+                                    <div class="bio-stat-val">1,200</div>
+                                    <div class="bio-stat-lbl">Bird Species (8th)</div>
+                                </div>
+                                <div class="bio-stat-card">
+                                    <div class="bio-stat-val">453</div>
+                                    <div class="bio-stat-lbl">Reptile Species (5th)</div>
+                                </div>
+                                <div class="bio-stat-card">
+                                    <div class="bio-stat-val">18%</div>
+                                    <div class="bio-stat-lbl">Endemic Plants</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.6</span> Hotspots of Biodiversity</div>
+                        <div class="bio-body">
+                            <p style="margin-bottom: 0.75rem;">Biodiversity hotspots are biogeographic regions with significant reservoir of biodiversity that is under threat from humans. Key acceptances in India:</p>
+                            <ul style="padding-left: 1.5rem; margin-bottom: 1rem;">
+                                <li style="margin-bottom: 0.5rem;"><strong>Northeast Forests:</strong> Extremely rich in species, including 63% of land mammal genera in India and 1,500 endemic plant species.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Western Ghats:</strong> Rich in amphibians and reptiles, particularly snakes, plus 1,500 endemic plant species.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Andaman & Nicobar:</strong> Isolated island ecosystem with 2,200 flowering plants and high endemism.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bio-section-box">
+                        <div class="bio-header"><span class="sec-no">Section 4.7</span> Threats to Biodiversity</div>
+                        <div class="bio-body">
+                            <p style="margin-bottom: 0.75rem;">Major human-driven threats leading to species extinction include:</p>
+                            <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+                                <li style="margin-bottom: 0.5rem;"><strong>Habitat Loss:</strong> Conversion of forests to agriculture/plantations, clearing mangroves for firewood/shrimp farming, draining wetlands.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Exotic Invasive Weeds:</strong> *Lantana*, *Eupatorium*, and *Parthenium* (Congress grass) spreading at the expense of native flora.</li>
+                                <li style="margin-bottom: 0.5rem;"><strong>Poaching & Wildlife Trade:</strong> Tiger skin/bones, elephant ivory, rhino horn, musk deer scent, bear gall bladders, marine shells/corals.</li>
+                            </ul>
+
+                            <div class="bio-case-study">
+                                <div class="bio-case-title">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    Case Study 1: Kailadevi Wildlife Sanctuary (Rajasthan)
+                                </div>
+                                <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+                                    Initiated in 1983 as part of Ranthambore Tiger Reserve. Local Meena and Gujjar pastoralist communities faced pressure from illegal mining, timber extraction, and migrant Rabari grazers (herding 150,000 sheep). In 1990, the villagers formed the "Baragaon ki Panchayat" and launched the <em>"Bhed Bhagao Andolan"</em>. Supported by the Forest Department, they created Forest Protection Committees to check illegal logging and ban mining, successfully managing their own resources.
+                                </p>
+                            </div>
+
+                            <div class="bio-case-study" style="background: rgba(59, 130, 246, 0.03); border-color: rgba(59, 130, 246, 0.15);">
+                                <div class="bio-case-title" style="color: var(--accent-blue);">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    Case Study 2: Kokkare Bellur Village (Karnataka)
+                                </div>
+                                <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary);">
+                                    A village in Karnataka representing an outstanding example of man-wildlife co-existence. Endangered spot-billed pelicans and painted storks migrate here every December to nest on tall tamarind trees in the village center. Villagers protect these birds, viewing them as symbols of good luck for rain. In return, they harvest <strong>guano</strong> (nitrate-rich bird droppings) from deep pits dug under the nesting trees, mixing it with silt to use and sell as a powerful natural fertilizer.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= VIEW 5: ACTIVE RECALL STATION ================= -->
+            <section class="content-view" id="view-active-recall">
+                <div class="grid-2">
+                    
+                    <!-- Flashcard System -->
+                    <div class="glass-card">
+                        <h3 class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3A2.5 2.5 0 0 1 6.5 0.5H20v16.5H6.5a2.5 2.5 0 0 0-2 2.5z"/></svg>
+                            Exam Flashcard Memory Aids
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Click the card to flip it and reveal the key summary/answer. Use the arrows to cycle through cards.
+                        </p>
+
+                        <div class="flashcards-container">
+                            <div class="flashcard-scene" onclick="flipFlashcard()">
+                                <div class="flashcard" id="active-flashcard">
+                                    <div class="card-face card-front">
+                                        <div class="card-header">EVS EXAM MEMORY AID</div>
+                                        <div class="card-body-text" id="fc-question">Loading card...</div>
+                                        <div class="card-footer-tip">Click to flip card</div>
+                                    </div>
+                                    <div class="card-face card-back">
+                                        <div class="card-header back-header">ANSWER & EXPLANATION</div>
+                                        <div class="card-body-text" id="fc-answer">Loading answer...</div>
+                                        <div class="card-footer-tip">Click to flip back</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flashcard-nav">
+                                <button class="btn-nav" onclick="prevFlashcard(event)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+                                </button>
+                                <span class="card-indicator" id="fc-indicator">Card 1 / 8</span>
+                                <button class="btn-nav" onclick="nextFlashcard(event)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Recording Board -->
+                    <div class="glass-card">
+                        <h3 class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+                            Active Recall Voice Recorder
+                        </h3>
+                        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                            Record yourself explaining a concept aloud. Playing it back strengthens neural pathways. Your recordings are saved in the browser!
+                        </p>
+
+                        <div class="voice-section">
+                            <div class="record-controls">
+                                <div class="record-btn-wrapper">
+                                    <button class="btn-record" id="btn-record" onclick="toggleAudioRecording()">
+                                        <svg viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="8"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="record-status">
+                                    <h4 id="record-status-txt">Microphone Idle</h4>
+                                    <p id="record-instructions">Click the red button to record vocal memo</p>
+                                    <div class="timer-display" id="record-timer">00:00</div>
+                                </div>
+                            </div>
+
+                            <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin-top: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.5rem;">
+                                Your Recorded Memos
+                            </h4>
+                            <div class="recordings-list" id="recordings-container">
+                                <!-- Filled by JS -->
+                                <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 1rem;" id="no-recordings-msg">
+                                    No recordings saved yet. Record one above to start!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Quiz Center -->
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h3 class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        Interactive Prep Quiz (20 High-Yield Questions)
+                    </h3>
+                    
+                    <div class="quiz-card" id="quiz-card-box">
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress-fill" id="quiz-progress-indicator"></div>
+                        </div>
+                        
+                        <div class="quiz-question-screen" id="quiz-question-screen">
+                            <div class="quiz-header">
+                                <span id="quiz-question-number">Question 1 of 20</span>
+                                <span id="quiz-score-indicator">Current Score: 0/0</span>
+                            </div>
+                            <h4 class="quiz-question-title" id="quiz-question-text">Question goes here?</h4>
+                            
+                            <div class="quiz-options-list" id="quiz-options-box">
+                                <!-- Filled by JS -->
+                            </div>
+                            
+                            <div class="quiz-explanation" id="quiz-explain-box">
+                                <!-- Filled by JS -->
+                            </div>
+                            
+                            <div class="quiz-footer-buttons">
+                                <button class="btn-next-q" id="btn-next-q" onclick="nextQuizQuestion()">Next Question</button>
+                            </div>
+                        </div>
+
+                        <div class="quiz-results-screen" id="quiz-results-screen">
+                            <h4 style="font-family: var(--font-heading); font-size: 1.75rem;">Quiz Completed!</h4>
+                            <div class="quiz-score-num" id="quiz-final-score">18 / 20</div>
+                            <p class="quiz-feedback" id="quiz-final-feedback">Superb work! You are fully prepared for the exam.</p>
+                            <button class="btn-reset-quiz" onclick="restartQuiz()">Restart Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Data & Scripts -->
+    <script>
+        // Data Structures
+        const CA3_MCQS = [
+            {
+                q: "Nuclear power provides about _______% of global energy supply.",
+                opts: ["0%", "5%", "10%", "15%"],
+                ans: 2, // 10%
+                explain: "While nuclear energy constitutes roughly <strong>10%</strong> of the world's <em>electricity generation</em>, it accounts for about <strong>5%</strong> of the <em>total global primary energy supply</em> (since electricity is only one sector of energy usage). Most standard introductory textbooks list <strong>10%</strong> as the answer by conflating the two."
+            },
+            {
+                q: "List 4 As of understanding energy security:",
+                opts: ["Availability, Accessibility, Affordability, Acceptability", "Availability, Abundance, Allocation, Adequacy", "Affordability, Agriculture, Air, Autonomy", "Acceptability, Assimilation, Allocation, Accountability"],
+                ans: 0,
+                explain: "The 4 As are: <strong>Availability</strong> (geological resource existence), <strong>Accessibility</strong> (geopolitical/geographical access), <strong>Affordability</strong> (economic cost to consumer), and <strong>Acceptability</strong> (environmental and societal consensus)."
+            },
+            {
+                q: "From the incoming 100% solar radiation, ______% is absorbed by ocean and land.",
+                opts: ["23%", "30%", "47%", "100%"],
+                ans: 2, // 47%
+                explain: "Out of the incoming solar budget: <strong>30%</strong> is reflected back by clouds and atmosphere (albedo), <strong>23%</strong> is absorbed in the atmosphere, and approximately <strong>47%</strong> is absorbed by the Earth's surface (oceans and land)."
+            },
+            {
+                q: "________ regulates Earth’s temperature.",
+                opts: ["Sunlight", "Ultraviolet (UV)", "Infrared (IR)", "Greenhouse Effect"],
+                ans: 3,
+                explain: "The <strong>Greenhouse Effect</strong> regulates Earth's temperature. Greenhouse gases (like water vapor, CO2, and methane) trap outbound Infrared (IR) heat radiation, keeping the planet's average temperature at a liveable 15°C instead of a freezing -18°C."
+            },
+            {
+                q: "100% processing of total Municipal Solid Waste (MSW) is achieved in which Indian state?",
+                opts: ["Madhya Pradesh", "Uttar Pradesh", "West Bengal", "Chhattisgarh"],
+                ans: 3,
+                explain: "<strong>Chhattisgarh</strong> was recognized as the first state in India to achieve 100% door-to-door collection and complete scientific processing of all generated Municipal Solid Waste (MSW)."
+            },
+            {
+                q: "For every ton of paper recycled, ______ number of trees are saved.",
+                opts: ["7", "17", "20", "25"],
+                ans: 1, // 17
+                explain: "Recycling one ton of paper saves approximately <strong>17 trees</strong>, along with 7,000 gallons of water, 3 cubic yards of landfill space, and 4,000 kilowatt-hours of electricity."
+            },
+            {
+                q: "Large household appliances constitute _______% of the total e-waste.",
+                opts: ["22%", "32%", "42%", "52%"],
+                ans: 2, // 42%
+                explain: "Large household appliances (such as refrigerators, washing machines, and ovens) make up approximately <strong>42%</strong> of electronic waste by weight, making them the largest single category."
+            },
+            {
+                q: "65% of the world's e-waste was historically treated in_______.",
+                opts: ["India", "Bangladesh", "China", "Sri Lanka"],
+                ans: 2, // China
+                explain: "The town of <strong>Guiyu, China</strong>, was historically the e-waste capital of the world, where it was estimated that up to 60-70% of the world's exported electronic waste was processed in informal backyard workshops."
+            },
+            {
+                q: "E-waste was used to make Olympic medals in which country?",
+                opts: ["USA", "Japan", "China", "Germany"],
+                ans: 1, // Japan
+                explain: "For the <strong>Tokyo 2020 Olympic Games</strong>, Japan manufactured all gold, silver, and bronze medals using metals extracted from 78,985 tons of recycled electronic waste (including 6.2 million mobile phones) donated by its citizens."
+            },
+            {
+                q: "Which country manages/generates the maximum volume of e-waste?",
+                opts: ["USA", "Japan", "China", "Germany"],
+                ans: 2, // China
+                explain: "<strong>China</strong> is the largest generator and manager of e-waste in the world in terms of total mass, followed by the United States and India."
+            }
+        ];
+
+        const CA3_SHORTS = [
+            {
+                q: "Discuss strategies for achieving energy security.",
+                ans: "Energy security is the uninterrupted availability of energy sources at an affordable price. Key strategies include:<br><br>" +
+                     "1. <strong>Diversification of Energy Sources:</strong> Expanding the energy mix to include solar, wind, hydro, and nuclear power alongside traditional fossil fuels to reduce reliance on any single source.<br>" +
+                     "2. <strong>Enhancing Energy Efficiency:</strong> Implementing technology and conservation policies in buildings, industries, and transportation to reduce overall demand.<br>" +
+                     "3. <strong>Strategic Reserves:</strong> Building oil, gas, and coal stockpiles (like Strategic Petroleum Reserves) to withstand sudden supply line disruptions.<br>" +
+                     "4. <strong>Grid Modernization:</strong> Investing in robust, decentralized smart grids that can handle volatile renewable inputs.<br>" +
+                     "5. <strong>Geopolitical Strategy:</strong> Forming strong international energy alliances and securing supply lanes."
+            },
+            {
+                q: "What are the impacts of global energy imbalance?",
+                ans: "Global energy imbalance refers to the difference between the solar energy absorbed by Earth and the thermal infrared energy radiated back to space. Current impacts include:<br><br>" +
+                     "1. <strong>Global Warming & Climate Change:</strong> Excess energy is primarily stored in the oceans, causing rising global temperatures.<br>" +
+                     "2. <strong>Oceanic Heat Accumulation:</strong> Causes sea-level rise via thermal expansion, glacier melting, and drives severe hurricanes and tropical storms.<br>" +
+                     "3. <strong>Disrupted Weather Patterns:</strong> Alters precipitation, causing severe droughts in some areas and devastating floods in others.<br>" +
+                     "4. <strong>Ecological Stress:</strong> Accelerates coral reef bleaching, destroys marine ecosystems, and shifts species migration belts."
+            },
+            {
+                q: "Describe the waste management cycle.",
+                ans: "The waste management cycle comprises the logical phases through which municipal solid waste is handled:<br><br>" +
+                     "1. <strong>Generation:</strong> The initial stage where materials are discarded by residential, industrial, and agricultural sources.<br>" +
+                     "2. <strong>Segregation & Collection:</strong> Separating waste at source into dry (recyclables), wet (biodegradable), and sanitary/hazardous bins, and transporting it via waste trucks.<br>" +
+                     "3. <strong>Transportation & Sorting:</strong> Shifting waste to transfer stations and material recovery facilities for refined sorting.<br>" +
+                     "4. <strong>Processing & Recycling:</strong> Extracting secondary resources (composting wet waste, melting plastics/glass/metals, and recovering energy via incineration).<br>" +
+                     "5. <strong>Disposal:</strong> Depositing remaining non-recyclable residues in engineered sanitary landfills."
+            },
+            {
+                q: "What is the importance of waste management?",
+                ans: "Proper waste management is critical for several reasons:<br><br>" +
+                     "1. <strong>Public Health:</strong> Prevents vector-borne diseases (dengue, malaria, cholera) that thrive around uncollected waste and open dumping sites.<br>" +
+                     "2. <strong>Environmental Protection:</strong> Stops leachate (contaminated water) from polluting groundwater tables and preserves aquatic life.<br>" +
+                     "3. <strong>Resource Conservation:</strong> Promotes recycling, preserving metals, timber, and silica in a circular economy loop.<br>" +
+                     "4. <strong>Climate Mitigation:</strong> Prevents organic waste decay in open dumps from releasing massive amounts of methane, a potent greenhouse gas."
+            },
+            {
+                q: "What do you know about GUIYU?",
+                ans: "Guiyu, located in Guangdong Province, China, was historically known as the <strong>'e-waste capital of the world'</strong>:<br><br>" +
+                     "1. At its peak, it processed roughly 60-70% of the world's exported e-waste in thousands of informal household workshops.<br>" +
+                     "2. Workers used toxic methods like open burning of wires to harvest copper, heating circuit boards on coal grills to melt solder, and bathing chips in strong acids to extract gold.<br>" +
+                     "3. It caused severe environmental damage, with local river water and soils becoming heavily contaminated with lead, copper, and acid, leading to extremely high blood lead levels in local children and widespread respiratory and neurological diseases.<br>" +
+                     "4. Since 2013, the Chinese government has shut down these informal shops, clean-up operations have begun, and formal recyclers are relocated to a regulated industrial park."
+            },
+            {
+                q: "Why is e-waste management important for human health?",
+                ans: "Electronic waste is dense with toxic heavy metals (lead, mercury, cadmium, hexavalent chromium) and toxic chemicals (brominated flame retardants). If managed poorly, these lead to direct health hazards:<br><br>" +
+                     "1. <strong>Lead:</strong> Damages the nervous system, kidneys, and inhibits brain development in children.<br>" +
+                     "2. <strong>Mercury:</strong> Accumulates in aquatic food chains (bioaccumulation) causing brain, neural, and endocrine damage.<br>" +
+                     "3. <strong>Cadmium:</strong> Causes chronic kidney dysfunction and bone mineralization damage (Itai-Itai disease).<br>" +
+                     "4. Proper dismantling under strict regulatory controls ensures these heavy metals do not leak into the environment or harm workers."
+            }
+        ];
+
+        const CA4_MCQS = [
+            {
+                q: "Cigarette smoking is responsible for the greatest exposure to which gas?",
+                opts: ["CO2", "CO", "NO2", "NO"],
+                ans: 1, // CO
+                explain: "Cigarette smoke contains high concentrations of <strong>Carbon Monoxide (CO)</strong>. Inhaling it leads to significant exposure, reducing the blood's oxygen-carrying capacity."
+            },
+            {
+                q: "__________ binds to hemoglobin and reduces the oxygen-carrying capacity of blood.",
+                opts: ["CO", "NO", "NO2", "CO2"],
+                ans: 0, // CO
+                explain: "<strong>Carbon Monoxide (CO)</strong> has an affinity for hemoglobin that is roughly 200–250 times stronger than oxygen, forming <em>carboxyhemoglobin</em>, which prevents oxygen transport in tissues."
+            },
+            {
+                q: "The greatest industrial disaster leading to serious air pollution took place in?",
+                opts: ["London", "Bhopal", "Delhi", "Dhaka"],
+                ans: 1, // Bhopal
+                explain: "The <strong>Bhopal Gas Tragedy</strong> in December 1984 involved a massive leak of toxic <em>methyl isocyanate (MIC)</em> gas from the Union Carbide chemical plant, killing thousands and injuring hundreds of thousands."
+            },
+            {
+                q: "Air pollution increased in the 20th century due to ________ and ________.",
+                opts: ["industrialization / motor vehicles", "agriculture / deforestation", "solar flares / volcanic eruptions", "water treatment / recycling"],
+                ans: 0,
+                explain: "Rapid <strong>industrialization</strong> and the explosive growth in the number of <strong>motor vehicles</strong> (burning fossil fuels) were the primary drivers of skyrocketing air pollution in the 20th century."
+            },
+            {
+                q: "__________ radiation affects the ability of plants to capture light during photosynthesis.",
+                opts: ["Heat", "Solar", "UV", "Microwave"],
+                ans: 2, // UV
+                explain: "Excessive <strong>Ultraviolet (UV)</strong> radiation (specifically UV-B) damages the photosynthetic apparatus and DNA in plants, retarding growth and light capture."
+            },
+            {
+                q: "______ are similar in structure to CFCs but contain bromine instead of chlorine.",
+                opts: ["Halons", "Halogens", "Hydrogels", "Hydroxides"],
+                ans: 0, // Halons
+                explain: "<strong>Halons</strong> are brominated fluorocarbons used in fire extinguishers. Like CFCs, they are ozone-depleting substances, but bromine is even more destructive to stratospheric ozone than chlorine."
+            },
+            {
+                q: "Ozone depletion is especially pronounced in the __________.",
+                opts: ["North Pole", "South Pole", "Equator", "Tropics"],
+                ans: 1, // South Pole
+                explain: "Ozone depletion is most severe over the <strong>South Pole (Antarctica)</strong> during spring, creating the 'Ozone Hole' due to unique meteorological conditions (Polar Stratospheric Clouds and polar vortex trapping)."
+            },
+            {
+                q: "In the stratosphere, ultraviolet radiation severs chemical bonds releasing Chlorine from CFCs and this attacks the _____ molecule.",
+                opts: ["CFCs", "Oxygen", "Ozone", "Bromine"],
+                ans: 2, // Ozone
+                explain: "The free chlorine atoms released act as catalysts in the stratosphere, continuously breaking down <strong>Ozone (O3)</strong> molecules into standard diatomic Oxygen (O2)."
+            },
+            {
+                q: "Arsenic deposition in groundwater in 24 Parganas is prominent.",
+                opts: ["True", "False"],
+                ans: 0, // True
+                explain: "<strong>True</strong>. The North and South 24 Parganas districts in West Bengal, India, are widely documented as being among the most severely affected areas for arsenic contamination in groundwater."
+            },
+            {
+                q: "Marble cancer is due to growth of (fungal / bacterial)?",
+                opts: ["Fungal", "Bacterial"],
+                ans: 1, // Bacterial (specifically sulfur-oxidizing bacteria, or acid rain in general)
+                explain: "While marble cancer is chemically driven by <strong>acid rain</strong> (sulfuric and nitric acids reacting with calcium carbonate), in biological terms, the growth of certain <strong>sulfur-oxidizing bacteria</strong> (like <em>Thiobacillus</em>) on the stone surface contributes to biocorrosion by producing sulfuric acid. (Note: Acid rain itself is the primary abiotic cause)."
+            }
+        ];
+
+        const CA4_SHORTS = [
+            {
+                q: "What happens to pollutants in air?",
+                ans: "Once pollutants are released into the atmosphere, they undergo several processes:<br><br>" +
+                     "1. <strong>Dispersion & Dilution:</strong> Wind and atmospheric currents spread and dilute pollutants vertically and horizontally.<br>" +
+                     "2. <strong>Chemical Transformation:</strong> Primary pollutants react in the air (e.g., Sulfur Dioxide and Nitrogen Oxides react with moisture and sunlight to form secondary pollutants like Sulfuric Acid, Nitric Acid, and Ground-level Ozone).<br>" +
+                     "3. <strong>Transport:</strong> Wind can carry pollutants over vast distances, causing transboundary pollution.<br>" +
+                     "4. <strong>Deposition:</strong> Removed via wet deposition (rain, snow, fog) or dry deposition (gravitational settling of particles onto soil, water, and vegetation)."
+            },
+            {
+                q: "Why is air pollution more harmful than other pollutions?",
+                ans: "Air pollution is uniquely dangerous due to the following reasons:<br><br>" +
+                     "1. <strong>Inescapability:</strong> We breathe roughly 15,000 liters of air daily. We can choose to avoid contaminated water or food, but we cannot avoid breathing ambient air.<br>" +
+                     "2. <strong>Direct Internal Path:</strong> Fine particulate matter (PM2.5) bypasses natural nose filters, reaching deep into the lung alveoli and passing directly into the bloodstream, triggering cardiovascular diseases, lung cancer, and strokes.<br>" +
+                     "3. <strong>Rapid Diffusion:</strong> Gases and particulates disperse widely, meaning localized pollution quickly becomes a regional or global crisis.<br>" +
+                     "4. <strong>Acidification & Ozone Depletion:</strong> Driven by gaseous emissions, altering the planetary climate and ecosystems on a grand scale."
+            },
+            {
+                q: "What do you know about marble cancer?",
+                ans: "<strong>Marble cancer</strong> refers to the chemical erosion and yellowing of marble structures caused by acidic pollution:<br><br>" +
+                     "1. It is primarily triggered by <strong>acid rain</strong> containing Sulfuric (H2SO4) and Nitric (HNO3) acids.<br>" +
+                     "2. These acids react with the Calcium Carbonate (CaCO3) of the marble: <br><code>CaCO3 + H2SO4 &rarr; CaSO4 + H2O + CO2</code><br>" +
+                     "3. The calcium sulfate formed is soluble and washes away, leaving the marble pitted, rough, and discolored.<br>" +
+                     "4. The Taj Mahal is a classic victim, affected by sulfur emissions from local industries and the Mathura refinery, which turning its white marble yellow and black."
+            },
+            {
+                q: "What are the theories behind arsenic deposit in 24 Parganas of West Bengal?",
+                ans: "Arsenic contamination in groundwater of the Bengal Basin is natural/geological. The two primary scientific theories for its release into aquifers are:<br><br>" +
+                     "1. <strong>Iron-Oxide Reduction Theory (Most Accepted):</strong> Arsenic is naturally bound to iron oxyhydroxides in sediment grains. Under anaerobic (oxygen-poor), water-logged underground conditions, organic matter decay stimulates iron-reducing bacteria. These bacteria dissolve the iron oxide, releasing the bound arsenic into groundwater.<br>" +
+                     "2. <strong>Pyrite Oxidation Theory:</strong> Heavy withdrawal of groundwater for agriculture lowers water tables, drawing atmospheric oxygen into aquifers. This oxygen oxidizes arsenic-rich pyrite minerals, dissolving them and releasing arsenic."
+            },
+            {
+                q: "What do you know about the London Smog incident?",
+                ans: "The <strong>Great Smog of London</strong> occurred in December 1952:<br><br>" +
+                     "1. It was a severe air-pollution event caused by cold weather, coal smoke, and an anticyclone (weather inversion) that trapped the cold air and smoke at ground level.<br>" +
+                     "2. It was a <strong>classical sulfurous smog</strong>, dense with soot and sulfur dioxide, turning into sulfuric acid aerosol in the damp air.<br>" +
+                     "3. Visibility dropped to a few feet, and it led directly to 4,000–12,000 deaths from severe respiratory diseases.<br>" +
+                     "4. This catastrophe led to the UK passing the landmark <strong>Clean Air Act 1956</strong>, which established smoke control areas and moved power plants out of cities."
+            },
+            {
+                q: "Describe the Root Zone Process.",
+                ans: "The <strong>Root Zone Process</strong> (constructed wetlands/reed bed technology) is a biological wastewater treatment system:<br><br>" +
+                     "1. It utilizes an engineered bed of gravel, sand, and soil planted with wetland vegetation like reeds (*Phragmites australis*).<br>" +
+                     "2. The plants absorb oxygen from the air and pump it down through their roots, creating oxygenated pockets (rhizosphere) in otherwise anaerobic soil.<br>" +
+                     "3. This mosaic of aerobic and anaerobic conditions supports a rich, diverse colony of bacteria and fungi.<br>" +
+                     "4. As sewage passes horizontally or vertically through the root bed, organic matter is biodegraded, suspended particles are filtered mechanically, and nitrogen/phosphates are absorbed by plants and microbes.<br>" +
+                     "5. It is eco-friendly, low-cost, requires no chemical input, and is ideal for decentralized communities."
+            }
+        ];
+
+        const FLASHCARDS = [
+            { q: "What is the primary difference in policy shift between 1974 World Population Year and 1975 International Women's Year?", a: "The 1974 Bucharest conference shifted the focus from raw numerical population control to socio-economic development ('development is the best contraceptive'). The 1975 Mexico City conference further evolved this, placing women's rights, gender equality, and reproductive autonomy at the center of development policy rather than treating them as passive demographic targets." },
+            { q: "How did Norman Borlaug overcome the 'lodging' problem in wheat crops?", a: "He bred semi-dwarf wheat varieties. Traditional tall wheat strains bent and collapsed ('lodged') under heavy grain heads when fertilized. Borlaug's shorter, sturdier wheat absorbed fertilizers safely, doubling or tripling yields without collapsing." },
+            { q: "What is 'Shuttle Breeding' and why did Borlaug use it?", a: "Shuttle Breeding involves growing two generations of crops per year in geographically and climatically distinct regions. Borlaug grew wheat in highland Chapingo (summer) and lowland Sonora (winter) in Mexico. This halved the breeding time to develop new varieties and selected for broad ecological adaptability." },
+            { q: "What are the 4 As of Energy Security?", a: "1. Availability (geological resources)\n2. Accessibility (geopolitical and structural access)\n3. Affordability (economic viability)\n4. Acceptability (environmental and societal alignment)." },
+            { q: "What is the Root Zone Process in wastewater treatment?", a: "A natural wastewater treatment system consisting of a sand/gravel filter bed planted with reeds. Reeds pump oxygen to their roots, creating a mosaic of aerobic and anaerobic zones in the soil. This supports microbes that biodegrade organic pollutants, while sand filters solids mechanically." },
+            { q: "Explain the chemical reaction behind 'Marble Cancer'.", a: "Acid rain (sulfuric acid) reacts with the calcium carbonate in marble:\nCaCO3 + H2SO4 &rarr; CaSO4 (gypsum) + H2O + CO2\nCalcium sulfate is water-soluble and washes away, leaving the marble pitted, yellowed, and eroded." },
+            { q: "What are the two theories of arsenic release in West Bengal groundwater (24 Parganas)?", a: "1. Iron-Oxide Reduction Theory: Bacteria dissolve iron oxide coatings in sediments under waterlogged anaerobic conditions, releasing naturally adsorbed arsenic.\n2. Pyrite Oxidation Theory: Over-extraction of groundwater draws oxygen underground, oxidizing arsenic-rich pyrite minerals, releasing arsenic." },
+            { q: "Contrast In-Situ vs Ex-Situ conservation in biodiversity.", a: "In-Situ conservation protects species in their natural habitats (e.g., National Parks, Wildlife Sanctuaries, Biosphere Reserves). Ex-Situ conservation protects species outside their natural habitats (e.g., Botanical Gardens, Zoos, Gene Banks, Seed Banks)." }
+        ];
+
+        // Active State Variables
+        let currentFlashcardIndex = 0;
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let recordTimerInterval = null;
+        let recordingSeconds = 0;
+        let localRecordings = [];
+
+        // Quiz State
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAttempted = 0;
+        let quizSelectedAnswer = null;
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Update Active Classes in Navigation
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.mobile-tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const sidebarItem = document.getElementById(`nav-${tabId}`);
+            if (sidebarItem) sidebarItem.classList.add('active');
+            
+            // Highlight mobile tab
+            const mobileTabs = document.getElementById('mobile-tabs-container').children;
+            for(let btn of mobileTabs) {
+                if (btn.innerText.toLowerCase().includes(tabId === 'active-recall' ? 'recall' : tabId.split('-')[0])) {
+                    btn.classList.add('active');
+                }
+            }
+
+            // Hide/Show Views
+            document.querySelectorAll('.content-view').forEach(view => view.classList.remove('active'));
+            document.getElementById(`view-${tabId}`).classList.add('active');
+
+            // Update Header Titles dynamically
+            const headerTitle = document.getElementById('header-view-title');
+            const headerDesc = document.getElementById('header-view-desc');
+            
+            if (tabId === 'ca1-ca2') {
+                headerTitle.innerText = "CA 1 & CA 2 Core Concepts";
+                headerDesc.innerText = "High-Yield Exam Summaries & Key Historical Timelines";
+            } else if (tabId === 'ca3') {
+                headerTitle.innerText = "CA 3 Solved Assessment";
+                headerDesc.innerText = "Energy Security, Waste Cycles, & E-Waste Management Solutions";
+                renderCA3Data();
+            } else if (tabId === 'ca4') {
+                headerTitle.innerText = "CA 4 Solved Assessment";
+                headerDesc.innerText = "Air Pollutants, Ozone Depletion, Acid Rain, & Water Engineering";
+                renderCA4Data();
+            } else if (tabId === 'biodiversity') {
+                headerTitle.innerText = "Biodiversity Curriculum Summary";
+                headerDesc.innerText = "UGC Environment syllabus notes: Section 4.1 to 4.7";
+            } else if (tabId === 'active-recall') {
+                headerTitle.innerText = "Active Recall & Self-Testing Station";
+                headerDesc.innerText = "Use flashcards, take quizzes, and record voice summaries";
+                initFlashcard();
+                initQuiz();
+            }
+        }
+
+        // Render functions for CAs
+        function renderCA3Data() {
+            const mcqContainer = document.getElementById('ca3-mcq-container');
+            const shortContainer = document.getElementById('ca3-short-container');
+            
+            if(mcqContainer.children.length === 0) {
+                mcqContainer.innerHTML = CA3_MCQS.map((item, idx) => `
+                    <li class="mcq-item">
+                        <div class="mcq-question">
+                            <span class="mcq-no">${idx+1}</span>
+                            <span>${item.q}</span>
+                        </div>
+                        <div class="mcq-options">
+                            ${item.opts.map((opt, oIdx) => `
+                                <div class="mcq-opt ${oIdx === item.ans ? 'correct' : ''}" onclick="explainMCQ(this)">
+                                    ${opt}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mcq-explain">
+                            <strong>Explanation:</strong> ${item.explain}
+                        </div>
+                    </li>
+                `).join('');
+            }
+
+            if(shortContainer.children.length === 0) {
+                shortContainer.innerHTML = CA3_SHORTS.map((item, idx) => `
+                    <div class="solved-item">
+                        <div class="solved-header" onclick="toggleAccordion(this)">
+                            <div class="q-title">
+                                <span class="q-badge">Question ${idx+1}</span>
+                                <strong>${item.q}</strong>
+                            </div>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="solved-body">
+                            <p>${item.ans}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderCA4Data() {
+            const mcqContainer = document.getElementById('ca4-mcq-container');
+            const shortContainer = document.getElementById('ca4-short-container');
+            
+            if(mcqContainer.children.length === 0) {
+                mcqContainer.innerHTML = CA4_MCQS.map((item, idx) => `
+                    <li class="mcq-item">
+                        <div class="mcq-question">
+                            <span class="mcq-no">${idx+1}</span>
+                            <span>${item.q}</span>
+                        </div>
+                        <div class="mcq-options">
+                            ${item.opts.map((opt, oIdx) => `
+                                <div class="mcq-opt ${oIdx === item.ans ? 'correct' : ''}" onclick="explainMCQ(this)">
+                                    ${opt}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mcq-explain">
+                            <strong>Explanation:</strong> ${item.explain}
+                        </div>
+                    </li>
+                `).join('');
+            }
+
+            if(shortContainer.children.length === 0) {
+                shortContainer.innerHTML = CA4_SHORTS.map((item, idx) => `
+                    <div class="solved-item">
+                        <div class="solved-header" onclick="toggleAccordion(this)">
+                            <div class="q-title">
+                                <span class="q-badge">Question ${idx+1}</span>
+                                <strong>${item.q}</strong>
+                            </div>
+                            <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="solved-body">
+                            <p>${item.ans}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Accordion functionality
+        function toggleAccordion(header) {
+            header.classList.toggle('active');
+            const body = header.nextElementSibling;
+            body.classList.toggle('open');
+        }
+
+        function explainMCQ(optionEl) {
+            // Show the explanation element under the clicked MCQ
+            const item = optionEl.closest('.mcq-item');
+            const explainDiv = item.querySelector('.mcq-explain');
+            explainDiv.style.display = 'block';
+        }
+
+        // Flashcards functionality
+        function initFlashcard() {
+            const card = FLASHCARDS[currentFlashcardIndex];
+            document.getElementById('fc-question').innerText = card.q;
+            document.getElementById('fc-answer').innerText = card.a;
+            document.getElementById('fc-indicator').innerText = `Card ${currentFlashcardIndex + 1} / ${FLASHCARDS.length}`;
+            document.getElementById('active-flashcard').classList.remove('flipped');
+        }
+
+        function flipFlashcard() {
+            document.getElementById('active-flashcard').classList.toggle('flipped');
+        }
+
+        function nextFlashcard(e) {
+            e.stopPropagation(); // prevent flipping when clicking arrows
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % FLASHCARDS.length;
+            initFlashcard();
+        }
+
+        function prevFlashcard(e) {
+            e.stopPropagation(); // prevent flipping when clicking arrows
+            currentFlashcardIndex = (currentFlashcardIndex - 1 + FLASHCARDS.length) % FLASHCARDS.length;
+            initFlashcard();
+        }
+
+        // Voice Recorder Logic
+        function toggleAudioRecording() {
+            if (isRecording) {
+                stopAudioRecording();
+            } else {
+                startAudioRecording();
+            }
+        }
+
+        function startAudioRecording() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Audio recording is not supported in this browser. Please use Chrome, Edge or Firefox.");
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    isRecording = true;
+                    audioChunks = [];
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.addEventListener("dataavailable", event => {
+                        audioChunks.push(event.data);
+                    });
+
+                    mediaRecorder.addEventListener("stop", () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        
+                        saveRecording(audioUrl);
+                        
+                        // Close microphone stream
+                        stream.getTracks().forEach(track => track.stop());
+                    });
+
+                    mediaRecorder.start();
+                    
+                    document.getElementById('btn-record').classList.add('recording');
+                    document.getElementById('record-status-txt').innerText = "Recording Active...";
+                    document.getElementById('record-instructions').innerText = "Speak clearly. Explain concepts aloud.";
+                    
+                    recordingSeconds = 0;
+                    document.getElementById('record-timer').innerText = "00:00";
+                    recordTimerInterval = setInterval(() => {
+                        recordingSeconds++;
+                        const min = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
+                        const sec = String(recordingSeconds % 60).padStart(2, '0');
+                        document.getElementById('record-timer').innerText = `${min}:${sec}`;
+                    }, 1000);
+                })
+                .catch(err => {
+                    console.error("Microphone access denied:", err);
+                    alert("Microphone permission was denied. Please allow microhphone access to record vocal memos.");
+                });
+        }
+
+        function stopAudioRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                clearInterval(recordTimerInterval);
+                document.getElementById('btn-record').classList.remove('recording');
+                document.getElementById('record-status-txt').innerText = "Microphone Idle";
+                document.getElementById('record-instructions').innerText = "Vocal memo recorded and added to the list below.";
+            }
+        }
+
+        function saveRecording(url) {
+            const date = new Date();
+            const timeStr = date.toLocaleString();
+            const id = 'rec_' + Date.now();
+            const title = `Voice Memo: ${date.toLocaleDateString()} - ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+            
+            const newRecording = { id, title, url, time: timeStr };
+            localRecordings.push(newRecording);
+            
+            renderRecordings();
+        }
+
+        function deleteRecording(id) {
+            localRecordings = localRecordings.filter(rec => rec.id !== id);
+            renderRecordings();
+        }
+
+        function renderRecordings() {
+            const container = document.getElementById('recordings-container');
+            const noMsg = document.getElementById('no-recordings-msg');
+            
+            if (localRecordings.length === 0) {
+                container.innerHTML = '';
+                noMsg.style.display = 'block';
+                return;
+            }
+            
+            noMsg.style.display = 'none';
+            container.innerHTML = localRecordings.map(rec => `
+                <div class="rec-item">
+                    <div class="rec-meta">
+                        <input type="text" class="rec-title-input" value="${rec.title}" onchange="updateRecTitle('${rec.id}', this.value)">
+                        <span class="rec-time">${rec.time}</span>
+                    </div>
+                    <div class="rec-actions">
+                        <button class="btn-play-audio" onclick="playAudio('${rec.url}')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <button class="btn-delete-audio" onclick="deleteRecording('${rec.id}')">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateRecTitle(id, newTitle) {
+            const rec = localRecordings.find(r => r.id === id);
+            if (rec) rec.title = newTitle;
+        }
+
+        function playAudio(url) {
+            const audio = new Audio(url);
+            audio.play();
+        }
+
+        // Quiz Logic
+        function initQuiz() {
+            // Aggregate all MCQs
+            quizQuestions = [...CA3_MCQS, ...CA4_MCQS];
+            // Shuffle
+            quizQuestions.sort(() => Math.random() - 0.5);
+            
+            currentQuizIndex = 0;
+            quizScore = 0;
+            quizAttempted = 0;
+            
+            document.getElementById('quiz-question-screen').style.display = 'block';
+            document.getElementById('quiz-results-screen').style.display = 'none';
+            
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            
+            document.getElementById('quiz-question-number').innerText = `Question ${currentQuizIndex + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-score-indicator').innerText = `Current Score: ${quizScore}/${quizAttempted}`;
+            document.getElementById('quiz-question-text').innerText = q.q;
+            
+            const progressPercent = (currentQuizIndex / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-indicator').style.width = `${progressPercent}%`;
+
+            const optionsBox = document.getElementById('quiz-options-box');
+            optionsBox.innerHTML = q.opts.map((opt, oIdx) => `
+                <button class="quiz-option-btn" onclick="checkQuizAnswer(this, ${oIdx})">
+                    ${opt}
+                </button>
+            `).join('');
+            
+            document.getElementById('quiz-explain-box').style.display = 'none';
+            document.getElementById('btn-next-q').style.display = 'none';
+            quizSelectedAnswer = null;
+        }
+
+        function checkQuizAnswer(btn, optionIndex) {
+            if (quizSelectedAnswer !== null) return; // Answer already selected
+            
+            quizSelectedAnswer = optionIndex;
+            quizAttempted++;
+            
+            const q = quizQuestions[currentQuizIndex];
+            const correctIndex = q.ans;
+            const optionBtns = document.getElementById('quiz-options-box').children;
+            
+            if (optionIndex === correctIndex) {
+                btn.classList.add('correct-choice');
+                quizScore++;
+            } else {
+                btn.classList.add('incorrect-choice');
+                optionBtns[correctIndex].classList.add('correct-choice');
+            }
+            
+            // Disable other buttons
+            for(let optionBtn of optionBtns) {
+                optionBtn.disabled = true;
+            }
+
+            // Show explanation
+            const explainBox = document.getElementById('quiz-explain-box');
+            explainBox.innerHTML = `<strong>Explanation:</strong> ${q.explain}`;
+            explainBox.style.display = 'block';
+            
+            // Show Next Button
+            document.getElementById('btn-next-q').style.display = 'block';
+            document.getElementById('quiz-score-indicator').innerText = `Current Score: ${quizScore}/${quizAttempted}`;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                showQuizQuestion();
+            } else {
+                // Complete
+                document.getElementById('quiz-question-screen').style.display = 'none';
+                document.getElementById('quiz-results-screen').style.display = 'block';
+                document.getElementById('quiz-progress-indicator').style.width = `100%`;
+                
+                document.getElementById('quiz-final-score').innerText = `${quizScore} / ${quizQuestions.length}`;
+                
+                const percentage = (quizScore / quizQuestions.length) * 100;
+                let feedback = "";
+                if (percentage >= 90) {
+                    feedback = "Superb! You have mastered all topics. You are ready to ace the exam!";
+                } else if (percentage >= 70) {
+                    feedback = "Great job! A little more study on details and you'll hit a perfect score.";
+                } else {
+                    feedback = "Keep practicing! Review the solved CAs and the biodiversity notes, then try again.";
+                }
+                document.getElementById('quiz-final-feedback').innerText = feedback;
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        // Particle background network simulation
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.4)';
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < Math.min(particleCount, 80); i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Draw links
+            ctx.strokeStyle = 'rgba(6, 182, 212, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // App Initializations
+        document.addEventListener("DOMContentLoaded", () => {
+            resizeCanvas();
+            initParticles();
+            animateParticles();
+            
+            // Switch to initial tab
+            switchTab('ca1-ca2');
+        });
+    </script>
+</body>
+</html>
