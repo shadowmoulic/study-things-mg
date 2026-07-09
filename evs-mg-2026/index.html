@@ -336,6 +336,14 @@
             gap: 0.75rem;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .stat-badge:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--bg-glass-hover);
         }
 
         .stat-icon {
@@ -731,6 +739,7 @@
             color: var(--text-secondary);
             border-radius: 0 0 12px 12px;
             margin-top: 0.5rem;
+            display: none;
         }
 
         .mcq-explain strong {
@@ -864,6 +873,7 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             border-radius: 20px;
             padding: 2.5rem;
             display: flex;
@@ -1486,7 +1496,7 @@
                 </div>
 
                 <div class="quick-stats">
-                    <div class="stat-badge cyan">
+                    <div class="stat-badge cyan" onclick="switchTab('biodiversity')">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                         </div>
@@ -1495,7 +1505,7 @@
                             <strong>5 Sections</strong>
                         </div>
                     </div>
-                    <div class="stat-badge purple">
+                    <div class="stat-badge purple" onclick="switchTab('ca3')">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                         </div>
@@ -1504,7 +1514,7 @@
                             <strong>20 Solved</strong>
                         </div>
                     </div>
-                    <div class="stat-badge green">
+                    <div class="stat-badge green" onclick="switchTab('active-recall')">
                         <div class="stat-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                         </div>
@@ -2215,7 +2225,7 @@
                         </div>
                         <div class="mcq-options">
                             ${item.opts.map((opt, oIdx) => `
-                                <div class="mcq-opt ${oIdx === item.ans ? 'correct' : ''}" onclick="explainMCQ(this)">
+                                <div class="mcq-opt" onclick="selectMCQOption(this, ${oIdx}, ${item.ans})">
                                     ${opt}
                                 </div>
                             `).join('')}
@@ -2258,7 +2268,7 @@
                         </div>
                         <div class="mcq-options">
                             ${item.opts.map((opt, oIdx) => `
-                                <div class="mcq-opt ${oIdx === item.ans ? 'correct' : ''}" onclick="explainMCQ(this)">
+                                <div class="mcq-opt" onclick="selectMCQOption(this, ${oIdx}, ${item.ans})">
                                     ${opt}
                                 </div>
                             `).join('')}
@@ -2295,10 +2305,24 @@
             body.classList.toggle('open');
         }
 
-        function explainMCQ(optionEl) {
-            // Show the explanation element under the clicked MCQ
-            const item = optionEl.closest('.mcq-item');
-            const explainDiv = item.querySelector('.mcq-explain');
+        function selectMCQOption(optEl, selectedIdx, correctIdx) {
+            const optionsContainer = optEl.parentNode;
+            if (optionsContainer.getAttribute('data-answered') === 'true') return;
+            
+            optionsContainer.setAttribute('data-answered', 'true');
+            const optionDivs = optionsContainer.children;
+            
+            // Highlight correct one in green
+            optionDivs[correctIdx].classList.add('correct');
+            
+            // If user clicked incorrect one, highlight it in red
+            if (selectedIdx !== correctIdx) {
+                optEl.classList.add('selected-incorrect');
+            }
+            
+            // Show explanation
+            const mcqItem = optionsContainer.closest('.mcq-item');
+            const explainDiv = mcqItem.querySelector('.mcq-explain');
             explainDiv.style.display = 'block';
         }
 
