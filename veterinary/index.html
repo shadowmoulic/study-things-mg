@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VetMemory - Veterinary 1st Year Study Hub</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="app-header">
+    <h1>VetMemory</h1>
+    <p>B.V.Sc. & A.H. 1st Professional Year - Study Hub</p>
+    <p class="sub">Veterinary Council of India (MSVE 2016) - 21 Credit Hours</p>
+  </header>
+
+  <div class="container">
+    <!-- Course Overview -->
+    <div class="section-card">
+      <h2>1st Professional Year - Course Overview</h2>
+      <p>Four core courses spanning 21 credit hours (14 Theory + 7 Practical). Select a subject to begin.</p>
+
+      <div class="course-grid">
+        <div class="course-card">
+          <h3>Veterinary Anatomy</h3>
+          <p><strong>7 Credit Hours</strong> (4 Theory + 3 Practical)</p>
+          <p>8 Units: Osteology → Embryology</p>
+          <button class="test-btn secondary" onclick="location.href='unit1-anatomy.html'">Go to Anatomy</button>
+        </div>
+        <div class="course-card">
+          <h3>Veterinary Physiology</h3>
+          <p><strong>5 Credit Hours</strong> (4 Theory + 1 Practical)</p>
+          <p>4 Units: Blood → Environmental Physiology</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="course-card">
+          <h3>Veterinary Biochemistry</h3>
+          <p><strong>3 Credit Hours</strong> (2 Theory + 1 Practical)</p>
+          <p>3 Units: General → Analytical Biochemistry</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="course-card">
+          <h3>Livestock Production Management</h3>
+          <p><strong>6 Credit Hours</strong> (4 Theory + 2 Practical)</p>
+          <p>9 Units: General → Swine/Equine/Camel</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Anatomy Units -->
+    <div class="section-card">
+      <h2>Veterinary Anatomy - All 8 Units</h2>
+      <p>Work through each unit systematically. Unit 1 is fully built with mnemonics, MCQs, and the full syllabus viewer.</p>
+
+      <div class="units-grid">
+        <div class="unit-card active">
+          <h3>Unit 1</h3>
+          <p>General Osteology, Arthrology, Myology, Angiology, Neurology, Splanchnology & Imaging</p>
+          <button class="test-btn" onclick="location.href='unit1-anatomy.html'">Open Unit 1</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 2</h3>
+          <p>Fore Limb - Bones, joints, stay apparatus, vessels, nerves, lymph nodes</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 3</h3>
+          <p>Head and Neck - Cranial bones, cavities, muscles, dentition, surgical landmarks</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 4</h3>
+          <p>Thorax - Vertebrae, ribs, sternum, organs, auscultation sites</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 5</h3>
+          <p>Abdomen - Peritoneal reflections, digestive/urinary/reproductive, clinical sites</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 6</h3>
+          <p>Hind Limb and Pelvis - Bones, joints, pelvic viscera, nerve blocks</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 7</h3>
+          <p>Histology - Cytology, tissue types, microscopic architecture</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+        <div class="unit-card">
+          <h3>Unit 8</h3>
+          <p>Embryology - Gametogenesis, foetal membranes, organogenesis</p>
+          <button class="test-btn secondary">Coming Soon</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Syllabus Viewer -->
+    <div class="syllabus-card">
+      <div class="syllabus-header">
+        <h2>Full 1st Year Syllabus</h2>
+        <button class="test-btn secondary" id="show-full-syllabus">Show syllabus</button>
+      </div>
+      <div id="full-syllabus-container" class="syllabus-content"></div>
+    </div>
+
+    <footer>
+      <p>VetMemory - Veterinary 1st Year Study Hub</p>
+      <p>B.V.Sc. & A.H. - Made for easy, memorable learning</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // Simple markdown renderer
+  function renderMarkdown(text) {
+    var lines = text.split('\n');
+    var html = '';
+    var inTable = false;
+    var inList = false;
+    var tableRows = [];
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].replace(/\r$/, ''); // strip Windows line ending
+
+      // Table row
+      if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+        if (!inTable) {
+          inTable = true;
+          tableRows = [];
+        }
+        var cells = line.trim().slice(1, -1).split('|').map(function(c) { return c.trim(); });
+        var isSeparator = cells.every(function(c) { return /^:?-+:?$/.test(c); });
+        if (isSeparator) {
+          continue; // skip separator row
+        }
+        var rowHtml = '<tr>' + cells.map(function(c) {
+          return '<td>' + inlineMarkdown(c) + '</td>';
+        }).join('') + '</tr>';
+        tableRows.push(rowHtml);
+        continue;
+      }
+
+      // Close table if we were in one
+      if (inTable && !line.trim().startsWith('|')) {
+        html += '<table>' + tableRows.join('') + '</table>';
+        inTable = false;
+        tableRows = [];
+      }
+
+      // Horizontal rule (only if not part of table)
+      if (/^---+\s*$/.test(line.trim()) && !inTable) {
+        html += '<hr>';
+        continue;
+      }
+
+      // Headings
+      var headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
+      if (headingMatch) {
+        var level = headingMatch[1].length;
+        var content = inlineMarkdown(headingMatch[2]);
+        html += '<h' + level + '>' + content + '</h' + level + '>';
+        continue;
+      }
+
+      // List items
+      if (/^\*\s+/.test(line)) {
+        if (!inList) {
+          html += '<ul>';
+          inList = true;
+        }
+        html += '<li>' + inlineMarkdown(line.replace(/^\*\s+/, '')) + '</li>';
+        continue;
+      }
+
+      // Close list
+      if (inList && !/^\*\s+/.test(line)) {
+        html += '</ul>';
+        inList = false;
+      }
+
+      // Blank line
+      if (line.trim() === '') {
+        html += '<br>';
+        continue;
+      }
+
+      // Regular paragraph
+      html += '<p>' + inlineMarkdown(line) + '</p>';
+    }
+
+    // Close any open table or list
+    if (inTable) {
+      html += '<table>' + tableRows.join('') + '</table>';
+    }
+    if (inList) {
+      html += '</ul>';
+    }
+
+    return html;
+  }
+
+  function inlineMarkdown(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>');
+  }
+
+  document.getElementById('show-full-syllabus').addEventListener('click', function() {
+    var container = document.getElementById('full-syllabus-container');
+    var btn = this;
+    if (container.innerHTML.trim() !== '') {
+      container.innerHTML = '';
+      btn.textContent = 'Show syllabus';
+      return;
+    }
+    btn.textContent = 'Loading...';
+    btn.disabled = true;
+    fetch('1styear.md')
+      .then(function(response) {
+        if (!response.ok) throw new Error('File not found');
+        return response.text();
+      })
+      .then(function(text) {
+        container.innerHTML = renderMarkdown(text);
+        btn.textContent = 'Hide syllabus';
+        btn.disabled = false;
+      })
+      .catch(function(err) {
+        container.innerHTML = '<div class="empty-state"><h3>Could not load syllabus</h3><p>Make sure 1styear.md is in the same folder.</p></div>';
+        btn.textContent = 'Show syllabus';
+        btn.disabled = false;
+      });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VetMemory - Unit 1 Anatomy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="app-header">
+    <h1>VetMemory</h1>
+    <p>Unit 1: General Osteology, Arthrology, Myology, Angiology, Neurology, Splanchnology & Imaging</p>
+    <p class="sub">B.V.Sc. & A.H. 1st Professional Year - Veterinary Anatomy</p>
+  </header>
+
+  <div class="container">
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="openTab(event, 'osteology')">Osteology & Arthrology</button>
+      <button class="tab-btn" onclick="openTab(event, 'myology')">Myology</button>
+      <button class="tab-btn" onclick="openTab(event, 'angiology')">Angiology</button>
+      <button class="tab-btn" onclick="openTab(event, 'neurology')">Neurology</button>
+      <button class="tab-btn" onclick="openTab(event, 'splanchnology')">Splanchnology & Imaging</button>
+      <button class="tab-btn" onclick="openTab(event, 'surface')">Surface Landmarks</button>
+      <button class="tab-btn" onclick="openTab(event, 'syllabus')">1st Year Syllabus</button>
+      <button class="tab-btn" onclick="openTab(event, 'test-me')">Test Yourself</button>
+    </div>
+
+    <!-- OSTEOLOGY & ARTHROLOGY -->
+    <div id="osteology" class="tab-panel active">
+      <div class="section-card">
+        <h2>General Osteology</h2>
+        <div class="juicy">Bones form the body's framework.</div>
+
+        <div class="mnemonic-box">
+          <h3>Five bone types by shape</h3>
+          <p>Long - Short - Flat - Irregular - Sesamoid</p>
+          <p class="hook">Little Sisters Fight In Snow</p>
+          <p><em>Examples: Long=femur/humerus | Short=carpals/tarsals | Flat=scapula/skull | Irregular=vertebrae | Sesamoid=patella</em></p>
+        </div>
+
+        <div class="key-point">
+          <strong>Bone properties:</strong> Hard yet slightly elastic; collagen gives tensile strength, hydroxyapatite gives compression strength. Remodeled by osteoblasts (build) and osteoclasts (break down).
+        </div>
+
+        <div class="key-point">
+          <strong>Bone structure:</strong> Periosteum (outer) -> compact bone -> spongy bone -> medullary cavity (yellow marrow in adults).
+        </div>
+
+        <div class="key-point">
+          <strong>Bone markings:</strong> Processes (projections), depressions (cavities), openings (foramina, fissures, meatuses, sinuses).
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2>General Arthrology (Joints)</h2>
+        <div class="juicy">Joints are where bones meet and move.</div>
+
+        <div class="mnemonic-box">
+          <h3>Three main joint classifications</h3>
+          <p>Fibrous - Cartilaginous - Synovial</p>
+          <p class="hook">Frozen Couch Slides</p>
+          <p><em>Fibrous=immovable (skull sutures) | Cartilaginous=slightly movable (vertebrae) | Synovial=freely movable (diarthrodial)</em></p>
+        </div>
+
+        <div class="key-point">
+          <strong>Diarthrodial (synovial) joint structure:</strong> Articular capsule + synovial membrane (secretes synovial fluid) + articular cartilage + joint cavity. Reinforced by ligaments.
+        </div>
+
+        <div class="mnemonic-box">
+          <h3>Six synovial joint types</h3>
+          <p class="hook">Hinge, Pivot, Ball, Saddle, Gliding, Condyloid</p>
+          <table class="compare-table">
+            <tr><th>Joint type</th><th>Example</th><th>Movement</th></tr>
+            <tr><td>Hinge</td><td>Elbow, knee</td><td>Flexion / Extension</td></tr>
+            <tr><td>Pivot</td><td>Atlas-axis (C1-C2)</td><td>Rotation</td></tr>
+            <tr><td>Ball and socket</td><td>Shoulder, hip</td><td>All movements (multiaxial)</td></tr>
+            <tr><td>Saddle</td><td>Thumb carpometacarpal</td><td>Flexion, extension, abduction, adduction, opposition</td></tr>
+            <tr><td>Gliding (plane)</td><td>Intercarpal joints</td><td>Sliding / Gliding</td></tr>
+            <tr><td>Condyloid (ellipsoid)</td><td>Radiocarpal (wrist)</td><td>Flexion, extension, abduction, adduction, circumduction</td></tr>
+          </table>
+        </div>
+
+        <div class="key-point">
+          <strong>Common movements:</strong> Flexion (decrease angle) • Extension (increase angle) • Abduction (away from midline) • Adduction (toward midline) • Rotation (around axis) • Circumduction (conical circle).
+        </div>
+      </div>
+    </div>
+
+    <!-- MYOLOGY -->
+    <div id="myology" class="tab-panel">
+      <div class="section-card">
+        <h2>General Myology</h2>
+        <div class="juicy">Muscles are the body's engines of movement.</div>
+
+        <div class="mnemonic-box">
+          <h3>Three muscle tissue types</h3>
+          <p>Skeletal - Cardiac - Smooth</p>
+          <p class="hook">Some Cats Sleep</p>
+          <table class="compare-table">
+            <tr><th>Type</th><th>Striations</th><th>Control</th><th>Location</th></tr>
+            <tr><td>Skeletal</td><td>Striated</td><td>Voluntary</td><td>Attached to bones</td></tr>
+            <tr><td>Cardiac</td><td>Striated</td><td>Involuntary</td><td>Heart only</td></tr>
+            <tr><td>Smooth</td><td>Non-striated</td><td>Involuntary</td><td>Hollow organs, vessels</td></tr>
+          </table>
+        </div>
+
+        <div class="key-point">
+          <strong>Muscle etymology:</strong> Named by location, shape, size, action, origin/insertion, or fiber direction. E.g., biceps = two heads, longissimus = longest, rectus = straight.
+        </div>
+
+        <div class="key-point">
+          <strong>Tendons:</strong> connect muscle to bone. <strong>Ligaments:</strong> connect bone to bone. <strong>Aponeuroses:</strong> flat sheet-like tendons. <strong>Synovial bursae:</strong> fluid sacs reducing friction. <strong>Tendon sheaths:</strong> tubular bursae around tendons.
+        </div>
+
+        <div class="key-point">
+          <strong>Muscle attachments:</strong> Origin = fixed/proximal end • Insertion = movable/distal end.
+        </div>
+      </div>
+    </div>
+
+    <!-- ANGIOLOGY -->
+    <div id="angiology" class="tab-panel">
+      <div class="section-card">
+        <h2>Angiology - Heart and Circulation</h2>
+        <div class="juicy">The heart pumps life. Trace the loop.</div>
+
+        <div class="mnemonic-box">
+          <h3>Heart chambers and valve flow</h3>
+          <p class="hook">Right Atrium -> Right Ventricle -> Lungs -> Left Atrium -> Left Ventricle -> Body</p>
+          <p><strong>Valves:</strong> Tricuspid (RA-RV) • Pulmonary (RV-pulmonary artery) • Mitral/Bicuspid (LA-LV) • Aortic (LV-aorta)</p>
+          <p class="hook">Try Pulling My Aorta</p>
+        </div>
+
+        <div class="key-point">
+          <strong>Pulmonary circulation:</strong> Right ventricle -> pulmonary artery -> lungs (oxygenation) -> pulmonary veins -> left atrium. Deoxygenated blood only.
+        </div>
+
+        <div class="key-point">
+          <strong>Systemic circulation:</strong> Left ventricle -> aorta -> body tissues -> vena cavae -> right atrium. Oxygenated blood to body.
+        </div>
+
+        <div class="mnemonic-box">
+          <h3>Lymphatic vs venous system</h3>
+          <p><strong>Veins:</strong> carry blood to heart (mostly deoxygenated except pulmonary). Have valves.</p>
+          <p><strong>Lymphatics:</strong> carry lymph (interstitial fluid) to venous system. No RBCs. One-way toward heart.</p>
+        </div>
+
+        <div class="key-point">
+          <strong>Major arteries:</strong> Aorta (systemic), pulmonary artery (lungs), facial, femoral, coccygeal, cephalic, saphenous.</p>
+          <strong>Major veins:</strong> Jugular (neck), cephalic (foreleg), lateral saphenous (hindleg), coccygeal (tail).
+        </div>
+      </div>
+    </div>
+
+    <!-- NEUROLOGY -->
+    <div id="neurology" class="tab-panel">
+      <div class="section-card">
+        <h2>Neurology - Nervous System</h2>
+        <div class="juicy">The body's command center. Map the wires.</div>
+
+        <div class="mnemonic-box">
+          <h3>Nervous system architecture</h3>
+          <p><strong>CNS</strong> = Brain + Spinal Cord</p>
+          <p><strong>PNS</strong> = Cranial nerves + Spinal nerves + Ganglia</p>
+          <p><strong>ANS</strong> = Sympathetic + Parasympathetic (involuntary)</p>
+          <p class="hook">CNS is Central, PNS is Peripheral, ANS is Automatic</p>
+        </div>
+
+        <div class="mnemonic-box">
+          <h3>Meninges (outside to inside)</h3>
+          <p class="hook">Dura, Arachnoid, Pia</p>
+          <p><strong>Dura mater</strong> (tough outer) -> <strong>Arachnoid mater</strong> (web-like middle) -> <strong>Pia mater</strong> (delicate inner, hugs brain)</p>
+          <p>CSF circulates in the subarachnoid space.</p>
+        </div>
+
+        <div class="key-point">
+          <strong>Spinal nerve formation:</strong> Dorsal root (sensory, has dorsal root ganglion) + Ventral root (motor) -> mixed spinal nerve -> rami -> plexuses -> peripheral nerves.
+        </div>
+
+        <div class="key-point">
+          <strong>Brain:</strong> Cerebrum (thought, voluntary) • Cerebellum (coordination, balance) • Brainstem (pons, medulla, midbrain - vital autonomic functions).
+        </div>
+
+        <div class="key-point">
+          <strong>Sense organs (Aesthesiology):</strong> Eye (vision), Ear (hearing + balance), Nose (olfaction), Tongue (taste), Skin (touch). Receptors detect stimuli and send signals via afferent nerves to CNS.
+        </div>
+      </div>
+    </div>
+
+    <!-- SPLANCHNOLOGY & IMAGING -->
+    <div id="splanchnology" class="tab-panel">
+      <div class="section-card">
+        <h2>Splanchnology - Body Cavities and Organs</h2>
+        <div class="juicy">Splanchnology is the study of the viscera (internal organs).</div>
+
+        <div class="mnemonic-box">
+          <h3>Three main body cavities</h3>
+          <p class="hook">Thoracic -> Abdominal -> Pelvic</p>
+          <p><strong>Thoracic:</strong> heart, lungs, thymus, esophagus, trachea</p>
+          <p><strong>Abdominal:</strong> stomach, liver, spleen, intestines, kidneys, pancreas</p>
+          <p><strong>Pelvic:</strong> urinary bladder, reproductive organs, rectum</p>
+        </div>
+
+        <table class="compare-table">
+          <tr><th>System</th><th>Key organs</th><th>Cavity</th></tr>
+          <tr><td>Digestive</td><td>Mouth -> esophagus -> stomach -> intestines -> liver/pancreas</td><td>Abdominal</td></tr>
+          <tr><td>Respiratory</td><td>Nasal cavity -> trachea -> bronchi -> lungs</td><td>Thoracic</td></tr>
+          <tr><td>Urinary</td><td>Kidneys -> ureters -> bladder -> urethra</td><td>Abdominal/Pelvic</td></tr>
+          <tr><td>Endocrine</td><td>Thyroid, parathyroid, adrenal, pancreas, pituitary</td><td>Various</td></tr>
+          <tr><td>Reproductive</td><td>Ovaries/testes, uterus, mammary glands</td><td>Pelvic/Abdominal</td></tr>
+        </table>
+      </div>
+
+      <div class="section-card">
+        <h2>Diagnostic Imaging</h2>
+        <div class="juicy">See inside without cutting open.</div>
+
+        <div class="key-point">
+          <strong>Radiography (X-ray):</strong> best for BONE. Dense structures appear white (radiopaque). Air appears black (radiolucent). Quick, cheap, great for fractures.
+        </div>
+
+        <div class="key-point">
+          <strong>Ultrasound:</strong> best for SOFT TISSUE and fluid. Real-time, no radiation. Great for pregnancy, heart (echocardiogram), abdominal organs.
+        </div>
+
+        <div class="mnemonic-box">
+          <h3>X-ray vs ultrasound - quick pick</h3>
+          <p><strong>Suspect fracture?</strong> X-ray</p>
+          <p><strong>Check pregnancy / soft organ?</strong> Ultrasound</p>
+          <p><strong>Lungs / chest?</strong> X-ray</p>
+          <p><strong>Heart function / fluid?</strong> Ultrasound</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SURFACE LANDMARKS -->
+    <div id="surface" class="tab-panel">
+      <div class="section-card">
+        <h2>Surface Landmarks - Palpation and Clinical Sites</h2>
+        <div class="juicy">Where to touch, poke, and needle - safely.</div>
+
+        <div class="key-point">
+          <strong>Palpable bony prominences:</strong> tuber coxae (hip point), tuber ischii (seat bone), olecranon (elbow point), patella, spinous processes of vertebrae, caudal vertebrae (tail head).
+        </div>
+
+        <div class="key-point">
+          <strong>Lymph nodes:</strong> mandibular, prescapular, axillary, inguinal, popliteal - commonly enlarged in disease.
+        </div>
+
+        <div class="key-point">
+          <strong>Arteries for palpation:</strong> facial (jaw), femoral (groin), coccygeal (tail).
+        </div>
+
+        <div class="key-point">
+          <strong>Venipuncture sites:</strong> jugular vein (neck), cephalic vein (foreleg), lateral saphenous vein (hindleg), coccygeal vein (tail). Jugular is most common for large volumes.
+        </div>
+
+        <div class="key-point">
+          <strong>Bone marrow aspiration:</strong> sternum, iliac crest (wing of ilium), greater tubercle of humerus.</p>
+          <strong>CSF collection:</strong> atlanto-occipital space (back of skull), lumbosacral space (lower back).
+        </div>
+      </div>
+    </div>
+
+    <!-- SYLLABUS -->
+    <div id="syllabus" class="tab-panel">
+      <div class="syllabus-card">
+        <div class="syllabus-header">
+          <h2>1st Professional Year Syllabus</h2>
+          <button class="test-btn secondary" id="show-syllabus">Show syllabus</button>
+        </div>
+        <div id="syllabus-container" class="syllabus-content"></div>
+      </div>
+    </div>
+
+    <!-- TEST ME QUIZ -->
+    <div id="test-me" class="tab-panel">
+      <div class="section-card">
+        <h2>Test Yourself - Unit 1 Quiz</h2>
+        <p>Twenty multiple choice questions across all Unit 1 topics. Click below to begin.</p>
+        <button class="test-btn" id="start-quiz">Test me</button>
+        <div id="quiz-container" class="quiz-area"></div>
+        <div id="score-box" class="score-box"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>VetMemory - Veterinary Anatomy Unit 1 Study Tool</p>
+      <p>B.V.Sc. & A.H. 1st Professional Year</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabpanel, tabbtn;
+    tabpanel = document.getElementsByClassName("tab-panel");
+    for (i = 0; i < tabpanel.length; i++) {
+      tabpanel[i].classList.remove("active");
+    }
+    tabbtn = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tabbtn.length; i++) {
+      tabbtn[i].classList.remove("active");
+    }
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+
+  // Simple markdown renderer
+  function renderMarkdown(text) {
+    var lines = text.split('\n');
+    var html = '';
+    var inTable = false;
+    var inList = false;
+    var tableRows = [];
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].replace(/\r$/, ''); // strip Windows line ending
+
+      // Table row
+      if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+        if (!inTable) {
+          inTable = true;
+          tableRows = [];
+        }
+        var cells = line.trim().slice(1, -1).split('|').map(function(c) { return c.trim(); });
+        var isSeparator = cells.every(function(c) { return /^:?-+:?$/.test(c); });
+        if (isSeparator) {
+          continue; // skip separator row
+        }
+        var rowHtml = '<tr>' + cells.map(function(c) {
+          return '<td>' + inlineMarkdown(c) + '</td>';
+        }).join('') + '</tr>';
+        tableRows.push(rowHtml);
+        continue;
+      }
+
+      // Close table if we were in one
+      if (inTable && !line.trim().startsWith('|')) {
+        html += '<table>' + tableRows.join('') + '</table>';
+        inTable = false;
+        tableRows = [];
+      }
+
+      // Horizontal rule (only if not part of table)
+      if (/^---+\s*$/.test(line.trim()) && !inTable) {
+        html += '<hr>';
+        continue;
+      }
+
+      // Headings
+      var headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
+      if (headingMatch) {
+        var level = headingMatch[1].length;
+        var content = inlineMarkdown(headingMatch[2]);
+        html += '<h' + level + '>' + content + '</h' + level + '>';
+        continue;
+      }
+
+      // List items
+      if (/^\*\s+/.test(line)) {
+        if (!inList) {
+          html += '<ul>';
+          inList = true;
+        }
+        html += '<li>' + inlineMarkdown(line.replace(/^\*\s+/, '')) + '</li>';
+        continue;
+      }
+
+      // Close list
+      if (inList && !/^\*\s+/.test(line)) {
+        html += '</ul>';
+        inList = false;
+      }
+
+      // Blank line
+      if (line.trim() === '') {
+        html += '<br>';
+        continue;
+      }
+
+      // Regular paragraph
+      html += '<p>' + inlineMarkdown(line) + '</p>';
+    }
+
+    // Close any open table or list
+    if (inTable) {
+      html += '<table>' + tableRows.join('') + '</table>';
+    }
+    if (inList) {
+      html += '</ul>';
+    }
+
+    return html;
+  }
+
+  function inlineMarkdown(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>');
+  }
+
+  // Syllabus viewer - loads 1styear.md and renders as markdown
+  document.getElementById('show-syllabus').addEventListener('click', function() {
+    var container = document.getElementById('syllabus-container');
+    var btn = this;
+    if (container.innerHTML.trim() !== '') {
+      container.innerHTML = '';
+      btn.textContent = 'Show syllabus';
+      return;
+    }
+    btn.textContent = 'Loading...';
+    btn.disabled = true;
+    fetch('1styear.md')
+      .then(function(response) {
+        if (!response.ok) throw new Error('File not found');
+        return response.text();
+      })
+      .then(function(text) {
+        container.innerHTML = renderMarkdown(text);
+        btn.textContent = 'Hide syllabus';
+        btn.disabled = false;
+      })
+      .catch(function(err) {
+        container.innerHTML = '<div class="empty-state"><h3>Could not load syllabus</h3><p>Make sure 1styear.md is in the same folder as this file.</p></div>';
+        btn.textContent = 'Show syllabus';
+        btn.disabled = false;
+      });
+  });
+
+  // 20 MCQs across all Unit 1 topics
+  const allQuestions = [
+    { q: "Which of the following is NOT a classification of bone by shape?", options: ["Long bone", "Short bone", "Flat bone", "Hollow bone"], answer: 3, explanation: "Bones are classified by shape as Long, Short, Flat, Irregular, and Sesamoid. Hollow bone is not a standard shape classification.", topic: "Osteology" },
+    { q: "Which bone type is exemplified by the patella?", options: ["Long bone", "Short bone", "Sesamoid bone", "Irregular bone"], answer: 2, explanation: "The patella (kneecap) is a classic sesamoid bone embedded within a tendon.", topic: "Osteology" },
+    { q: "Fibrous joints are best described as:", options: ["Freely movable", "Slightly movable", "Immovable", "Fluid-filled"], answer: 2, explanation: "Fibrous joints (e.g., skull sutures) are immovable (synarthroses).", topic: "Arthrology" },
+    { q: "Which joint type allows movement in all axes (multiaxial)?", options: ["Hinge", "Pivot", "Ball and socket", "Gliding"], answer: 2, explanation: "Ball and socket joints (shoulder, hip) are multiaxial.", topic: "Arthrology" },
+    { q: "The atlas-axis joint (C1-C2) is an example of which synovial joint?", options: ["Hinge", "Pivot", "Saddle", "Condyloid"], answer: 1, explanation: "The atlanto-axial joint is a pivot joint allowing rotation of the head.", topic: "Arthrology" },
+    { q: "Which muscle type is striated AND involuntary?", options: ["Skeletal", "Cardiac", "Smooth", "None"], answer: 1, explanation: "Cardiac muscle is striated but involuntary. Found only in the heart.", topic: "Myology" },
+    { q: "Tendons connect:", options: ["Bone to bone", "Muscle to bone", "Muscle to muscle", "Bone to cartilage"], answer: 1, explanation: "Tendons connect muscle to bone. Ligaments connect bone to bone.", topic: "Myology" },
+    { q: "Synovial bursae function to:", options: ["Produce blood cells", "Reduce friction", "Transmit nerve signals", "Store fat"], answer: 1, explanation: "Bursae are fluid-filled sacs that reduce friction between tissues.", topic: "Myology" },
+    { q: "Blood flows from the right ventricle to:", options: ["Aorta", "Pulmonary artery", "Pulmonary vein", "Vena cava"], answer: 1, explanation: "Right ventricle pumps deoxygenated blood into the pulmonary artery to the lungs.", topic: "Angiology" },
+    { q: "Which valve lies between the left atrium and left ventricle?", options: ["Tricuspid", "Pulmonary", "Mitral (Bicuspid)", "Aortic"], answer: 2, explanation: "The mitral (bicuspid) valve guards the left AV orifice between LA and LV.", topic: "Angiology" },
+    { q: "Pulmonary circulation carries:", options: ["Oxygenated blood to body", "Deoxygenated blood to lungs", "Nutrients to liver", "Lymph to heart"], answer: 1, explanation: "Pulmonary circulation: RV -> pulmonary artery -> lungs -> pulmonary veins -> LA.", topic: "Angiology" },
+    { q: "Veins usually:", options: ["Carry oxygenated blood", "Have valves", "Have thicker walls", "Carry blood away from heart"], answer: 1, explanation: "Most veins carry deoxygenated blood (except pulmonary) and contain valves to prevent backflow.", topic: "Angiology" },
+    { q: "CNS consists of:", options: ["Brain and spinal cord", "Cranial and spinal nerves", "Sympathetic and parasympathetic nerves", "Ganglia only"], answer: 0, explanation: "CNS = Central Nervous System = Brain + Spinal Cord.", topic: "Neurology" },
+    { q: "Meninges from outermost to innermost:", options: ["Pia, Arachnoid, Dura", "Dura, Arachnoid, Pia", "Arachnoid, Dura, Pia", "Dura, Pia, Arachnoid"], answer: 1, explanation: "Order: Dura mater (tough outer) -> Arachnoid mater (web-like) -> Pia mater (delicate inner).", topic: "Neurology" },
+    { q: "CSF circulates primarily in the:", options: ["Epidural space", "Subdural space", "Subarachnoid space", "Ventricles only"], answer: 2, explanation: "CSF circulates in the subarachnoid space (between arachnoid and pia mater) and ventricles.", topic: "Neurology" },
+    { q: "The dorsal root of a spinal nerve carries:", options: ["Motor fibers", "Sensory fibers", "Both", "Autonomic fibers only"], answer: 1, explanation: "Dorsal root = sensory (afferent), with the dorsal root ganglion. Ventral root = motor (efferent).", topic: "Neurology" },
+    { q: "Which cavity contains the heart and lungs?", options: ["Abdominal", "Pelvic", "Thoracic", "Cranial"], answer: 2, explanation: "The thoracic cavity houses the heart, lungs, thymus, esophagus, and trachea.", topic: "Splanchnology" },
+    { q: "The diaphragm separates:", options: ["Thoracic from abdominal cavity", "Abdominal from pelvic cavity", "Cranial from spinal cavity", "Pelvic from thoracic cavity"], answer: 0, explanation: "The diaphragm is the muscular partition between the thoracic and abdominal cavities.", topic: "Splanchnology" },
+    { q: "Best imaging modality for assessing a bone fracture:", options: ["Ultrasound", "MRI", "Radiography (X-ray)", "CT only"], answer: 2, explanation: "Radiography (X-ray) is the first-line, quick, best modality for bone fractures (bone is radiopaque/white).", topic: "Imaging" },
+    { q: "Ultrasound is preferred over X-ray for:", options: ["Bone fractures", "Soft tissue and pregnancy", "Lung fields", "Dental enamel"], answer: 1, explanation: "Ultrasound excels at soft tissue, fluid, and real-time imaging (e.g., pregnancy) without radiation.", topic: "Imaging" }
+  ];
+
+  var quizStarted = false;
+
+  document.getElementById('start-quiz').addEventListener('click', function() {
+    if (!quizStarted) {
+      renderQuiz();
+      this.textContent = "Reset quiz";
+      this.classList.add("active");
+      quizStarted = true;
+    } else {
+      resetQuiz();
+      this.textContent = "Test me";
+      this.classList.remove("active");
+      quizStarted = false;
+    }
+  });
+
+  function renderQuiz() {
+    var container = document.getElementById('quiz-container');
+    var html = '';
+    allQuestions.forEach(function(q, idx) {
+      html += '<div class="mcq-card">';
+      html += '<h4>Q' + (idx + 1) + ' <span class="tag">' + q.topic + '</span> ' + q.q + '</h4>';
+      html += '<div class="options" id="opts-' + idx + '">';
+      q.options.forEach(function(opt, oi) {
+        html += '<label class="option-btn">';
+        html += '<input type="radio" name="q' + idx + '" value="' + oi + '" onchange="checkAnswer(' + idx + ', ' + oi + ')">';
+        html += String.fromCharCode(65 + oi) + '. ' + opt;
+        html += '</label>';
+      });
+      html += '</div>';
+      html += '<div class="feedback" id="fb-' + idx + '"></div>';
+      html += '<div class="explanation" id="exp-' + idx + '">' + q.explanation + '</div>';
+      html += '</div>';
+    });
+    container.innerHTML = html;
+    container.classList.add('visible');
+    document.getElementById('score-box').classList.remove('visible');
+    document.getElementById('score-box').innerHTML = '';
+  }
+
+  window.checkAnswer = function(qIdx, selected) {
+    var q = allQuestions[qIdx];
+    var feedback = document.getElementById('fb-' + qIdx);
+    var explanation = document.getElementById('exp-' + qIdx);
+    var radios = document.getElementsByName('q' + qIdx);
+
+    radios.forEach(function(r) {
+      var label = r.parentElement;
+      label.classList.remove('selected', 'correct', 'wrong');
+      r.disabled = true;
+    });
+
+    var selectedLabel = radios[selected].parentElement;
+    if (selected === q.answer) {
+      selectedLabel.classList.add('correct');
+      feedback.className = 'feedback correct';
+      feedback.textContent = 'Correct.';
+      explanation.style.display = 'block';
+    } else {
+      selectedLabel.classList.add('wrong');
+      radios[q.answer].parentElement.classList.add('correct');
+      feedback.className = 'feedback wrong';
+      feedback.textContent = 'Incorrect.';
+      explanation.style.display = 'block';
+    }
+    feedback.style.display = 'block';
+    updateScore();
+  };
+
+  function updateScore() {
+    var correct = 0, answered = 0;
+    allQuestions.forEach(function(q, idx) {
+      var radios = document.getElementsByName('q' + idx);
+      var checked = Array.prototype.find.call(radios, function(r) { return r.checked; });
+      if (checked) {
+        answered++;
+        if (parseInt(checked.value) === q.answer) correct++;
+      }
+    });
+    var pct = answered ? Math.round((correct / answered) * 100) : 0;
+    var scoreBox = document.getElementById('score-box');
+    var badgeClass = 'bad', msg = 'Keep studying.';
+    if (pct >= 70) { badgeClass = 'good'; msg = 'Great job.'; }
+    else if (pct >= 40) { badgeClass = 'okay'; msg = 'Getting there.'; }
+    scoreBox.innerHTML = '<div>Answered: ' + answered + '/' + allQuestions.length + ' | Correct: ' + correct + '</div><span class="score-badge ' + badgeClass + '">' + pct + '% - ' + msg + '</span>';
+    scoreBox.classList.add('visible');
+  }
+
+  function resetQuiz() {
+    document.getElementById('quiz-container').classList.remove('visible');
+    document.getElementById('quiz-container').innerHTML = '';
+    document.getElementById('score-box').classList.remove('visible');
+    document.getElementById('score-box').innerHTML = '';
+    quizStarted = false;
+  }
+</script>
+
+</body>
+</html>
